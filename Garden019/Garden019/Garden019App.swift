@@ -23,6 +23,7 @@ struct Garden019App: App {
             LoadingWindow()
                 .environment(appModel)
         }
+        .windowStyle(.plain)
         .defaultSize(CGSize(width: 400, height: 200))
 
         ImmersiveSpace(id: "ImmersiveBlue") {

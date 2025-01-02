@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import RealityKit
+import RealityKitContent
 
 struct LoadingWindow: View {
 
@@ -18,7 +20,12 @@ struct LoadingWindow: View {
 
     var body: some View {
         VStack {
-            Text("Loading")
+            RealityView { content in
+                if let root = try? await Entity(named: "Loading", in: realityKitContentBundle) {
+                    root.scale = [0.1, 0.1, 0.1]
+                    content.add(root)
+                }
+            }
 
         }
         .onChange(of: scenePhase, initial: true) {
@@ -35,6 +42,8 @@ struct LoadingWindow: View {
             Task {
                 if(appModel.immersiveSpaceActive) {
                     await dismissImmersiveSpace()
+
+                    try? await Task.sleep(nanoseconds: 100_000_000_0) 
 
                     if let space = appModel.spaceToOpen {
                         await openImmersiveSpace(id: space)
