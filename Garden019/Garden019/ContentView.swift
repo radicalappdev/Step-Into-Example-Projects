@@ -18,25 +18,23 @@ struct ContentView: View {
 
     var body: some View {
         VStack(spacing: 24) {
-            Text("🫧")
-                .font(.extraLargeTitle2)
-            Text("Bubble Garden")
+            Text("Window Garden")
                 .font(.title)
             Text("Immersive Spaces")
                 .font(.extraLargeTitle)
 
             Button(action: {
                 Task {
-                    if(appModel.gardenOpen) {
+                    if(appModel.immersiceBlueOpen) {
                         await dismissImmersiveSpace()
                         return
-                    } else if (!appModel.gardenOpen) {
-                        await openImmersiveSpace(id: "GardenScene")
+                    } else if (!appModel.immersiceBlueOpen) {
+                        await openImmersiveSpace(id: "ImmersiveBlue")
                         dismissWindow(id: "MainWindow")
                     }
                 }
             }, label: {
-                Text(appModel.gardenOpen ? "Close Immersive Space" :"Open Immersive Space")
+                Text(appModel.immersiceBlueOpen ? "Close Immersive Space" :"Open Immersive Space")
             })
         }
         .padding()

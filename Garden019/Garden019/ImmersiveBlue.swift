@@ -9,7 +9,7 @@ import SwiftUI
 import RealityKit
 import RealityKitContent
 
-struct ImmersiveView: View {
+struct ImmersiveBlue: View {
     @Environment(AppModel.self) private var appModel
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.openWindow) private var openWindow
@@ -17,7 +17,6 @@ struct ImmersiveView: View {
 
     var body: some View {
         RealityView { content in
-            // Add the initial RealityKit content
             if let root = try? await Entity(named: "BlueDome", in: realityKitContentBundle) {
                 content.add(root)
 
@@ -27,11 +26,11 @@ struct ImmersiveView: View {
         .onChange(of: scenePhase, initial: true) {
             switch scenePhase {
             case .inactive, .background:
-                appModel.gardenOpen = false
+                appModel.immersiceBlueOpen = false
             case .active:
-                appModel.gardenOpen = true
+                appModel.immersiceBlueOpen = true
             @unknown default:
-                appModel.gardenOpen = false
+                appModel.immersiceBlueOpen = false
             }
         }
     }
@@ -40,30 +39,26 @@ struct ImmersiveView: View {
         TapGesture()
             .targetedToAnyEntity()
             .onEnded { value in
-                // TODO: check the entity for navigation destination
+                if(value.entity.name == "SphereBlue") {
+                    openMainWindow()
+                } else if (value.entity.name == "SphereGreen") {
+                    appModel.spaceToOpen = "ImmersiveGreen"
+                    openWindow(id: "LoadingWindow")
+                } else if (value.entity.name == "SphereRed") {
+                    appModel.spaceToOpen = "ImmersiveRed"
+                    openWindow(id: "LoadingWindow")
+                }
             }
     }
 
-//    func openMainWindow() {
-//
-//        Task {
-//            openWindow(id: "MainWindow")
-//
-//            // Start checking if window is open.
-//            while !appModel.mainWindowOpen {
-//                try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
-//            }
-//            // Once the main window has opened, dismiss immersive space
-//            await dismissImmersiveSpace()
-//
-//        }
-//
-//    }
+    func openMainWindow() {
+        Task {
+            openWindow(id: "MainWindow")
+            while !appModel.mainWindowOpen {
+                try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+            }
+            await dismissImmersiveSpace()
+        }
+    }
 
-}
-
-
-#Preview(immersionStyle: .full) {
-    ImmersiveView()
-        .environment(AppModel())
 }

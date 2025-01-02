@@ -19,11 +19,34 @@ struct Garden019App: App {
         }
         .defaultSize(CGSize(width: 600, height: 600))
 
-        ImmersiveSpace(id: "GardenScene") {
-            ImmersiveView()
+        WindowGroup(id: "LoadingWindow") {
+            LoadingWindow()
+                .environment(appModel)
+        }
+        .defaultSize(CGSize(width: 400, height: 200))
+
+        ImmersiveSpace(id: "ImmersiveBlue") {
+            ImmersiveBlue()
                 .environment(appModel)
 
         }
         .immersionStyle(selection: .constant(.full), in: .full)
+
+        ImmersiveSpace(id: "ImmersiveGreen") {
+            ImmersiveGreen()
+                .environment(appModel)
+
+        }
+        .immersionStyle(selection: .constant(.full), in: .full)
+
+
+        ImmersiveSpace(id: "ImmersiveRed") {
+            ImmersiveRed()
+                .environment(appModel)
+
+        }
+        .immersionStyle(selection: .constant(.full), in: .full)
+
+
     }
 }
