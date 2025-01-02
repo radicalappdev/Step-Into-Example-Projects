@@ -7,6 +7,9 @@
     "Loading.usda"
   ],
   "recentIdentifiers" : {
+    "06BD5E11-280B-43C6-914A-6C214AC2B798" : [
+
+    ],
     "70FC513F-BD0B-4B22-8194-ABD3BCF51ADD" : [
 
     ],
@@ -269,5 +272,5 @@
   "sceneViewportBackgroundColors" : {
 
   },
-  "selectedSceneRelativePath" : "Loading.usda"
+  "selectedSceneRelativePath" : "GreenDome.usda"
 }

@@ -246,5 +246,28 @@ def Xform "Root"
             uniform token info:id = "RealityKit.InputTarget"
         }
     }
+
+    def Xform "DirectionalLight_1" (
+        customData = {
+            float3 rotationEulerHint = (-0.69774586, -0.25673303, -0.29406905)
+        }
+    )
+    {
+        float2 ui:nodegraph:node:pos = (40, 40)
+        int ui:nodegraph:node:stackingOrder = 2
+        quatf xformOp:orient = (0.9155588, -0.3529931, -0.069335245, -0.17983493)
+        float3 xformOp:scale = (0.9999996, 0.9999997, 0.9999997)
+        float3 xformOp:translate = (2.2351742e-7, 1.4501355, 0.9260649)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "DirectionalLight"
+        {
+            token info:id = "RealityKit.DirectionalLight"
+
+            def RealityKitStruct "Shadow"
+            {
+            }
+        }
+    }
 }
 

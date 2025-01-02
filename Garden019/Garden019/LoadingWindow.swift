@@ -28,6 +28,7 @@ struct LoadingWindow: View {
             }
 
         }
+        .persistentSystemOverlays(.hidden)
         .onChange(of: scenePhase, initial: true) {
             switch scenePhase {
             case .inactive, .background:
@@ -43,7 +44,7 @@ struct LoadingWindow: View {
                 if(appModel.immersiveSpaceActive) {
                     await dismissImmersiveSpace()
 
-                    try? await Task.sleep(nanoseconds: 100_000_000_0) 
+                    try? await Task.sleep(nanoseconds: 100_000_000_0)
 
                     if let space = appModel.spaceToOpen {
                         await openImmersiveSpace(id: space)
