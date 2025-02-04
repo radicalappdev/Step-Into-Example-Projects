@@ -1,0 +1,172 @@
+#usda 1.0
+(
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    reorder nameChildren = ["Sphere_Left", "Sphere_Right", "GridMaterial", "Jiggle_Left", "Jiggle_Right"]
+    def Sphere "Sphere_Right" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        rel material:binding = </Root/GridMaterial/GridMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        double radius = 0.1
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.5, 1.5, -1.5)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (0.2, 0.2, 0.2)
+                float radius = 0.1
+                token shapeType = "Sphere"
+
+                def RealityKitStruct "pose"
+                {
+                }
+            }
+        }
+
+        def RealityKitComponent "RCP_BehaviorsContainer"
+        {
+            rel behaviors = </Root/Sphere_Right/OnTap>
+            uniform token info:id = "RCP.BehaviorsContainer"
+        }
+
+        def Preliminary_Behavior "OnTap"
+        {
+            rel actions = </Root/Sphere_Right/OnTap/Action>
+            uniform bool exclusive
+            rel triggers = </Root/Sphere_Right/OnTap/Trigger>
+
+            def Preliminary_Trigger "Trigger"
+            {
+                rel affectedObjects = </Root/Sphere_Right>
+                token info:id = "TapGesture"
+            }
+
+            def Preliminary_Action "Action"
+            {
+                rel affectedObjects = </Root>
+                rel animationLibraryKey = </Root/Jiggle_Right>
+                rel animationLibraryKeyOverrideKey = </Root/Sphere_Right/OnTap/Trigger>
+                token info:id = "PlayTimeline"
+                int loops = 0
+                int performCount = 1
+                token type = "serial"
+            }
+        }
+    }
+
+    def Sphere "Sphere_Left" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        rel material:binding = </Root/GridMaterial/GridMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        double radius = 0.1
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-0.5, 1.5, -1.5)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "RCP_BehaviorsContainer"
+        {
+            rel behaviors = </Root/Sphere_Left/OnTap>
+            uniform token info:id = "RCP.BehaviorsContainer"
+        }
+
+        def Preliminary_Behavior "OnTap"
+        {
+            rel actions = </Root/Sphere_Left/OnTap/Action>
+            uniform bool exclusive
+            rel triggers = </Root/Sphere_Left/OnTap/Trigger>
+
+            def Preliminary_Trigger "Trigger"
+            {
+                rel affectedObjects = </Root/Sphere_Left>
+                token info:id = "TapGesture"
+            }
+
+            def Preliminary_Action "Action"
+            {
+                rel affectedObjects = </Root>
+                rel animationLibraryKey = </Root/Jiggle_Left>
+                rel animationLibraryKeyOverrideKey = </Root/Sphere_Left/OnTap/Trigger>
+                token info:id = "PlayTimeline"
+                int loops = 0
+                int performCount = 1
+                token type = "serial"
+            }
+        }
+    }
+
+    def "GridMaterial" (
+        active = true
+        references = @Materials/GridMaterial.usda@
+    )
+    {
+        float3 xformOp:scale = (1, 1, 1)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def RealityKitTimeline "Jiggle_Left"
+    {
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Emphasize"
+            {
+                string actionKind = "emphasize"
+                int blendLayer = 300
+                double duration = 1
+                uniform token info:id = "081116FD-21A1-4873-BEA4-DA63B72AEFD6"
+                token motionType = "jiggle"
+                double startTime = 0
+                token style = "playful"
+                rel target = </Root/Sphere_Left>
+            }
+        }
+    }
+
+    def RealityKitTimeline "Jiggle_Right"
+    {
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Emphasize"
+            {
+                string actionKind = "emphasize"
+                int blendLayer = 300
+                double duration = 1
+                uniform token info:id = "081116FD-21A1-4873-BEA4-DA63B72AEFD6"
+                token motionType = "jiggle"
+                double startTime = 0
+                token style = "playful"
+                rel target = </Root/Sphere_Right>
+                float2 ui:nodegraph:node:pos = (20, 20)
+                int ui:nodegraph:node:stackingOrder = 1
+            }
+        }
+    }
+}
+

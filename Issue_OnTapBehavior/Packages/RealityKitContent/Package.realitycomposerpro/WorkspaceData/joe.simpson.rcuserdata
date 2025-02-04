@@ -1,0 +1,62 @@
+{
+  "advancedEditorSelectedIdentifier" : "BehaviorsPluginID",
+  "openSceneRelativePaths" : [
+    "Immersive.usda"
+  ],
+  "recentIdentifiers" : {
+    "AF09ED6F-1707-48FD-8720-65B998362C09" : [
+
+    ]
+  },
+  "sceneCameraHistory" : {
+    "AF09ED6F-1707-48FD-8720-65B998362C09" : [
+      {
+        "date" : 760395330.747427,
+        "title" : "Untitled",
+        "transform" : [
+          1,
+          0,
+          -0,
+          0,
+          -0,
+          0.7071069,
+          -0.7071067,
+          0,
+          0,
+          0.7071067,
+          0.7071069,
+          0,
+          0.5000001,
+          1.7338821,
+          -1.266118,
+          1
+        ]
+      },
+      {
+        "date" : 760395187.982883,
+        "title" : "Untitled",
+        "transform" : [
+          1,
+          0,
+          -0,
+          0,
+          -0,
+          0.7071069,
+          -0.7071067,
+          0,
+          0,
+          0.7071067,
+          0.7071069,
+          0,
+          -0.5000001,
+          1.7447171,
+          -1.2552826,
+          1
+        ]
+      }
+    ]
+  },
+  "sceneViewportBackgroundColors" : {
+
+  }
+}
