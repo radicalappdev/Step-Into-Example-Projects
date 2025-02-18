@@ -15,35 +15,38 @@ struct ContentView: View {
 
     var body: some View {
         RealityView { content in
-            // Add the initial RealityKit content
-            if let scene = try? await Entity(named: "Scene", in: realityKitContentBundle) {
-                content.add(scene)
-            }
-        } update: { content in
-            // Update the RealityKit content when SwiftUI state changes
-            if let scene = content.entities.first {
-                let uniformScale: Float = enlarge ? 1.4 : 1.0
-                scene.transform.scale = [uniformScale, uniformScale, uniformScale]
-            }
-        }
-        .gesture(TapGesture().targetedToAnyEntity().onEnded { _ in
-            enlarge.toggle()
-        })
-        .toolbar {
-            ToolbarItemGroup(placement: .bottomOrnament) {
-                VStack (spacing: 12) {
-                    Button {
-                        enlarge.toggle()
-                    } label: {
-                        Text(enlarge ? "Reduce RealityView Content" : "Enlarge RealityView Content")
-                    }
-                    .animation(.none, value: 0)
-                    .fontWeight(.semibold)
 
-                    ToggleImmersiveSpaceButton()
-                }
-            }
+            let rootEntity = Entity()
+            content.add(rootEntity)
+
+
+            var groundMat = PhysicallyBasedMaterial()
+            groundMat.baseColor.tint = .init(.stepGreen)
+            groundMat.roughness = 0.5
+            groundMat.metallic = 0.0
+
+            let groundModel = ModelEntity(
+                mesh: .generateBox(size: 1, cornerRadius: 0.1),
+                materials: [groundMat])
+            groundModel.scale = .init(x: 0.8, y: 0.025, z: 0.8)
+            groundModel.position = .init(x: 0, y: -0.44, z: 0)
+            rootEntity.addChild(groundModel)
+
+            var blockMat = PhysicallyBasedMaterial()
+            blockMat.baseColor.tint = .init(.stepRed)
+            blockMat.roughness = 0.5
+            blockMat.metallic = 0.0
+
+            let blockModel = ModelEntity(
+                mesh: .generateBox(size: 0.5, cornerRadius: 0.05),
+                materials: [blockMat])
+            blockModel.position = .init(x: 0, y: 0, z: 0)
+            rootEntity.addChild(blockModel)
+
+
         }
+
+
     }
 }
 
