@@ -23,7 +23,7 @@ struct Garden022App: App {
             WindowContent()
                 .environment(appModel)
         }
-        .defaultSize(width: 500, height: 500)
+        .defaultSize(width: 500, height: 500, depth: 500)
         .defaultWindowPlacement { content, context in
             if let new = context.windows.first(where: { $0.id == "MainWindow" }) {
                 return WindowPlacement(.leading(new))
@@ -37,6 +37,7 @@ struct Garden022App: App {
                 .environment(appModel)
         }
         .windowStyle(.volumetric)
+        .defaultSize(width: 500, height: 500, depth: 500)
         .defaultWindowPlacement { content, context in
             if let new = context.windows.first(where: { $0.id == "MainWindow" }) {
                 return WindowPlacement(.trailing(new))

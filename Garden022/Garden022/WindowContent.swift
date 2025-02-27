@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import RealityKit
+import RealityKitContent
 
 struct WindowContent: View {
 
@@ -13,10 +15,13 @@ struct WindowContent: View {
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
-        VStack {
-            Text("Window Content")
-
+        RealityView { content in
+            if let immersiveContentEntity = try? await Entity(named: "Immersive", in: realityKitContentBundle) {
+                content.add(immersiveContentEntity)
+                immersiveContentEntity.scale = [0.2, 0.2, 0.2]
+            }
         }
+
         .onChange(of: scenePhase, initial: true) {
             switch scenePhase {
             case .inactive, .background:
