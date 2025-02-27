@@ -32,6 +32,19 @@ struct Garden022App: App {
             }
         }
 
+        WindowGroup(id: "VolumeExample") {
+            VolumeContent()
+                .environment(appModel)
+        }
+        .windowStyle(.volumetric)
+        .defaultWindowPlacement { content, context in
+            if let new = context.windows.first(where: { $0.id == "MainWindow" }) {
+                return WindowPlacement(.trailing(new))
+            } else {
+                return WindowPlacement(.none)
+            }
+        }
+
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
             ImmersiveView()
                 .environment(appModel)

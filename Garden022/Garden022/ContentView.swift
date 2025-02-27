@@ -33,6 +33,18 @@ struct ContentView: View {
                 }
             })
 
+            Button(action: {
+                if appModel.volumeIsOpen {
+                    dismissWindow(id: "VolumeExample")
+                } else {
+                    openWindow(id: "VolumeExample")
+                }
+            }, label: {
+                HStack {
+                    Text(appModel.volumeIsOpen ? "Hide Volume" : "Show Volume")
+                }
+            })
+
             ToggleImmersiveSpaceButton()
         }
         .padding()
