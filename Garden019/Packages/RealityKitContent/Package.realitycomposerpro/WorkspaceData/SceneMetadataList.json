@@ -52,7 +52,7 @@
       [
         "70FC513F-BD0B-4B22-8194-ABD3BCF51ADD",
         "Root",
-        "SpinColllection",
+        "Spinning",
         "Track"
       ],
       {
@@ -61,7 +61,8 @@
       },
       [
         "70FC513F-BD0B-4B22-8194-ABD3BCF51ADD",
-        "Root"
+        "Root",
+        "Spinning"
       ],
       {
         "isExpanded" : true,
@@ -79,16 +80,7 @@
       [
         "70FC513F-BD0B-4B22-8194-ABD3BCF51ADD",
         "Root",
-        "SpinColllection"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "70FC513F-BD0B-4B22-8194-ABD3BCF51ADD",
-        "Root",
-        "Spinning",
+        "SpinColllection",
         "Track"
       ],
       {
@@ -98,7 +90,15 @@
       [
         "70FC513F-BD0B-4B22-8194-ABD3BCF51ADD",
         "Root",
-        "Spinning"
+        "SpinColllection"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "70FC513F-BD0B-4B22-8194-ABD3BCF51ADD",
+        "Root"
       ],
       {
         "isExpanded" : true,
