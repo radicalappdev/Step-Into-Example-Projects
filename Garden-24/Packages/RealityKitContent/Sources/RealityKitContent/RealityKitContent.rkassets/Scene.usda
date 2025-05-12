@@ -7,14 +7,14 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["Sphere", "GridMaterial"]
+    reorder nameChildren = ["Skull", "GlossyBlackWoodPlank", "Cube", "SpotLight_0", "SpotLight_1", "SpotLight_2"]
     rel material:binding = None (
         bindMaterialAs = "weakerThanDescendants"
     )
 
     def "Skull" (
         active = true
-        prepend references = @Skull.usdz@
+        references = @Skull.usdz@
     )
     {
         quatf xformOp:orient = (1, 0, 0, 0)
@@ -22,7 +22,11 @@ def Xform "Root"
         float3 xformOp:translate = (0, 0.17196453, 0)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-        over "geom"
+        over "geom" (
+            variants = {
+                string styles = "realistic"
+            }
+        )
         {
             over "realistic"
             {
@@ -118,8 +122,8 @@ def Xform "Root"
                                 colorSpace = "srgb_texture"
                             )
                             color3f outputs:out
-                            float2 ui:nodegraph:node:pos = (1102.0977, 26.199219)
-                            int ui:nodegraph:node:stackingOrder = 6
+                            float2 ui:nodegraph:node:pos = (948.14844, 139.03516)
+                            int ui:nodegraph:node:stackingOrder = 20
                         }
                     }
                 }
@@ -129,13 +133,12 @@ def Xform "Root"
 
     def "GlossyBlackWoodPlank" (
         active = true
-        prepend references = @GlossyBlackWoodPlank.usdz@
+        references = @GlossyBlackWoodPlank.usdz@
     )
     {
     }
 
     def Cube "Cube" (
-        active = true
         prepend apiSchemas = ["MaterialBindingAPI"]
     )
     {
@@ -160,7 +163,7 @@ def Xform "Root"
         }
     }
 
-    def Xform "SpotLight" (
+    def Xform "SpotLight_0" (
         customData = {
             float3 rotationEulerHint = (-0.16818097, -0.8343715, 0)
         }
