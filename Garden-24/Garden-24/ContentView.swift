@@ -11,8 +11,6 @@ import RealityKitContent
 
 struct ContentView: View {
 
-    @State var currentViewpoint: Viewpoint3D = .standard
-
     @State var subject = Entity()
 
     var body: some View {
@@ -27,14 +25,21 @@ struct ContentView: View {
 
         }
         .onVolumeViewpointChange { _, newValue in
-            print("viewpoint changed to: \(newValue)")
-            let quat = simd_quatf(newValue.squareAzimuth.orientation)
-            subject.orientation = quat
+
+            // Get a rotation value from the squareAzimuth
+            let newRotation = simd_quatf(newValue.squareAzimuth.orientation)
+
+            // Set the orientation of content in our scene
+            subject.orientation = newRotation
 
         }
+
     }
 }
 
 #Preview(windowStyle: .volumetric) {
     ContentView()
 }
+
+
+
