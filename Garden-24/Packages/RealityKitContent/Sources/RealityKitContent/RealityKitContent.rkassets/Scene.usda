@@ -1,0 +1,232 @@
+#usda 1.0
+(
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    reorder nameChildren = ["Sphere", "GridMaterial"]
+    rel material:binding = None (
+        bindMaterialAs = "weakerThanDescendants"
+    )
+
+    def "Skull" (
+        active = true
+        prepend references = @Skull.usdz@
+    )
+    {
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (2, 2, 2)
+        float3 xformOp:translate = (0, 0.17196453, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "geom"
+        {
+            over "realistic"
+            {
+                over "materials"
+                {
+                    over "skull_realistic1"
+                    {
+                        string inputs:file33:varname (
+                            customData = {
+                                dictionary realitykit = {
+                                    float2 positionInSubgraph = (408, 816)
+                                }
+                            }
+                        )
+                        string inputs:file34:varname (
+                            customData = {
+                                dictionary realitykit = {
+                                    float2 positionInSubgraph = (629.5, 816)
+                                }
+                            }
+                        )
+                        string inputs:file35:varname (
+                            customData = {
+                                dictionary realitykit = {
+                                    float2 positionInSubgraph = (851, 816)
+                                }
+                            }
+                        )
+                        string inputs:file38:varname (
+                            customData = {
+                                dictionary realitykit = {
+                                    float2 positionInSubgraph = (1072.5, 816)
+                                }
+                            }
+                        )
+                        token outputs:realitykit:vertex
+                        float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (1392.25, 260.75)
+
+                        over "Lookup_st"
+                        {
+                            float2 ui:nodegraph:node:pos = (91, 317)
+                        }
+
+                        over "file38_mtlx"
+                        {
+                            float2 ui:nodegraph:node:pos = (350, 287)
+                        }
+
+                        over "file33_mtlx"
+                        {
+                            float2 ui:nodegraph:node:pos = (752.0469, 103.76172)
+                            int ui:nodegraph:node:stackingOrder = 2
+                        }
+
+                        over "file35_mtlx"
+                        {
+                            float2 ui:nodegraph:node:pos = (350, 628)
+                        }
+
+                        over "file34_mtlx"
+                        {
+                            float2 ui:nodegraph:node:pos = (618.5, 457.5)
+                        }
+
+                        over "file38_mtlx_offset"
+                        {
+                            float2 ui:nodegraph:node:pos = (879.5, 279)
+                        }
+
+                        over "skull_realistic_mat_mtlx"
+                        {
+                            float inputs:clearcoat = 0.01
+                            color3f inputs:diffuseColor.connect = </Root/Skull/geom/realistic/materials/skull_realistic1/Multiply.outputs:out>
+                            color3f inputs:emissiveColor = (0, 0, 0) (
+                                colorSpace = "srgb_texture"
+                            )
+                            float inputs:opacity = 0.9
+                            float2 ui:nodegraph:node:pos = (1142, 260.75)
+                            int ui:nodegraph:node:stackingOrder = 18
+                            string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["Advanced", "inputs:clearcoat", "inputs:opacity"]
+                        }
+
+                        over "file38_mtlx_scale"
+                        {
+                            float2 ui:nodegraph:node:pos = (618.5, 279)
+                        }
+
+                        def Shader "Multiply"
+                        {
+                            uniform token info:id = "ND_multiply_color3"
+                            color3f inputs:in1.connect = </Root/Skull/geom/realistic/materials/skull_realistic1/file33_mtlx.outputs:out>
+                            color3f inputs:in2 = (0.37055522, 0.3705647, 0.37055957) (
+                                colorSpace = "srgb_texture"
+                            )
+                            color3f outputs:out
+                            float2 ui:nodegraph:node:pos = (1102.0977, 26.199219)
+                            int ui:nodegraph:node:stackingOrder = 6
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    def "GlossyBlackWoodPlank" (
+        active = true
+        prepend references = @GlossyBlackWoodPlank.usdz@
+    )
+    {
+    }
+
+    def Cube "Cube" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        rel material:binding = </Root/GlossyBlackWoodPlank> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        double size = 0.8
+        float3 xformOp:scale = (1, 0.12, 1)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Material "DefaultMaterial"
+        {
+            prepend token outputs:surface.connect = </Root/Cube/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+            def Shader "DefaultSurfaceShader"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1, 1, 1)
+                float inputs:roughness = 0.75
+                token outputs:surface
+            }
+        }
+    }
+
+    def Xform "SpotLight" (
+        customData = {
+            float3 rotationEulerHint = (-0.16818097, -0.8343715, 0)
+        }
+    )
+    {
+        quatf xformOp:orient = (0.9110024, -0.07678772, -0.4037574, -0.034032412)
+        float3 xformOp:translate = (-0.5, 0.5, 0.5)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "SpotLight"
+        {
+            float3 color = (0.07746776, 0.27579054, 0)
+            token info:id = "RealityKit.SpotLight"
+
+            def RealityKitStruct "Shadow"
+            {
+            }
+        }
+    }
+
+    def Xform "SpotLight_1" (
+        customData = {
+            float3 rotationEulerHint = (-3.0093467, 0.54983497, 3.0858593)
+        }
+    )
+    {
+        float2 ui:nodegraph:node:pos = (1113.0558, 220.47864)
+        int ui:nodegraph:node:stackingOrder = 1
+        quatf xformOp:orient = (-0.2689972, -0.044688307, -0.95947164, 0.07111619)
+        float3 xformOp:scale = (1, 1, 0.9999999)
+        float3 xformOp:translate = (0.5, 0.5, -0.5)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "SpotLight"
+        {
+            float3 color = (0.00037614937, 0.009426142, 0.29013467)
+            token info:id = "RealityKit.SpotLight"
+
+            def RealityKitStruct "Shadow"
+            {
+            }
+        }
+    }
+
+    def Xform "SpotLight_2" (
+        customData = {
+            float3 rotationEulerHint = (-1.7042274, 0.549835, 3.0858595)
+        }
+    )
+    {
+        float2 ui:nodegraph:node:pos = (1133.0558, 240.47864)
+        int ui:nodegraph:node:stackingOrder = 2
+        quatf xformOp:orient = (0.18659122, 0.19884732, 0.71914774, -0.6391165)
+        float3 xformOp:scale = (1, 1, 0.99999994)
+        float3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "SpotLight"
+        {
+            float3 color = (1, 0.019407865, 0)
+            token info:id = "RealityKit.SpotLight"
+
+            def RealityKitStruct "Shadow"
+            {
+            }
+        }
+    }
+}
+
