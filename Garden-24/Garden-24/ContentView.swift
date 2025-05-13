@@ -13,6 +13,8 @@ struct ContentView: View {
 
     @State var subject = Entity()
 
+    let supportedViewpoints = SquareAzimuth.Set(arrayLiteral: .front, .left, .right)
+
     var body: some View {
         RealityView { content in
 
@@ -24,15 +26,23 @@ struct ContentView: View {
             subject = skull
 
         }
-        .onVolumeViewpointChange { _, newValue in
 
-            // Get a rotation value from the squareAzimuth
-            let newRotation = simd_quatf(newValue.squareAzimuth.orientation)
+        .onVolumeViewpointChange(updateStrategy: .supported) { _, newValue in
 
-            // Set the orientation of content in our scene
-            subject.orientation = newRotation
+            if (supportedViewpoints.contains(newValue.squareAzimuth)) {
+                // Get a rotation value from the squareAzimuth
+                let newRotation = simd_quatf(newValue.squareAzimuth.orientation)
+
+                // Set the orientation of content in our scene
+                subject.orientation = newRotation
+                print("viewpoint supported")
+
+            } else {
+                print("viewpoint not supported")
+            }
 
         }
+        .supportedVolumeViewpoints(supportedViewpoints)
 
     }
 }
@@ -40,6 +50,5 @@ struct ContentView: View {
 #Preview(windowStyle: .volumetric) {
     ContentView()
 }
-
 
 

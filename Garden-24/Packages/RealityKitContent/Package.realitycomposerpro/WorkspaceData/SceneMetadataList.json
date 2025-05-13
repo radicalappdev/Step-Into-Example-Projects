@@ -48,53 +48,19 @@
     "objectMetadataList" : [
       [
         "90C576A0-F90A-43B8-9998-14918A66F863",
-        "Root",
-        "Skull",
-        "geom",
-        "realistic"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "90C576A0-F90A-43B8-9998-14918A66F863",
-        "Root",
-        "Skull",
-        "geom",
-        "realistic",
-        "geo",
-        "lod0"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "90C576A0-F90A-43B8-9998-14918A66F863",
-        "Root",
-        "Skull",
-        "geom"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "90C576A0-F90A-43B8-9998-14918A66F863",
-        "Root",
-        "Skull",
-        "geom",
-        "realistic",
-        "materials"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "90C576A0-F90A-43B8-9998-14918A66F863",
         "Root"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "90C576A0-F90A-43B8-9998-14918A66F863",
+        "Root",
+        "Skull",
+        "geom",
+        "realistic",
+        "geo"
       ],
       {
         "isExpanded" : true,
@@ -119,7 +85,31 @@
         "Skull",
         "geom",
         "realistic",
-        "geo"
+        "geo",
+        "lod0"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "90C576A0-F90A-43B8-9998-14918A66F863",
+        "Root",
+        "Skull",
+        "geom",
+        "realistic"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "90C576A0-F90A-43B8-9998-14918A66F863",
+        "Root",
+        "Skull",
+        "geom",
+        "realistic",
+        "materials"
       ],
       {
         "isExpanded" : true,
@@ -129,6 +119,16 @@
         "90C576A0-F90A-43B8-9998-14918A66F863",
         "Root",
         "Skull"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "90C576A0-F90A-43B8-9998-14918A66F863",
+        "Root",
+        "Skull",
+        "geom"
       ],
       {
         "isExpanded" : true,
