@@ -15,7 +15,6 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
-//    @Environment(\.dismissWindow) private var dismissWindow
 
     var body: some View {
         VStack(spacing: 24) {
@@ -26,6 +25,8 @@ struct ContentView: View {
             Text("Immersive Spaces")
                 .font(.extraLargeTitle)
 
+            Text("Hide a window when we enter an immersive space, and show it when we leave.")
+
             Button(action: {
                 Task {
                     if(appModel.gardenOpen) {
@@ -33,8 +34,6 @@ struct ContentView: View {
                         return
                     } else if (!appModel.gardenOpen) {
                         await openImmersiveSpace(id: "GardenScene")
-                        // Hide window content and drag bar
-//                        dismissWindow(id: "MainWindow")
                     }
                 }
             }, label: {
@@ -54,8 +53,3 @@ struct ContentView: View {
         }
     }
 }
-
-//#Preview(windowStyle: .automatic) {
-//    ContentView()
-//        .environment(AppModel())
-//}

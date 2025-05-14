@@ -46,24 +46,12 @@ struct ImmersiveView: View {
             .onEnded { value in
                 value.entity.removeFromParent()
                 tapCount += 1
-                openMainWindow()
-            }
-    }
-
-    func openMainWindow() {
-        if(tapCount >= 5) {
-            Task {
-                // TODO: toggle state to show the window content
-
-                // Start checking if window is open.
-                while !appModel.mainWindowOpen {
-                    try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+                if(tapCount >= 5) {
+                    Task {
+                        await dismissImmersiveSpace()
+                    }
                 }
-                // Once the main window has opened, dismiss immersive space
-                await dismissImmersiveSpace()
-
             }
-        }
     }
 
     func createClones(_ root: Entity, glassSphere: Entity) {
@@ -84,8 +72,3 @@ struct ImmersiveView: View {
         }
     }
 }
-
-//#Preview(immersionStyle: .full) {
-//    ImmersiveView()
-//        .environment(AppModel())
-//}
