@@ -40,11 +40,17 @@ struct PushWindowContent: View {
         .onChange(of: scenePhase, initial: true) {
             switch scenePhase {
             case .inactive, .background:
-                appModel.pushlWindowOpen = false
+                appModel.pushWindowOpen = false
+                // This is a bit of a hack and may result in exiting the immersive space if the push window is idle for too long
+                Task {
+                    if(appModel.gardenOpen) {
+                        await dismissImmersiveSpace()
+                    }
+                }
             case .active:
-                appModel.pushlWindowOpen = true
+                appModel.pushWindowOpen = true
             @unknown default:
-                appModel.pushlWindowOpen = false
+                appModel.pushWindowOpen = false
             }
         }
     }

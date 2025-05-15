@@ -27,7 +27,7 @@ struct ContentView: View {
             Text("Immersive Spaces")
                 .font(.extraLargeTitle)
 
-            Text("Hide a window when we enter an immersive space, and show it when we leave.")
+            Text("We can replace this window with another while in an immersive space.")
 
             Button(action: {
                 Task {
@@ -61,3 +61,5 @@ struct ContentView: View {
     ContentView()
         .environment(AppModel())
 }
+
+

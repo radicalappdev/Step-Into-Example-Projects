@@ -50,8 +50,8 @@ struct ImmersiveView: View {
                 if(tapCount >= 5) {
                     Task {
                         await dismissImmersiveSpace()
-                        if(appModel.pushlWindowOpen) {
-                            dismissWindow(id: "pushWindow")
+                        if(appModel.pushWindowOpen) {
+                            dismissWindow(id: "PushWindow")
                         }
                     }
                 }

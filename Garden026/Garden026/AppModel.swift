@@ -12,6 +12,6 @@ import SwiftUI
 @Observable
 class AppModel {
     var mainWindowOpen: Bool = false
-    var pushlWindowOpen: Bool = false
+    var pushWindowOpen: Bool = false
     var gardenOpen: Bool = false
 }
