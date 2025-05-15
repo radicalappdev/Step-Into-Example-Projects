@@ -13,20 +13,22 @@ struct Garden026App: App {
     @State private var appModel = AppModel()
 
     var body: some Scene {
-        WindowGroup {
+        WindowGroup(id: "MainWindow") {
             ContentView()
                 .environment(appModel)
         }
+        .defaultSize(CGSize(width: 600, height: 600))
 
-        ImmersiveSpace(id: appModel.immersiveSpaceID) {
+        WindowGroup(id: "PushWindow") {
+            PushWindowContent()
+                .environment(appModel)
+        }
+        .defaultSize(CGSize(width: 300, height: 300))
+
+        ImmersiveSpace(id: "GardenScene") {
             ImmersiveView()
                 .environment(appModel)
-                .onAppear {
-                    appModel.immersiveSpaceState = .open
-                }
-                .onDisappear {
-                    appModel.immersiveSpaceState = .closed
-                }
+
         }
         .immersionStyle(selection: .constant(.full), in: .full)
     }

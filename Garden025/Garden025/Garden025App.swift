@@ -41,5 +41,6 @@ struct Garden025App: App {
                 .environment(appModel)
 
         }
-        .immersionStyle(selection: .constant(.full), in: .full)    }
+        .immersionStyle(selection: .constant(.full), in: .full)
+    }
 }
