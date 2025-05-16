@@ -27,7 +27,7 @@ struct ContentView: View {
             Text("Immersive Spaces")
                 .font(.extraLargeTitle)
 
-            Text("We can replace this window with another while in an immersive space.")
+            Text("We can replace this window with a hidden push window while presenting an immersive space.")
 
             Button(action: {
                 Task {
