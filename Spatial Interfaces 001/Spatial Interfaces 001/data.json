@@ -11,7 +11,7 @@
         "activeYears": "1804-1834",
         "shortDescription": "Joseph Marie Jacquard is known for inventing the Jacquard loom, a device that greatly simplified the process of weaving complex patterns. This marked a significant step towards automated manufacturing processes.",
         "longDescription": "Born into a family of weavers in Lyon, France, Joseph Marie Jacquard was a self-taught individual who rose to fame for his invention, the Jacquard loom, patented in 1804. His invention allowed patterns to be woven into cloth mechanically, reducing the need for skilled labor and increasing efficiency. While it was met with resistance by workers fearing unemployment, it eventually revolutionized the textile industry and paved the way for future developments in automated machinery and computer programming.",
-        "imageUrl": "DALL_E_Jacquard.jpeg",
+        "imageUrl": "DALL_E_Jacquard",
         "imageAttribution": "DALL-E Prompt: Illustrate a stylized portrait of Joseph Marie Jacquard, surrounded by a complex pattern of woven cloth and the mechanical gears of his revolutionary Jacquard loom."
     },
     {
@@ -26,7 +26,7 @@
         "activeYears": "1812-1871",
         "shortDescription": "Charles Babbage, often referred to as 'the father of the computer', is known for designing the first automatic mechanical calculator, the Difference Engine, and later conceptualizing the Analytical Engine, a device that had all the elements of a modern computer.",
         "longDescription": "Charles Babbage was a prominent British mathematician, philosopher and inventor in the 19th century. Babbage's most notable work was in the field of computation. He designed the Difference Engine, an automatic mechanical calculator designed to tabulate polynomial functions, and his later work, the Analytical Engine, was an advanced machine that could be programmed using punched cards. Although it was never fully built during his lifetime, its design laid the foundation for modern computers.",
-        "imageUrl": "DALL_E_Babbage.jpeg",
+        "imageUrl": "DALL_E_Babbage",
         "imageAttribution": "DALL-E Prompt: Depict a stylized Charles Babbage, deep in thought, drafting plans for his Analytical Engine, with cogwheels and mechanical parts floating around him."
     },
     {
@@ -41,7 +41,7 @@
         "activeYears": "1833-1852",
         "shortDescription": "Ada Lovelace is credited with writing the world's first computer program, for Charles Babbage's unfinished mechanical general-purpose computer, the Analytical Engine.",
         "longDescription": "Augusta Ada King, Countess of Lovelace, known as Ada Lovelace, was an English mathematician and writer. She is particularly known for her work on Charles Babbage's proposed mechanical general-purpose computer, the Analytical Engine. She was the first to recognize that the machine had applications beyond pure calculation, and to have published the first algorithm intended for implementation on such a machine, which is often referred to as the first computer program.",
-        "imageUrl": "DALL_E_Lovelace.jpeg",
+        "imageUrl": "DALL_E_Lovelace",
         "imageAttribution": "DALL-E Prompt: Craft a stylized portrait of Ada Lovelace seated at an ornate 19th century desk, pen in hand, focused on a large piece of parchment where she is illustrating the first computer program."
     },
 
@@ -57,7 +57,7 @@
         "activeYears": "1838-1864",
         "shortDescription": "George Boole, the namesake of Boolean algebra, created the system of logic that paved the way for digital circuit design and computer programming.",
         "longDescription": "Born in Lincoln, England, George Boole was largely self-taught. His work on logic and mathematical analysis was groundbreaking. He introduced a form of algebra where all values are reduced to either 'true' or 'false', which is fundamental to the design of digital circuits and computer programming. Boolean algebra has been central to the development of the digital world.",
-        "imageUrl": "DALL_E_Boole.jpeg",
+        "imageUrl": "DALL_E_Boole",
         "imageAttribution": "DALL-E Prompt: Create a stylized image of George Boole, with symbols of logic (like AND, OR, NOT gates) orbiting around him, reflecting his Boolean algebra's influence on digital logic."
     },
 
@@ -73,7 +73,7 @@
         "activeYears": "1926-1957",
         "shortDescription": "John Von Neumann contributed significantly to many fields, but in computing he's known for developing the architectural design at the heart of nearly all modern computers, known as the Von Neumann architecture.",
         "longDescription": "John Von Neumann was a Hungarian-American mathematician, physicist, computer scientist, and polymath. He made major contributions in a number of areas, including mathematics (foundations of mathematics, functional analysis, ergodic theory, representation theory, operator algebras, geometric measure theory, topology, and numerical analysis), physics (quantum mechanics, hydrodynamics, and quantum statistical mechanics), economics (game theory), computing (Von Neumann architecture, linear programming, self-replicating machines, stochastic computing), and statistics. His work on the architecture of computer systems has framed the field of computing and information sciences.",
-        "imageUrl": "DALL_E_Von_Neumann.jpeg",
+        "imageUrl": "DALL_E_Von_Neumann",
         "imageAttribution": "DALL-E Prompt: Depict a stylized John Von Neumann, sitting in front of an early computer model with its myriad cables and lights, representing the Von Neumann architecture."
     },
     {
@@ -88,7 +88,7 @@
         "activeYears": "1936-2001",
         "shortDescription": "Claude Shannon is considered the 'father of information theory'. His groundbreaking work laid the groundwork for modern digital communications and data compression.",
         "longDescription": "Claude Shannon was an American mathematician, electrical engineer, and cryptographer known for his work on digital circuit design theory and information theory, which has been fundamental in helping to usher in the Information Age. For his contributions, he is regarded as 'the father of information theory'. His work propounded the idea of the bit as the fundamental unit of data and made significant impacts on digital communications and data compression techniques.",
-        "imageUrl": "DALL_E_Shannon.jpeg",
+        "imageUrl": "DALL_E_Shannon",
         "imageAttribution": "DALL-E Prompt: Create a stylized image of Claude Shannon, surrounded by flowing streams of binary digits (1s and 0s), symbolic of his pivotal role in information theory."
     },
     {
@@ -103,7 +103,7 @@
         "activeYears": "1936-1954",
         "shortDescription": "Alan Turing, often called 'the father of modern computing', is known for the Turing machine, a theoretical device that formed the foundation of modern theories of computation and computability.",
         "longDescription": "Alan Turing was a British mathematician, logician, and computer scientist, often considered the father of modern computer science. He formulated the idea of the 'universal machine', now known as the Turing machine, which formed the foundation of modern theories of computation and computability. During World War II, Turing worked for the Government Code and Cypher School at Bletchley Park, Britain's codebreaking center, and was responsible for breaking the German Enigma machine. After the war, he worked on the development of early computers at the National Physical Laboratory and the University of Manchester. He also proposed a measure of machine intelligence, now known as the Turing test.",
-        "imageUrl": "DALL_E_Turing.jpeg",
+        "imageUrl": "DALL_E_Turing",
         "imageAttribution": "DALL-E Prompt: Illustrate a stylized Alan Turing, deciphering coded messages with the backdrop of the Enigma machine and its rotating cipher wheels."
     },
     {
@@ -118,7 +118,7 @@
         "activeYears": "1943-1992",
         "shortDescription": "Grace Hopper was a computer scientist and United States Navy rear admiral. She was one of the first programmers of the Harvard Mark I computer and developed the first compiler for a computer programming language.",
         "longDescription": "Grace Murray Hopper was a computer scientist and United States Navy rear admiral. One of the first programmers of the Harvard Mark I computer, she was a pioneer of computer programming, inventing one of the first linkers. She popularized the idea of machine-independent programming languages, which led to the development of COBOL, one of the first high-level programming languages. Hopper's belief that programs should be written in a language that was close to English (rather than in machine code or in languages close to machine code, such as assembly languages) was novel and controversial, but it greatly influenced the development of COBOL (Common Business-Oriented Language), one of the first high-level programming languages.",
-        "imageUrl": "DALL_E_Hopper.jpeg",
+        "imageUrl": "DALL_E_Hopper",
         "imageAttribution": "DALL-E Prompt: Depict a stylized Grace Hopper, programming an early computer, symbolic of her role in developing COBOL and advocating for machine-independent programming languages."
     }
 ]
