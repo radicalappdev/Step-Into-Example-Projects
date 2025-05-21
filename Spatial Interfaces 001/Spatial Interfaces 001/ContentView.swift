@@ -20,7 +20,10 @@ struct ContentView: View {
             VStack {
                 Spacer()
                 HStack (spacing: layoutSpacing) {
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .center) {
+                        Text("Computing History")
+                            .font(.title)
+                            .padding(.top, 12)
 
                         List(figures) { figure in
                             Button(action: {
@@ -36,14 +39,10 @@ struct ContentView: View {
                                 }
 
                             })
-//                            .hoverEffect()
-//                            HStack {
-//                            }
-//                            .onTapGesture {
-//                            }
+
                         }
                         .padding(.top, 12)
-//                        .listStyle(.plain)
+
                         Spacer()
                     }
                     .frame(width: proxy.size.width * 0.25 - layoutSpacing)
@@ -59,16 +58,19 @@ struct ContentView: View {
                                     .resizable()
                                     .frame(width: 120, height: 120)
                                     .clipShape(RoundedRectangle(cornerRadius: 16))
-                                Text(selected.name)
-                                    .font(.headline)
-                                Text(selected.shortDescription)
-                                    .font(.subheadline)
+//                                Text(selected.name)
+//                                    .font(.headline)
+//                                Text(selected.shortDescription)
+//                                    .font(.subheadline)
                                 Text(selected.longDescription)
                                     .font(.body)
                                     .padding(.top, 8)
                             }
                             .padding()
                         } else {
+                            Spacer()
+                            Text("select a figure")
+                                .foregroundStyle(.secondary)
                             Spacer()
                         }
                         Spacer()
@@ -77,7 +79,7 @@ struct ContentView: View {
                     .glassBackgroundEffect()
 
                     VStack {
-                        Text("Inspector")
+                        Text("Details")
                             .font(.title)
                             .padding(.top, 12)
                         if let selected = selectedFigure {
