@@ -63,6 +63,7 @@ struct ContentView: View {
                                         Text(selected.shortDescription)
                                     }
                                     .padding(.leading, 12)
+                                    Spacer()
                                 }
                                 .padding(12)
 
@@ -71,6 +72,7 @@ struct ContentView: View {
                                     .padding(.top, 8)
                             }
                             .padding()
+                            .frame(maxWidth: .infinity, alignment: .top)
                         } else {
                             Spacer()
                             Text("select a figure")
