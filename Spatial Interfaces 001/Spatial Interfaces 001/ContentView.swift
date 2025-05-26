@@ -40,20 +40,31 @@ struct ContentView: View {
                                 }
                             })
                         }
+                        .listStyle(.plain)
                         .padding(.top, 24)
                     }
-                    .glassBackgroundEffect()
                     .frame(width: proxy.size.width * 0.25 - layoutSpacing)
+                    .background(.thickMaterial)
+                    .glassBackgroundEffect()
 
                     VStack {
                         if let selected = selectedFigure {
-                            Text(selected.name)
-                                .font(.title)
-                                .padding(.top, 12)
                             VStack(alignment: .leading, spacing: 8) {
-                                Image(selected.imageUrl)
-                                    .resizable()
-                                    .frame(width: 120, height: 120)
+                                HStack {
+                                    Image(selected.imageUrl)
+                                        .resizable()
+                                        .aspectRatio(2 / 3, contentMode: .fill)
+                                        .frame(width: 120, height: 180)
+                                        .clipShape(RoundedRectangle(cornerRadius: 12))
+
+                                    VStack(alignment: .leading) {
+                                        Text(selected.name)
+                                            .font(.largeTitle)
+                                        Text(selected.shortDescription)
+                                    }
+                                    .padding(.leading, 12)
+                                }
+                                .padding(12)
 
                                 Text(selected.longDescription)
                                     .font(.body)
@@ -94,6 +105,7 @@ struct ContentView: View {
                         Spacer()
                     }
                     .frame(width: proxy.size.width * 0.25 - layoutSpacing)
+                    .background(.thickMaterial)
                     .glassBackgroundEffect()
                 }
                 .frame(height: proxy.size.height)
