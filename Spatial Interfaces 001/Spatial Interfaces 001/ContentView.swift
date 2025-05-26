@@ -18,12 +18,8 @@ struct ContentView: View {
     var body: some View {
         GeometryReader3D { proxy in
             VStack {
-                Spacer()
                 HStack (spacing: layoutSpacing) {
                     VStack(alignment: .center) {
-                        Text("Computing History")
-                            .font(.title)
-                            .padding(.top, 12)
 
                         List(figures) { figure in
                             Button(action: {
@@ -33,7 +29,7 @@ struct ContentView: View {
                                     Image(figure.imageUrl)
                                         .resizable()
                                         .aspectRatio(2 / 3, contentMode: .fill)
-                                        .frame(width: 60, height: 90)
+                                        .frame(width: 40, height: 60)
                                         .clipShape(RoundedRectangle(cornerRadius: 6))
                                     VStack(alignment: .leading) {
                                         Text(figure.name)
@@ -44,11 +40,10 @@ struct ContentView: View {
                                 }
                             })
                         }
-                        .padding(.top, 12)
-                        Spacer()
+                        .padding(.top, 24)
                     }
-                    .frame(width: proxy.size.width * 0.25 - layoutSpacing)
                     .glassBackgroundEffect()
+                    .frame(width: proxy.size.width * 0.25 - layoutSpacing)
 
                     VStack {
                         if let selected = selectedFigure {
@@ -107,7 +102,7 @@ struct ContentView: View {
         .ornament(attachmentAnchor: .scene(.top), contentAlignment: .bottom, ornament: {
             HStack {
                 Spacer()
-                Text("Navigation Split View with Inspector")
+                Text("Great Minds of Computing History")
                     .font(.title)
                 Spacer()
             }
