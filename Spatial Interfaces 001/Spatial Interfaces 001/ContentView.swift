@@ -28,21 +28,23 @@ struct ContentView: View {
                         List(figures) { figure in
                             Button(action: {
                                 selectedFigure = figure
-
                             }, label: {
                                 HStack {
                                     Image(figure.imageUrl)
                                         .resizable()
-                                        .frame(width: 40, height: 40)
-                                        .clipShape(Circle())
-                                    Text(figure.name)
+                                        .aspectRatio(2 / 3, contentMode: .fill)
+                                        .frame(width: 60, height: 90)
+                                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                                    VStack(alignment: .leading) {
+                                        Text(figure.name)
+                                            .font(.headline)
+                                        Text("\(Image(systemName: "brain")) \(figure.activeYears)")
+                                            .font(.subheadline)
+                                    }
                                 }
-
                             })
-
                         }
                         .padding(.top, 12)
-
                         Spacer()
                     }
                     .frame(width: proxy.size.width * 0.25 - layoutSpacing)
@@ -57,11 +59,7 @@ struct ContentView: View {
                                 Image(selected.imageUrl)
                                     .resizable()
                                     .frame(width: 120, height: 120)
-                                    .clipShape(RoundedRectangle(cornerRadius: 16))
-//                                Text(selected.name)
-//                                    .font(.headline)
-//                                Text(selected.shortDescription)
-//                                    .font(.subheadline)
+
                                 Text(selected.longDescription)
                                     .font(.body)
                                     .padding(.top, 8)
@@ -103,10 +101,10 @@ struct ContentView: View {
                     .frame(width: proxy.size.width * 0.25 - layoutSpacing)
                     .glassBackgroundEffect()
                 }
-                .frame(height: proxy.size.height - 50)
+                .frame(height: proxy.size.height)
             }
         }
-        .ornament(attachmentAnchor: .scene(.top), ornament: {
+        .ornament(attachmentAnchor: .scene(.top), contentAlignment: .bottom, ornament: {
             HStack {
                 Spacer()
                 Text("Navigation Split View with Inspector")
