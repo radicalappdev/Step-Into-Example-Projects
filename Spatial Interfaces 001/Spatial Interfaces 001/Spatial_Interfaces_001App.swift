@@ -13,10 +13,10 @@ struct Spatial_Interfaces_001App: App {
         WindowGroup {
             ContentView()
                 .frame(
-                    minWidth: 600,
+                    minWidth: 400,
                     idealWidth: 1200,
                     maxWidth: 2000,
-                    minHeight: 600,
+                    minHeight: 400,
                     idealHeight: 800,
                     maxHeight: 2000,
                     alignment: .center
@@ -24,5 +24,6 @@ struct Spatial_Interfaces_001App: App {
         }
         .windowStyle(.plain)
         .windowResizability(.contentSize)
+        .defaultSize(width: 1200, height: 600)
     }
 }
