@@ -7,44 +7,453 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["Sphere_Left", "Sphere_Right", "GridMaterial"]
-    def Sphere "Sphere_Right" (
+    reorder nameChildren = ["SkyDome", "DirectionalLight", "Light_1", "Light_2", "Light_3", "Floor"]
+    def "SkyDome" (
+        active = false
+        prepend references = @SkyDome.usdz@
+    )
+    {
+        float3 xformOp:scale = (0.01, 0.01, 0.01)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Looks"
+        {
+            over "GridMATSG"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+
+                over "GridMAT"
+                {
+                    color3f inputs:diffuseColor = (0.5686275, 0.3254902, 0.57254905) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                }
+            }
+
+            over "GroundMATSG"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+
+                over "GroundMAT"
+                {
+                    color3f inputs:diffuseColor = (0.999996, 1, 1) (
+                        colorSpace = "srgb_texture"
+                    )
+                }
+            }
+
+            over "DomeMATSG"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+
+                over "DomeMAT"
+                {
+                    color3f inputs:diffuseColor = (0.999996, 1, 1) (
+                        colorSpace = "srgb_texture"
+                    )
+                }
+            }
+        }
+    }
+
+    def Xform "DirectionalLight" (
+        customData = {
+            float3 rotationEulerHint = (-0.9838225, 0, 0)
+        }
+    )
+    {
+        quatf xformOp:orient = (0.88143176, -0.47231138, 0, 0)
+        float3 xformOp:scale = (1, 0.9999999, 0.9999999)
+        float3 xformOp:translate = (0, 10, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "DirectionalLight"
+        {
+            token info:id = "RealityKit.DirectionalLight"
+
+            def RealityKitStruct "Shadow"
+            {
+            }
+        }
+    }
+
+    def Xform "Light_1" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (20, 20)
+        int ui:nodegraph:node:stackingOrder = 1
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-0.33236927, 4, -1.7120161)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Cone "Cone" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            reorder nameChildren = ["DefaultMaterial", "SpotLight"]
+            uniform token axis = "Y"
+            double height = 10
+            rel material:binding = </Root/Light_1/Cone/DefaultMaterial>
+            double radius = 1
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, -5, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Material "DefaultMaterial"
+            {
+                token cullMode = "front" (
+                    allowedTokens = ["unspecified", "none", "front", "back"]
+                )
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/Light_1/Cone/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+                def Shader "DefaultSurfaceShader"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    float inputs:clearcoat = 0
+                    color3f inputs:diffuseColor = (0.7686275, 0.16470589, 0.4352941) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.7686275, 0.16470589, 0.4352941) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 0.5
+                    float inputs:opacity = 0.2
+                    float inputs:roughness = 0.9
+                    token outputs:surface
+                }
+            }
+
+            def Xform "SpotLight" (
+                customData = {
+                    float3 rotationEulerHint = (1.5707964, -7.993959e-8, 3.1415927)
+                }
+            )
+            {
+                quatf xformOp:orient = (-5.917153e-8, -2.6457112e-9, 0.70710677, 0.70710677)
+                float3 xformOp:scale = (1, 1, 1)
+                float3 xformOp:translate = (0, 2, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def RealityKitComponent "SpotLight"
+                {
+                    float attenuationFalloffExponent = 0
+                    float attenuationRadius = 10
+                    float3 color = (0.6710024, 0.00089546974, 0.16192299)
+                    token info:id = "RealityKit.SpotLight"
+                    float innerAngle = 60
+                    float outerAngle = 100
+
+                    def RealityKitStruct "Shadow"
+                    {
+                        bool isEnabled = 1
+                    }
+                }
+            }
+        }
+    }
+
+    def Xform "Light_2" (
+        active = true
+        customData = {
+            float3 rotationEulerHint = (-0.402635, 1.5707963, 0)
+        }
+    )
+    {
+        float2 ui:nodegraph:node:pos = (40, 40)
+        int ui:nodegraph:node:stackingOrder = 2
+        quatf xformOp:orient = (0.69282603, -0.14139338, 0.69282603, 0.14139336)
+        float3 xformOp:scale = (1, 0.9999999, 1)
+        float3 xformOp:translate = (-0.33236927, 4, -1.7120161)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Cone "Cone" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            reorder nameChildren = ["DefaultMaterial", "SpotLight"]
+            uniform token axis = "Y"
+            double height = 10
+            rel material:binding = </Root/Light_2/Cone/DefaultMaterial>
+            double radius = 1
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, -5, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Material "DefaultMaterial"
+            {
+                token cullMode = "front" (
+                    allowedTokens = ["unspecified", "none", "front", "back"]
+                )
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/Light_2/Cone/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+                def Shader "DefaultSurfaceShader"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    float inputs:clearcoat = 0
+                    color3f inputs:diffuseColor = (0.5686275, 0.3254902, 0.57254905) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.5686275, 0.3254902, 0.57254905) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 0.5
+                    float inputs:opacity = 0.2
+                    float inputs:roughness = 0.9
+                    token outputs:surface
+                }
+            }
+
+            def Xform "SpotLight" (
+                customData = {
+                    float3 rotationEulerHint = (1.5707964, -7.993959e-8, 3.1415927)
+                }
+            )
+            {
+                quatf xformOp:orient = (-5.917153e-8, -2.6457112e-9, 0.70710677, 0.70710677)
+                float3 xformOp:scale = (1, 1, 1)
+                float3 xformOp:translate = (0, 2, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def RealityKitComponent "SpotLight"
+                {
+                    float attenuationFalloffExponent = 0
+                    float attenuationRadius = 10
+                    float3 color = (0.3273897, 0.07822741, 0.30332097)
+                    token info:id = "RealityKit.SpotLight"
+                    float innerAngle = 40
+                    float outerAngle = 70
+
+                    def RealityKitStruct "Shadow"
+                    {
+                        bool isEnabled = 1
+                    }
+                }
+            }
+        }
+    }
+
+    def Xform "Light_3" (
+        active = true
+        customData = {
+            float3 rotationEulerHint = (-0.34906584, 0, 0)
+        }
+    )
+    {
+        float2 ui:nodegraph:node:pos = (60, 60)
+        int ui:nodegraph:node:stackingOrder = 3
+        quatf xformOp:orient = (0.9848077, -0.17364831, 0, 0)
+        float3 xformOp:scale = (1, 0.99999976, 0.9999999)
+        float3 xformOp:translate = (-0.33236927, 4, -1.712016)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Cone "Cone" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            reorder nameChildren = ["DefaultMaterial", "SpotLight"]
+            uniform token axis = "Y"
+            double height = 10
+            rel material:binding = </Root/Light_3/Cone/DefaultMaterial>
+            double radius = 1
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, -5, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Material "DefaultMaterial"
+            {
+                token cullMode = "front" (
+                    allowedTokens = ["unspecified", "none", "front", "back"]
+                )
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/Light_3/Cone/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+                def Shader "DefaultSurfaceShader"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    float inputs:clearcoat = 0
+                    color3f inputs:diffuseColor = (0.078431375, 0.21568629, 0.63529414) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.078431375, 0.21568629, 0.63529414) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:metallic = 0.5
+                    float inputs:opacity = 0.2
+                    float inputs:roughness = 0.9
+                    token outputs:surface
+                }
+            }
+
+            def Xform "SpotLight" (
+                customData = {
+                    float3 rotationEulerHint = (1.5707964, -7.993959e-8, 3.1415927)
+                }
+            )
+            {
+                quatf xformOp:orient = (-5.917153e-8, -2.6457112e-9, 0.70710677, 0.70710677)
+                float3 xformOp:scale = (1, 1, 1)
+                float3 xformOp:translate = (0, 2, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def RealityKitComponent "SpotLight"
+                {
+                    float attenuationFalloffExponent = 0
+                    float attenuationRadius = 10
+                    float3 color = (0, 0.039524972, 0.39365923)
+                    token info:id = "RealityKit.SpotLight"
+                    float innerAngle = 40
+                    float outerAngle = 80
+
+                    def RealityKitStruct "Shadow"
+                    {
+                        bool isEnabled = 1
+                    }
+                }
+            }
+        }
+    }
+
+    def Xform "Floor" (
+        active = true
+    )
+    {
+        float3 xformOp:scale = (2, 2, 2)
+        float3 xformOp:translate = (0, -0.5, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Cube "Cube" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Root/Floor/Cube/DefaultMaterial>
+            double size = 1
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (20, 0.1, 4)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Material "DefaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/Floor/Cube/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+                def Shader "DefaultSurfaceShader"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    color3f inputs:diffuseColor = (0.5686275, 0.3254902, 0.57254905) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:roughness = 0.75
+                    token outputs:surface
+                }
+            }
+        }
+
+        def Cube "Cube_1" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Root/Floor/Cube_1/DefaultMaterial>
+            double size = 1
+            float2 ui:nodegraph:node:pos = (20, 20)
+            int ui:nodegraph:node:stackingOrder = 1
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (20, 0.1, 6)
+            float3 xformOp:translate = (0, 0, 5)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Material "DefaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/Floor/Cube_1/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+                def Shader "DefaultSurfaceShader"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    color3f inputs:diffuseColor = (0.078431375, 0.21568629, 0.63529414) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:roughness = 0.75
+                    token outputs:surface
+                }
+            }
+        }
+
+        def Cube "Cube_2" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Root/Floor/Cube_2/DefaultMaterial>
+            double size = 1
+            float2 ui:nodegraph:node:pos = (40, 40)
+            int ui:nodegraph:node:stackingOrder = 2
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (20, 0.1, 6)
+            float3 xformOp:translate = (0, 0, -5)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Material "DefaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/Floor/Cube_2/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+                def Shader "DefaultSurfaceShader"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    color3f inputs:diffuseColor = (0.7686275, 0.16470589, 0.4352941) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    float inputs:roughness = 0.75
+                    token outputs:surface
+                }
+            }
+        }
+    }
+
+    def Cylinder "Cylinder" (
         active = true
         prepend apiSchemas = ["MaterialBindingAPI"]
     )
     {
-        rel material:binding = </Root/GridMaterial/GridMaterial> (
-            bindMaterialAs = "weakerThanDescendants"
-        )
-        double radius = 0.1
-        quatf xformOp:orient = (1, 0, 0, 0)
-        float3 xformOp:scale = (1, 1, 1)
-        float3 xformOp:translate = (0.5, 1.5, -1.5)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-    }
+        uniform token axis = "Y"
+        double height = -0.1
+        rel material:binding = </Root/Cylinder/DefaultMaterial>
+        double radius = 3.14
 
-    def Sphere "Sphere_Left" (
-        active = true
-        prepend apiSchemas = ["MaterialBindingAPI"]
-    )
-    {
-        rel material:binding = </Root/GridMaterial/GridMaterial> (
-            bindMaterialAs = "weakerThanDescendants"
-        )
-        double radius = 0.1
-        quatf xformOp:orient = (1, 0, 0, 0)
-        float3 xformOp:scale = (1, 1, 1)
-        float3 xformOp:translate = (-0.5, 1.5, -1.5)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-    }
+        def Material "DefaultMaterial"
+        {
+            prepend token outputs:surface.connect = </Root/Cylinder/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
 
-    def "GridMaterial" (
-        active = true
-        prepend references = @Materials/GridMaterial.usda@
-    )
-    {
-        float3 xformOp:scale = (1, 1, 1)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            def Shader "DefaultSurfaceShader"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1, 1, 1)
+                float inputs:roughness = 0.75
+                token outputs:surface
+            }
+        }
     }
 }
 

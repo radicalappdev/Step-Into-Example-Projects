@@ -11,20 +11,65 @@ import RealityKitContent
 
 struct ImmersiveView: View {
 
+    @PhysicalMetric(from: .meters) var triangleSize: CGFloat = 1
+
     var body: some View {
-        RealityView { content in
+        RealityView { content, attachments in
             // Add the initial RealityKit content
             if let immersiveContentEntity = try? await Entity(named: "Immersive", in: realityKitContentBundle) {
                 content.add(immersiveContentEntity)
 
-                // Put skybox here.  See example in World project available at
-                // https://developer.apple.com/
+                let triangles = Entity()
+                content.add(triangles)
+                triangles.position = [-3, 3, -6]
+                if let triMagenta = attachments.entity(for: "triMagenta") {
+                    triangles.addChild(triMagenta)
+                    triMagenta.setPosition([-0.25, 0.25, -0.1], relativeTo: triangles)
+                }
+                if let triBlue = attachments.entity(for: "triBlue") {
+                    triangles.addChild(triBlue)
+                    triBlue.setPosition([0.25, 0, 0], relativeTo: triangles)
+                }
             }
+        } update: { content, attachments in
+        } attachments: {
+            Attachment(id: "triMagenta", {
+                Triangle()
+                    .foregroundStyle(.biMagenta)
+                    .opacity(0.8)
+                    .frame(width: triangleSize, height: triangleSize)
+            })
+
+            Attachment(id: "triBlue", {
+                Triangle()
+                    .foregroundStyle(.biRoyalBlue)
+                    .opacity(0.8)
+                    .frame(width: triangleSize, height: triangleSize)
+            })
+
+            Attachment(id: "weExist", {
+                Text("Bisexuals")
+            })
         }
     }
 }
 
-#Preview(immersionStyle: .full) {
-    ImmersiveView()
-        .environment(AppModel())
+//#Preview(immersionStyle: .full) {
+//    ImmersiveView()
+//        .environment(AppModel())
+//}
+
+
+struct Triangle: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+
+        path.move(to: CGPoint(x: rect.midX, y: rect.maxY)) // tip at bottom
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.minY)) // left corner at top
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY)) // right corner at top
+        path.addLine(to: CGPoint(x: rect.midX, y: rect.maxY)) // close the path
+
+        return path
+    }
 }
+

@@ -18,6 +18,7 @@ struct Pride2025App: App {
                 .environment(appModel)
         }
         .windowStyle(.plain)
+        .defaultSize(width: 600, height: 400)
 
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
             ImmersiveView()
