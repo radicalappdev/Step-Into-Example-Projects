@@ -629,20 +629,13 @@ def Xform "Root"
                 def RealityKitStruct "mainEmitter"
                 {
                     float3 acceleration = (0, 0, 0)
-                    token animationRepeatMode = "Looping"
                     token billboardMode = "Billboard"
                     float birthRate = 40
                     float birthRateVariation = 0
                     token blendMode = "Additive"
                     float colorEvolutionPower = 1
-                    int64 columnCount = 4
                     float dampingFactor = 0.25
                     float4 endColorA = (0, 0.039524972, 0.39365923, 1)
-                    float frameRate = 30
-                    float frameRateVariation = 0
-                    int64 initialFrame = 0
-                    int64 initialFrameVariation = 2
-                    bool isAnimated = 1
                     bool isLightingEnabled = 0
                     float noiseAnimationSpeed = 1
                     float noiseScale = 1
@@ -652,7 +645,6 @@ def Xform "Root"
                     float particleAngleVariation = 0.5
                     float particleAngularVelocity = 0.25
                     float particleAngularVelocityVariation = 0.5
-                    asset particleImage = @ParticleEmitterPresetTextures/twinkle.exr@
                     double particleLifeSpan = 1
                     double particleLifeSpanVariation = 0.2
                     float particleMass = 1
@@ -661,7 +653,6 @@ def Xform "Root"
                     float particleSizeVariation = 0.004
                     float3 radialGravityCenter = (1, 1, 0)
                     float radialGravityStrength = 0
-                    int64 rowCount = 4
                     float sizeMultiplierAtEndOfLifespan = 0.35
                     float sizeMultiplierAtEndOfLifespanPower = 3
                     token sortOrder = "IncreasingDepth"
