@@ -7,7 +7,7 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["SkyDome", "DirectionalLight", "Light_1", "Light_2", "Light_3", "Floor"]
+    reorder nameChildren = ["SkyDome", "DirectionalLight", "Light_1", "Light_2", "Light_3", "Floor", "Light_1_Spin", "Light_2_Spin", "Light_3_Spin", "Loop", "RCP_BehaviorsContainer", "OnAddedToScene", "Hearts1", "Hearts2"]
     def "SkyDome" (
         active = false
         prepend references = @SkyDome.usdz@
@@ -88,7 +88,7 @@ def Xform "Root"
         int ui:nodegraph:node:stackingOrder = 1
         quatf xformOp:orient = (1, 0, 0, 0)
         float3 xformOp:scale = (1, 1, 1)
-        float3 xformOp:translate = (-0.33236927, 4, -1.7120161)
+        float3 xformOp:translate = (0, 4, -4)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def Cone "Cone" (
@@ -172,7 +172,7 @@ def Xform "Root"
         int ui:nodegraph:node:stackingOrder = 2
         quatf xformOp:orient = (0.69282603, -0.14139338, 0.69282603, 0.14139336)
         float3 xformOp:scale = (1, 0.9999999, 1)
-        float3 xformOp:translate = (-0.33236927, 4, -1.7120161)
+        float3 xformOp:translate = (0, 4, -4)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def Cone "Cone" (
@@ -256,7 +256,7 @@ def Xform "Root"
         int ui:nodegraph:node:stackingOrder = 3
         quatf xformOp:orient = (0.9848077, -0.17364831, 0, 0)
         float3 xformOp:scale = (1, 0.99999976, 0.9999999)
-        float3 xformOp:translate = (-0.33236927, 4, -1.712016)
+        float3 xformOp:translate = (0, 4, -4)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def Cone "Cone" (
@@ -334,7 +334,7 @@ def Xform "Root"
     )
     {
         float3 xformOp:scale = (2, 2, 2)
-        float3 xformOp:translate = (0, -0.5, 0)
+        float3 xformOp:translate = (0, -0.25, 0)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def Cube "Cube" (
@@ -432,26 +432,248 @@ def Xform "Root"
         }
     }
 
-    def Cylinder "Cylinder" (
+    def RealityKitTimeline "Light_1_Spin"
+    {
+        float2 ui:nodegraph:node:pos = (20, 20)
+        int ui:nodegraph:node:stackingOrder = 1
+
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Spin"
+            {
+                string actionKind = "spin"
+                int blendLayer = 400
+                double duration = 5
+                uniform token info:id = "C855B25A-08D8-4FC9-AFB8-582625202204"
+                float3 localAxis = (0.2, 1, 0)
+                float revolutions = 1
+                double startTime = 0
+                rel target = </Root/Light_1>
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "linear"
+                }
+            }
+        }
+    }
+
+    def RealityKitTimeline "Light_2_Spin"
+    {
+        float2 ui:nodegraph:node:pos = (40, 40)
+        int ui:nodegraph:node:stackingOrder = 2
+
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Spin"
+            {
+                string actionKind = "spin"
+                int blendLayer = 400
+                double duration = 5
+                uniform token info:id = "C855B25A-08D8-4FC9-AFB8-582625202204"
+                float3 localAxis = (0.2, 1, 0)
+                float revolutions = 1
+                token spinDirection = "counterclockwise"
+                double startTime = 0
+                rel target = </Root/Light_2>
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "linear"
+                }
+            }
+        }
+    }
+
+    def RealityKitTimeline "Light_3_Spin"
+    {
+        float2 ui:nodegraph:node:pos = (60, 60)
+        int ui:nodegraph:node:stackingOrder = 3
+
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Spin"
+            {
+                string actionKind = "spin"
+                int blendLayer = 400
+                double duration = 5
+                uniform token info:id = "C855B25A-08D8-4FC9-AFB8-582625202204"
+                float3 localAxis = (-0.3, 1, 0)
+                float revolutions = 1
+                token spinDirection = "clockwise"
+                double startTime = 0
+                rel target = </Root/Light_3>
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "linear"
+                }
+            }
+        }
+    }
+
+    def RealityKitTimeline "Loop"
+    {
+        reorder nameChildren = ["Track", "Track2", "Track3"]
+        float2 ui:nodegraph:node:pos = (20, 20)
+        int ui:nodegraph:node:stackingOrder = 1
+
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Play_Timeline"
+            {
+                string actionKind = "timeline"
+                int blendLayer = 500
+                double duration = 5
+                uniform token info:id = "68BCA0F7-0F1E-4D27-BA62-03502FCBA2E4"
+                double loopCount = 0
+                double startTime = 0
+                rel timeline = </Root/Light_2_Spin>
+            }
+        }
+
+        def RealityKitTrack "Track2"
+        {
+            def RealityKitAction "Play_Timeline"
+            {
+                string actionKind = "timeline"
+                int blendLayer = 500
+                double duration = 5
+                uniform token info:id = "2C7F74FE-1AC7-4385-937F-624359F4BB6D"
+                double loopCount = 0
+                double startTime = 0
+                rel timeline = </Root/Light_1_Spin>
+            }
+        }
+
+        def RealityKitTrack "Track3"
+        {
+            def RealityKitAction "Play_Timeline"
+            {
+                string actionKind = "timeline"
+                int blendLayer = 500
+                double duration = 5
+                uniform token info:id = "BCE3365F-BD0E-49D7-8D0A-7E3522C1592E"
+                double loopCount = 0
+                double startTime = 0
+                rel timeline = </Root/Light_3_Spin>
+            }
+        }
+    }
+
+    def RealityKitComponent "RCP_BehaviorsContainer"
+    {
+        rel behaviors = </Root/OnAddedToScene>
+        uniform token info:id = "RCP.BehaviorsContainer"
+    }
+
+    def Preliminary_Behavior "OnAddedToScene"
+    {
+        rel actions = </Root/OnAddedToScene/Action>
+        uniform bool exclusive
+        rel triggers = </Root/OnAddedToScene/Trigger>
+
+        def Preliminary_Trigger "Trigger"
+        {
+            rel affectedObjects = </Root>
+            token info:id = "SceneTransition"
+        }
+
+        def Preliminary_Action "Action"
+        {
+            rel affectedObjects = </Root>
+            rel animationLibraryKey = </Root/Loop>
+            rel animationLibraryKeyOverrideKey = </Root/OnAddedToScene/Trigger>
+            token info:id = "PlayTimeline"
+            int loops = 0
+            int performCount = 1
+            token type = "serial"
+        }
+    }
+
+    def Xform "Hearts1" (
         active = true
-        prepend apiSchemas = ["MaterialBindingAPI"]
     )
     {
-        uniform token axis = "Y"
-        double height = -0.1
-        rel material:binding = </Root/Cylinder/DefaultMaterial>
-        double radius = 3.14
-
-        def Material "DefaultMaterial"
+        def RealityKitComponent "VFXEmitter"
         {
-            prepend token outputs:surface.connect = </Root/Cylinder/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+            uniform token info:id = "RealityKit.VFXEmitter"
 
-            def Shader "DefaultSurfaceShader"
+            def RealityKitStruct "currentState"
             {
-                uniform token info:id = "UsdPreviewSurface"
-                color3f inputs:diffuseColor = (1, 1, 1)
-                float inputs:roughness = 0.75
-                token outputs:surface
+                token birthLocation = "Volume"
+                int64 burstCount = 250
+                token emitterShape = "Sphere"
+                bool isSpawningEnabled = 0
+                float3 shapeSize = (5, 5, 5)
+
+                def RealityKitStruct "mainEmitter"
+                {
+                    float birthRate = 500
+                    float4 endColorA = (0, 0.039524972, 0.39365923, 1)
+                    float particleSize = 0.1
+                    float4 startColorA = (0.6710024, 0.00089546974, 0.16192299, 1)
+                    bool useEndColor = 1
+                    bool useEndColorRange = 0
+                    bool useStartColorRange = 0
+                }
+
+                def RealityKitStruct "spawnedEmitter"
+                {
+                    float birthRate = 500
+                    float4 endColorA = (0.6710024, 0.00089546974, 0.16192299, 1)
+                    float4 startColorA = (0, 0.039524972, 0.39365923, 1)
+                    bool useEndColor = 1
+                    bool useEndColorRange = 0
+                    bool useStartColorRange = 0
+                }
+            }
+        }
+    }
+
+    def Xform "Hearts2" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (20, 20)
+        int ui:nodegraph:node:stackingOrder = 1
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "VFXEmitter"
+        {
+            uniform token info:id = "RealityKit.VFXEmitter"
+
+            def RealityKitStruct "currentState"
+            {
+                token birthLocation = "Volume"
+                int64 burstCount = 250
+                token emitterShape = "Sphere"
+                bool isSpawningEnabled = 0
+                float3 shapeSize = (5, 5, 5)
+
+                def RealityKitStruct "mainEmitter"
+                {
+                    float birthRate = 500
+                    float4 endColorA = (0.6710024, 0.00089546974, 0.16192299, 1)
+                    float particleSize = 0.1
+                    float4 startColorA = (0, 0.039524972, 0.39365923, 1)
+                    bool useEndColor = 1
+                    bool useEndColorRange = 0
+                    bool useStartColorRange = 0
+                }
+
+                def RealityKitStruct "spawnedEmitter"
+                {
+                    float birthRate = 500
+                    float4 endColorA = (0.6710024, 0.00089546974, 0.16192299, 1)
+                    float4 startColorA = (0, 0.039524972, 0.39365923, 1)
+                    bool useEndColor = 1
+                    bool useEndColorRange = 0
+                    bool useStartColorRange = 0
+                }
             }
         }
     }
