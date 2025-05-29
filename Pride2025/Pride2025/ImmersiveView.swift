@@ -13,6 +13,8 @@ struct ImmersiveView: View {
 
     @PhysicalMetric(from: .meters) var triangleSize: CGFloat = 1
 
+    @PhysicalMetric(from: .meters) var textSize: CGFloat = 1
+
     var body: some View {
         RealityView { content, attachments in
             // Add the initial RealityKit content
@@ -30,6 +32,12 @@ struct ImmersiveView: View {
                     triangles.addChild(triBlue)
                     triBlue.setPosition([0.25, 0, 0], relativeTo: triangles)
                 }
+
+                if let bisexuals = attachments.entity(for: "bisexuals") {
+                    content.add(bisexuals)
+                    bisexuals.position = [3, 3, -6]
+                }
+
             }
         } update: { content, attachments in
         } attachments: {
@@ -47,8 +55,18 @@ struct ImmersiveView: View {
                     .frame(width: triangleSize, height: triangleSize)
             })
 
-            Attachment(id: "weExist", {
-                Text("Bisexuals")
+            Attachment(id: "bisexuals", {
+                Text("Bisexuals have always existed.")
+                    .font(.system(size: 288, weight: .heavy))
+                    .foregroundStyle(
+                        LinearGradient(
+                            gradient: Gradient(colors: [.biMagenta, .biPurple, .biRoyalBlue]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                    .frame(width: 2000, height: 2000)
+
             })
         }
     }

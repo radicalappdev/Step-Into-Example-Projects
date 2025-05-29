@@ -14,24 +14,14 @@ struct ContentView: View {
     var body: some View {
 
         ZStack {
-            LinearGradient(
-                gradient: Gradient(colors: [.biMagenta, .biPurple, .biRoyalBlue]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .cornerRadius(32)
-
-
+            BiGradient()
+                .cornerRadius(32)
 
             VStack {
-
-
                 Text("Happy Pride")
                     .font(.extraLargeTitle2)
-
                 ToggleImmersiveSpaceButton()
             }
-
             .padding()
         }
     }
