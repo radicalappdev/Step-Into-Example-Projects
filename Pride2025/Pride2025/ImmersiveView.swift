@@ -37,7 +37,7 @@ struct ImmersiveView: View {
 
                 let triangles = Entity()
                 content.add(triangles)
-                triangles.position = [-3, 3, -6]
+                triangles.position = [-3, 3, -4]
                 if let triMagenta = attachments.entity(for: "triMagenta") {
                     triangles.addChild(triMagenta)
                     triMagenta.setPosition([-0.25, 0.25, -0.1], relativeTo: triangles)
@@ -49,12 +49,12 @@ struct ImmersiveView: View {
 
                 if let moons = attachments.entity(for: "moons") {
                     content.add(moons)
-                    moons.position = [3, 3, -6]
+                    moons.position = [3, 3, -4]
                 }
 
                 if let bisexuals = attachments.entity(for: "bisexuals") {
                     content.add(bisexuals)
-                    bisexuals.position = [0, 4, -4]
+                    bisexuals.position = [0, 3, -3]
                 }
 
             }
@@ -106,7 +106,7 @@ struct ImmersiveView: View {
 
             Attachment(id: "bisexuals", {
                 Text("Bisexuals have always existed.")
-                    .font(.system(size: 288, weight: .heavy))
+                    .font(.system(size: 366, weight: .heavy))
                     .multilineTextAlignment(.center)
                     .foregroundStyle(
                         LinearGradient(

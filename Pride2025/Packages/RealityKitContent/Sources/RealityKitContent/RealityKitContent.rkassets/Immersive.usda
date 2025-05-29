@@ -82,13 +82,16 @@ def Xform "Root"
 
     def Xform "Light_1" (
         active = true
+        customData = {
+            float3 rotationEulerHint = (0.42414752, 0.08417187, 2.9575164)
+        }
     )
     {
         float2 ui:nodegraph:node:pos = (20, 20)
         int ui:nodegraph:node:stackingOrder = 1
-        quatf xformOp:orient = (1, 0, 0, 0)
-        float3 xformOp:scale = (1, 1, 1)
-        float3 xformOp:translate = (0, 4, -4)
+        quatf xformOp:orient = (0.09858806, -0.02162842, 0.21319143, 0.9717829)
+        float3 xformOp:scale = (1, 1, 0.9999999)
+        float3 xformOp:translate = (0, 0, -4)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def Cone "Cone" (
@@ -102,7 +105,7 @@ def Xform "Root"
             rel material:binding = </Root/Light_1/Cone/DefaultMaterial>
             double radius = 1
             quatf xformOp:orient = (1, 0, 0, 0)
-            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:scale = (0.9999997, 1, 0.99999964)
             float3 xformOp:translate = (0, -5, 0)
             uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
@@ -164,15 +167,15 @@ def Xform "Root"
     def Xform "Light_2" (
         active = true
         customData = {
-            float3 rotationEulerHint = (-0.402635, 1.5707963, 0)
+            float3 rotationEulerHint = (-4.9128137, 1.1388752, -1.5707958)
         }
     )
     {
         float2 ui:nodegraph:node:pos = (40, 40)
         int ui:nodegraph:node:stackingOrder = 2
-        quatf xformOp:orient = (0.69282603, -0.14139338, 0.69282603, 0.14139336)
-        float3 xformOp:scale = (1, 0.9999999, 1)
-        float3 xformOp:translate = (0, 4, -4)
+        quatf xformOp:orient = (-0.219862, -0.67205715, 0.08166341, 0.70237523)
+        float3 xformOp:scale = (0.99999964, 0.99999976, 0.9999998)
+        float3 xformOp:translate = (-5.433185e-22, -2.3841858e-7, -4)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def Cone "Cone" (
@@ -248,15 +251,15 @@ def Xform "Root"
     def Xform "Light_3" (
         active = true
         customData = {
-            float3 rotationEulerHint = (-0.34906584, 0, 0)
+            float3 rotationEulerHint = (0.0750815, 0.08417191, 2.9575164)
         }
     )
     {
         float2 ui:nodegraph:node:pos = (60, 60)
         int ui:nodegraph:node:stackingOrder = 3
-        quatf xformOp:orient = (0.9848077, -0.17364831, 0, 0)
-        float3 xformOp:scale = (1, 0.99999976, 0.9999999)
-        float3 xformOp:translate = (0, 4, -4)
+        quatf xformOp:orient = (0.093334585, -0.0384195, 0.041204162, 0.99403965)
+        float3 xformOp:scale = (1.0000001, 0.99999964, 0.9999995)
+        float3 xformOp:translate = (0, 2.3841858e-7, -4)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def Cone "Cone" (
@@ -601,31 +604,126 @@ def Xform "Root"
 
             def RealityKitStruct "currentState"
             {
-                token birthLocation = "Volume"
+                token birthDirection = "Normal"
+                token birthLocation = "Surface"
                 int64 burstCount = 250
+                float3 emissionDirection = (0, 0, 0)
+                double emissionDuration = 1
+                double emissionDurationVariation = 0
                 token emitterShape = "Sphere"
-                bool isSpawningEnabled = 0
-                float3 shapeSize = (5, 5, 5)
+                double idleDuration = 0
+                double idleDurationVariation = 0
+                bool isLocal = 0
+                bool isSpawningEnabled = 1
+                bool loops = 1
+                float particleSpeed = 0.06
+                float particleSpeedVariation = 0.04
+                float3 shapeSize = (0.05, 0.05, 0.05)
+                bool spawnInheritParentColor = 1
+                token spawnOccasion = "OnUpdate"
+                float spawnSpreadFactor = 0
+                float spawnSpreadFactorVariation = 0
+                float spawnVelocityFactor = 1
+                double warmupDuration = 1.5
 
                 def RealityKitStruct "mainEmitter"
                 {
-                    float birthRate = 500
+                    float3 acceleration = (0, 0, 0)
+                    token animationRepeatMode = "Looping"
+                    token billboardMode = "Billboard"
+                    float birthRate = 40
+                    float birthRateVariation = 0
+                    token blendMode = "Additive"
+                    float colorEvolutionPower = 1
+                    int64 columnCount = 4
+                    float dampingFactor = 0.25
                     float4 endColorA = (0, 0.039524972, 0.39365923, 1)
-                    float particleSize = 0.1
+                    float frameRate = 30
+                    float frameRateVariation = 0
+                    int64 initialFrame = 0
+                    int64 initialFrameVariation = 2
+                    bool isAnimated = 1
+                    bool isLightingEnabled = 0
+                    float noiseAnimationSpeed = 1
+                    float noiseScale = 1
+                    float noiseStrength = 0.1
+                    token opacityOverLife = "GradualFadeInOut"
+                    float particleAngle = 0
+                    float particleAngleVariation = 0.5
+                    float particleAngularVelocity = 0.25
+                    float particleAngularVelocityVariation = 0.5
+                    asset particleImage = @ParticleEmitterPresetTextures/twinkle.exr@
+                    double particleLifeSpan = 1
+                    double particleLifeSpanVariation = 0.2
+                    float particleMass = 1
+                    float particleMassVariation = 0.2
+                    float particleSize = 0.05
+                    float particleSizeVariation = 0.004
+                    float3 radialGravityCenter = (1, 1, 0)
+                    float radialGravityStrength = 0
+                    int64 rowCount = 4
+                    float sizeMultiplierAtEndOfLifespan = 0.35
+                    float sizeMultiplierAtEndOfLifespanPower = 3
+                    token sortOrder = "IncreasingDepth"
+                    float spreadingAngle = 0
                     float4 startColorA = (0.6710024, 0.00089546974, 0.16192299, 1)
+                    float stretchFactor = 0
                     bool useEndColor = 1
                     bool useEndColorRange = 0
                     bool useStartColorRange = 0
+                    float3 vortexDirection = (0, 1, 0)
+                    float vortexStrength = 0
                 }
 
                 def RealityKitStruct "spawnedEmitter"
                 {
-                    float birthRate = 500
-                    float4 endColorA = (0.6710024, 0.00089546974, 0.16192299, 1)
-                    float4 startColorA = (0, 0.039524972, 0.39365923, 1)
-                    bool useEndColor = 1
-                    bool useEndColorRange = 0
-                    bool useStartColorRange = 0
+                    float3 acceleration = (0, -0.04, 0)
+                    token animationRepeatMode = "AutoReverse"
+                    token billboardMode = "Billboard"
+                    float birthRate = 25
+                    float birthRateVariation = 0
+                    token blendMode = "Additive"
+                    float colorEvolutionPower = 0
+                    int64 columnCount = 4
+                    float dampingFactor = 3
+                    float4 endColorA = (0, 0.98059916, 1, 1)
+                    float4 endColorB = (1, 0.051991113, 1, 1)
+                    float frameRate = 24
+                    float frameRateVariation = 0
+                    int64 initialFrame = 2
+                    int64 initialFrameVariation = 4
+                    bool isAnimated = 1
+                    bool isLightingEnabled = 0
+                    float noiseAnimationSpeed = 0.25
+                    float noiseScale = 1
+                    float noiseStrength = 0.1
+                    token opacityOverLife = "GradualFadeInOut"
+                    float particleAngle = 0.745
+                    float particleAngleVariation = 0.25
+                    float particleAngularVelocity = 0.25
+                    float particleAngularVelocityVariation = 0
+                    asset particleImage = @ParticleEmitterPresetTextures/twinkle.exr@
+                    double particleLifeSpan = 0.75
+                    double particleLifeSpanVariation = 0.25
+                    float particleMass = 1
+                    float particleMassVariation = 2
+                    float particleSize = 0.02
+                    float particleSizeVariation = 0.004
+                    float3 radialGravityCenter = (0, 0, 0)
+                    float radialGravityStrength = 0
+                    int64 rowCount = 4
+                    float sizeMultiplierAtEndOfLifespan = 0
+                    float sizeMultiplierAtEndOfLifespanPower = 1
+                    token sortOrder = "IncreasingID"
+                    float spreadingAngle = 0
+                    float4 startColorA = (1, 0.051991113, 1, 0.04)
+                    float4 startColorB = (0, 0.98059916, 1, 0.04)
+                    float stretchFactor = 0
+                    bool useEndColor = 0
+                    bool useEndColorRange = 1
+                    bool useStartColorRange = 1
+                    float3 vortexDirection = (0, 1, 0)
+                    float vortexStrength = 0
                 }
             }
         }
@@ -674,6 +772,34 @@ def Xform "Root"
                     bool useEndColorRange = 0
                     bool useStartColorRange = 0
                 }
+            }
+        }
+    }
+
+    def Sphere "Sphere" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        rel material:binding = </Root/Sphere/DefaultMaterial>
+        double radius = 0.1
+        float3 xformOp:translate = (0.0016063042, 0.028029792, -3.9852822)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Material "DefaultMaterial"
+        {
+            token outputs:mtlx:surface
+            token outputs:realitykit:vertex
+            prepend token outputs:surface.connect = </Root/Sphere/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+            def Shader "DefaultSurfaceShader"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.078431375, 0.21568629, 0.63529414) (
+                    colorSpace = "srgb_displayp3"
+                )
+                float inputs:roughness = 0.75
+                token outputs:surface
             }
         }
     }
