@@ -111,56 +111,69 @@ struct ImmersiveView: View {
                         )
                     )
                     .frame(width: 2000, height: 2000)
-
             })
         }
     }
 
+    // Credit: Apple provided this function in the example project called "Simulating particles in your visionOS app"
+    // Sources: https://developer.apple.com/documentation/realitykit/simulating-particles-in-your-visionos-app
     func generateTextureFromSystemName( _ name: String) -> TextureResource? {
-        let imageSize = CGSize(width: 128, height: 128)
-
         // Create a UIImage from a symbol name.
         guard var symbolImage = UIImage(systemName: name) else {
             return nil
         }
 
-
         // Create a new version that always uses the template rendering mode.
         symbolImage = symbolImage.withRenderingMode(.alwaysTemplate)
 
+        // Get the natural size of the symbol
+        let symbolSize = symbolImage.size
+
+        // Create a square texture
+        let textureSize: CGFloat = 128
+        let imageSize = CGSize(width: textureSize, height: textureSize)
+
+        // Calculate the aspect ratio and scaled size
+        let aspectRatio = symbolSize.width / symbolSize.height
+        let scaledSize: CGSize
+        if aspectRatio > 1 {
+            // Wider than tall
+            scaledSize = CGSize(width: textureSize, height: textureSize / aspectRatio)
+        } else {
+            // Taller than wide or square
+            scaledSize = CGSize(width: textureSize * aspectRatio, height: textureSize)
+        }
+
+        // Calculate the position to center the symbol
+        let x = (textureSize - scaledSize.width) / 2
+        let y = (textureSize - scaledSize.height) / 2
+        let drawRect = CGRect(origin: CGPoint(x: x, y: y), size: scaledSize)
 
         // Start the graphics context.
         UIGraphicsBeginImageContextWithOptions(imageSize, false, 0)
-
 
         // Set the color's texture to white so that the app can apply a color
         // on top of the image.
         UIColor.white.set()
 
-
-        // Draw the image with the context.
-        let rectangle = CGRect(origin: CGPoint.zero, size: imageSize)
-        symbolImage.draw(in: rectangle, blendMode: .normal, alpha: 1.0)
-
+        // Draw the image with the context, centered in the square
+        symbolImage.draw(in: drawRect, blendMode: .normal, alpha: 1.0)
 
         // Retrieve the image from the context.
         let contextImage = UIGraphicsGetImageFromCurrentImageContext()
 
-
         // End the graphics context.
         UIGraphicsEndImageContext()
-
 
         // Retrieve the Core Graphics version of the image.
         guard let coreGraphicsImage = contextImage?.cgImage else {
             return nil
         }
 
-
         // Generate the texture resource from the Core Graphics image.
         let creationOptions = TextureResource.CreateOptions(semantic: .raw)
-        return try? TextureResource.generate(from: coreGraphicsImage,
-                                             options: creationOptions)
+        return try? TextureResource(image: coreGraphicsImage,
+                                    options: creationOptions)
     }
 }
 
@@ -182,5 +195,4 @@ struct Triangle: Shape {
         return path
     }
 }
-
 
