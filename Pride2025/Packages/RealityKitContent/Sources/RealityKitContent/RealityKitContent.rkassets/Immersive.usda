@@ -91,7 +91,7 @@ def Xform "Root"
         int ui:nodegraph:node:stackingOrder = 1
         quatf xformOp:orient = (0.09858806, -0.02162842, 0.21319143, 0.9717829)
         float3 xformOp:scale = (1, 1, 0.9999999)
-        float3 xformOp:translate = (0, 0, -4)
+        float3 xformOp:translate = (0, 0, -4.9679995)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def Cone "Cone" (
@@ -175,7 +175,7 @@ def Xform "Root"
         int ui:nodegraph:node:stackingOrder = 2
         quatf xformOp:orient = (-0.219862, -0.67205715, 0.08166341, 0.70237523)
         float3 xformOp:scale = (0.99999964, 0.99999976, 0.9999998)
-        float3 xformOp:translate = (-5.433185e-22, -2.3841858e-7, -4)
+        float3 xformOp:translate = (-5.433185e-22, -2.3841858e-7, -4.9679995)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def Cone "Cone" (
@@ -259,7 +259,7 @@ def Xform "Root"
         int ui:nodegraph:node:stackingOrder = 3
         quatf xformOp:orient = (0.093334585, -0.0384195, 0.041204162, 0.99403965)
         float3 xformOp:scale = (1.0000001, 0.99999964, 0.9999995)
-        float3 xformOp:translate = (0, 2.3841858e-7, -4)
+        float3 xformOp:translate = (0, 2.3841858e-7, -4.9679995)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def Cone "Cone" (
@@ -334,9 +334,13 @@ def Xform "Root"
 
     def Xform "Floor" (
         active = true
+        customData = {
+            float3 rotationEulerHint = (0, 1.5707963, 0)
+        }
     )
     {
-        float3 xformOp:scale = (2, 2, 2)
+        quatf xformOp:orient = (0.70710677, 0, 0.7071067, 0)
+        float3 xformOp:scale = (10, 2, 2)
         float3 xformOp:translate = (0, -0.25, 0)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
@@ -767,30 +771,166 @@ def Xform "Root"
         }
     }
 
-    def Sphere "Sphere" (
+    def Sphere "SGMatEx06a" (
         active = true
         prepend apiSchemas = ["MaterialBindingAPI"]
     )
     {
-        rel material:binding = </Root/Sphere/DefaultMaterial>
-        double radius = 0.1
-        float3 xformOp:translate = (0.0016063042, 0.028029792, -3.9852822)
+        reorder nameChildren = ["SGMatEx03", "MaterialEx06a", "InputTarget", "PointLight", "Collider", "InnerSphere"]
+        rel material:binding = </Root/SGMatEx06a/MaterialEx06a> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        double radius = 0.45
+        float2 ui:nodegraph:node:pos = (140.71411, 192.4755)
+        int ui:nodegraph:node:stackingOrder = 4
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-0.009467542, 0.28724438, -5.065367)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-        def Material "DefaultMaterial"
+        def Sphere "InnerSphere" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
         {
-            token outputs:mtlx:surface
-            token outputs:realitykit:vertex
-            prepend token outputs:surface.connect = </Root/Sphere/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+            rel material:binding = </Root/SGMatEx06a/InnerSphere/DefaultMaterial> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double radius = 0.3
+            float2 ui:nodegraph:node:pos = (80.71411, 132.4755)
+            int ui:nodegraph:node:stackingOrder = 1
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-            def Shader "DefaultSurfaceShader"
+            def Material "DefaultMaterial"
             {
-                uniform token info:id = "UsdPreviewSurface"
-                color3f inputs:diffuseColor = (0.078431375, 0.21568629, 0.63529414) (
-                    colorSpace = "srgb_displayp3"
-                )
-                float inputs:roughness = 0.75
-                token outputs:surface
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/SGMatEx06a/InnerSphere/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+                float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (0, 110.5)
+
+                def Shader "DefaultSurfaceShader"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    color3f inputs:diffuseColor = (0.5686275, 0.3254902, 0.57254905) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                    color3f inputs:emissiveColor = (0.999996, 1, 1) (
+                        colorSpace = "srgb_texture"
+                    )
+                    float inputs:roughness = 0.75
+                    token outputs:surface
+                }
+            }
+        }
+
+        def Material "MaterialEx06a"
+        {
+            color3f inputs:Color = (0.5686275, 0.3254902, 0.57254905) (
+                colorSpace = "srgb_displayp3"
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-168.28659, -75.11274)
+                        int stackingOrderInSubgraph = 259
+                    }
+                }
+            )
+            token outputs:mtlx:surface.connect = </Root/SGMatEx06a/MaterialEx06a/UnlitSurface.outputs:out>
+            token outputs:realitykit:vertex
+            float2 ui:nodegraph:node:pos = (80.71411, 132.4755)
+            int ui:nodegraph:node:stackingOrder = 1
+            float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (405.0039, 24.082031)
+            float2 ui:nodegraph:realitykit:subgraphOutputs:size = (181.5, 99)
+            int ui:nodegraph:realitykit:subgraphOutputs:stackingOrder = 72
+
+            def Shader "UnlitSurface"
+            {
+                uniform token info:id = "ND_realitykit_unlit_surfaceshader"
+                bool inputs:applyPostProcessToneMap = 1
+                color3f inputs:color.connect = </Root/SGMatEx06a/MaterialEx06a.inputs:Color>
+                bool inputs:hasPremultipliedAlpha = 0
+                float inputs:opacity.connect = </Root/SGMatEx06a/MaterialEx06a/Range.outputs:out>
+                float inputs:opacityThreshold
+                token outputs:out
+                float2 ui:nodegraph:node:pos = (166.88281, 44.39453)
+                float2 ui:nodegraph:node:size = (194.5, 181)
+                int ui:nodegraph:node:stackingOrder = 257
+            }
+
+            def Shader "ViewDirection"
+            {
+                uniform token info:id = "ND_realitykit_viewdirection_vector3"
+                float3 outputs:out
+                float2 ui:nodegraph:node:pos = (-442.14844, 171.85938)
+                float2 ui:nodegraph:node:size = (210, 53)
+                int ui:nodegraph:node:stackingOrder = 235
+            }
+
+            def Shader "Normal"
+            {
+                uniform token info:id = "ND_normal_vector3"
+                float3 outputs:out
+                float2 ui:nodegraph:node:pos = (-411.03906, 249.8711)
+                float2 ui:nodegraph:node:size = (128.5, 40)
+                int ui:nodegraph:node:stackingOrder = 235
+            }
+
+            def Shader "DotProduct"
+            {
+                uniform token info:id = "ND_dotproduct_vector3"
+                float3 inputs:in1.connect = </Root/SGMatEx06a/MaterialEx06a/ViewDirection.outputs:out>
+                float3 inputs:in2.connect = </Root/SGMatEx06a/MaterialEx06a/Normal.outputs:out>
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-225.67969, 221.05469)
+                float2 ui:nodegraph:node:size = (153.5, 53)
+                int ui:nodegraph:node:stackingOrder = 235
+            }
+
+            def Shader "Range"
+            {
+                uniform token info:id = "ND_range_float"
+                bool inputs:doclamp
+                float inputs:gamma = 0.3
+                float inputs:in.connect = </Root/SGMatEx06a/MaterialEx06a/DotProduct.outputs:out>
+                float inputs:inhigh
+                float inputs:inlow
+                float inputs:outhigh
+                float inputs:outlow
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-30.855469, 203.51953)
+                float2 ui:nodegraph:node:size = (98, 217)
+                int ui:nodegraph:node:stackingOrder = 235
+            }
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "PointLight"
+        {
+            float3 color = (0.3273897, 0.07822741, 0.30332097)
+            uniform token info:id = "RealityKit.PointLight"
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (0.9, 0.9, 0.9)
+                float radius = 0.45
+                token shapeType = "Sphere"
+
+                def RealityKitStruct "pose"
+                {
+                }
             }
         }
     }

@@ -12,12 +12,11 @@ import RealityKitContent
 struct ImmersiveView: View {
 
     @PhysicalMetric(from: .meters) var triangleSize: CGFloat = 1
-
     @PhysicalMetric(from: .meters) var moonSize: CGFloat = 1
 
     var body: some View {
         RealityView { content, attachments in
-            // Add the initial RealityKit content
+
             if let scene = try? await Entity(named: "Immersive", in: realityKitContentBundle) {
                 content.add(scene)
 
@@ -98,11 +97,7 @@ struct ImmersiveView: View {
                 }
                 .frame(width: moonSize, height: moonSize)
 
-
-
-
             })
-
 
             Attachment(id: "bisexuals", {
                 Text("Bisexuals have always existed.")
