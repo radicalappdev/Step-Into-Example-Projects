@@ -662,6 +662,7 @@ def Xform "Root"
                     token sortOrder = "IncreasingDepth"
                     float spreadingAngle = 0
                     float4 startColorA = (0.6710024, 0.00089546974, 0.16192299, 1)
+                    float4 startColorB = (1, 1, 1, 1)
                     float stretchFactor = 0
                     bool useEndColor = 1
                     bool useEndColorRange = 0
