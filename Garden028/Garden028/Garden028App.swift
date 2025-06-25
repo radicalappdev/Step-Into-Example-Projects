@@ -29,7 +29,12 @@ struct Garden028App: App {
             return WindowPlacement(.none)
         }
 
-        
+        ImmersiveSpace(id: "ImmersiveSpace") {
+            ImmersiveSpaceRoot()
+        }
+        // seems to have no effect on immersive spaces
+        // .defaultLaunchBehavior(.suppressed)
+
 
     }
 }
