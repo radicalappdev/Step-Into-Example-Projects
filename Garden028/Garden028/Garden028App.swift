@@ -18,7 +18,6 @@ struct Garden028App: App {
         WindowGroup(id: "UtilityWindow", makeContent: {
             UtilityRoot()
         })
-
         .restorationBehavior(.disabled)
         .defaultLaunchBehavior(.suppressed)
         .defaultSize(CGSize(width: 300, height: 200))

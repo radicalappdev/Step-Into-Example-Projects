@@ -37,6 +37,9 @@ struct ImmersiveView: View {
         }
         .preferredSurroundingsEffect(.colorMultiply(sceneColor))
         .gesture(tap)
+        .onDisappear() {
+            print("EXITING IMMERSIVE SPACE")
+        }
     }
 
     var tap: some Gesture {
