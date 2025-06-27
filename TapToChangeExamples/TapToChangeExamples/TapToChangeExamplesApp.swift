@@ -29,5 +29,6 @@ struct TapToChangeExamplesApp: App {
                 }
         }
         .immersionStyle(selection: .constant(.full), in: .full)
+
     }
 }

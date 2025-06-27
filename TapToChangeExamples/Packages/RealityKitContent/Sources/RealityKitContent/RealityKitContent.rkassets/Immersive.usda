@@ -96,7 +96,6 @@ def Xform "Root"
     }
 
     def "SkyDome" (
-        active = true
         references = @SkyDome.usdz@
     )
     {
