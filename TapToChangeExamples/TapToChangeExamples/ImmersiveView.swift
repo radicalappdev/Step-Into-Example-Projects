@@ -3,7 +3,9 @@
 //  TapToChangeExamples
 //
 //  Created by Joseph Simpson on 6/27/25.
+//  Learn more: https://stepinto.vision/learn-visionos/
 //
+//  Gesture basics: https://stepinto.vision/learn-visionos/#system-gestures
 
 import SwiftUI
 import RealityKit
