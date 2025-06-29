@@ -1,0 +1,15 @@
+{
+  "originHash" : "30a658c415e46488f01a2fe5687ca618cf8a81c6c59d7e434ef772504e83e5f8",
+  "pins" : [
+    {
+      "identity" : "realityui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/maxxfrazer/RealityUI.git",
+      "state" : {
+        "revision" : "b359cb4d0428ea75266929da710efb94a2ee7749",
+        "version" : "1.5.1"
+      }
+    }
+  ],
+  "version" : 3
+}
