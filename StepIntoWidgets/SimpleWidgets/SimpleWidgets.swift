@@ -53,7 +53,7 @@ struct SimpleWidgetsEntryView : View {
                     .position(x: -50, y: -50)
                     .opacity(0.3)
 
-                DisplayLayout(display: entry.configuration.display, text: entry.configuration.display.rawValue, isSimplified: true)
+                DisplayLayout(display: entry.configuration.display, text: entry.configuration.display.rawValue)
             }
         default:
             ZStack {
@@ -61,7 +61,7 @@ struct SimpleWidgetsEntryView : View {
                     .position(x: -50, y: -50)
                     .opacity(0.6)
 
-                DisplayLayout(display: entry.configuration.display, text: entry.configuration.display.rawValue, isSimplified: false)
+                DisplayLayout(display: entry.configuration.display, text: entry.configuration.display.rawValue)
             }
         }
     }
@@ -69,15 +69,10 @@ struct SimpleWidgetsEntryView : View {
 
 struct DisplayTitle: View {
     let text: String
-    let isSimplified: Bool
 
     var body: some View {
-
             Text(text)
                 .font(.system(size: 42, weight: .heavy, design: .rounded))
-                .contentTransition(.numericText(countsDown: true))
-
-
     }
 }
 
@@ -86,30 +81,42 @@ struct DisplayTitle: View {
 struct DisplayLayout: View {
     let display: DisplayOption
     let text: String
-    let isSimplified: Bool
-
-    @Environment(\.widgetRenderingMode) var renderingMode: WidgetRenderingMode
 
     var body: some View {
         GeometryReader { geometry in
 
             switch display {
             case .live:
-                DisplayTitle(text: text, isSimplified: isSimplified)
-                    .position(x: geometry.size.width * 0.25, y: geometry.size.height * 0.25)
+                VStack {
+                    HStack {
+                        DisplayTitle(text: text)
+                        Spacer()
+                    }
+                    Spacer()
+                }
 
             case .laugh:
-                DisplayTitle(text: text, isSimplified: isSimplified)
-                    .position(x: geometry.size.width * 0.5, y: geometry.size.height * 0.5)
+                VStack {
+                    Spacer()
+                    DisplayTitle(text: text)
+                    Spacer()
+                }
 
             case .love:
-                DisplayTitle(text: text, isSimplified: isSimplified)
-                    .position(x: geometry.size.width * 0.75, y: geometry.size.height * 0.75)
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        DisplayTitle(text: text)
+                    }
+                }
             }
         }
     }
 }
 
+/// This will repeat an emoji in a layout larger than the parent view.
+/// Use .position to adjust the starting position
 struct EmojiBackground: View {
     var emoji: String
 
@@ -118,7 +125,6 @@ struct EmojiBackground: View {
             let emojiSize: CGFloat = 24
             let spacing: CGFloat = 4
 
-            // Make the pattern area much larger than the widget
             let patternWidth = geometry.size.width * 3
             let patternHeight = geometry.size.height * 3
 
@@ -137,7 +143,7 @@ struct EmojiBackground: View {
                 }
             }
             .frame(width: patternWidth, height: patternHeight)
-            .offset(x: -patternWidth / 3, y: -patternHeight / 3) // Center the visible portion
+            .offset(x: -patternWidth / 3, y: -patternHeight / 3)
             .clipped()
         }
     }
@@ -149,7 +155,7 @@ struct SimpleWidgets: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
             SimpleWidgetsEntryView(entry: entry)
-                .containerBackground(.background, for: .widget)
+                .containerBackground(.white.gradient, for: .widget)
         }
         .supportedFamilies([.systemSmall])
         .supportedMountingStyles([.elevated, .recessed])
