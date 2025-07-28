@@ -48,15 +48,48 @@ struct SimpleWidgetsEntryView : View {
     var body: some View {
         switch levelOfDetail {
         case .simplified:
-            VStack {
-                Text(entry.configuration.display.rawValue)
-            }
+            ZStack {
+                EmojiBackground(emoji: entry.configuration.emoji)
+                    .position(x: -50, y: -50)
+                    .opacity(0.3)
+
+                DisplyView(display: entry.configuration.display, text: entry.configuration.display.rawValue)
+                                }
         default:
             ZStack {
                 EmojiBackground(emoji: entry.configuration.emoji)
                     .position(x: -50, y: -50)
+                    .opacity(0.6)
 
-                Text(entry.configuration.display.rawValue)
+                DisplyView(display: entry.configuration.display, text: entry.configuration.display.rawValue)
+
+            }
+        }
+    }
+}
+
+struct DisplyView: View {
+    let display: DisplayOption
+    let text: String
+
+    var body: some View {
+        GeometryReader { geometry in
+            switch display {
+            case .live:
+                Text(text)
+                    .font(.system(.title, design: .rounded, weight: .heavy))
+                    .position(x: geometry.size.width * 0.25, y: geometry.size.height * 0.25)
+
+            case .laugh:
+                Text(text)
+                    .font(.system(.title, design: .rounded, weight: .heavy))
+                    .position(x: geometry.size.width * 0.5, y: geometry.size.height * 0.5)
+
+            case .love:
+                Text(text)
+                    .font(.system(.title, design: .rounded, weight: .heavy))
+                    .position(x: geometry.size.width * 0.75, y: geometry.size.height * 0.75)
+
             }
         }
     }
@@ -68,11 +101,11 @@ struct EmojiBackground: View {
     var body: some View {
         GeometryReader { geometry in
             let emojiSize: CGFloat = 20
-            let spacing: CGFloat = 5
+            let spacing: CGFloat = 4
 
             // Make the pattern area much larger than the widget
-            let patternWidth = geometry.size.width * 4
-            let patternHeight = geometry.size.height * 4
+            let patternWidth = geometry.size.width * 3
+            let patternHeight = geometry.size.height * 3
 
             let rows = Int(patternHeight / (emojiSize + spacing))
             let cols = Int(patternWidth / (emojiSize + spacing))
@@ -83,7 +116,6 @@ struct EmojiBackground: View {
                         ForEach(0..<cols, id: \.self) { col in
                             Text(emoji)
                                 .font(.system(size: emojiSize))
-                                .opacity(0.3)
                         }
                     }
                     .offset(x: row % 2 == 0 ? 0 : emojiSize / 2 + spacing / 2)
