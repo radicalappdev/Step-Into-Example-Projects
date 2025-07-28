@@ -67,55 +67,43 @@ struct SimpleWidgetsEntryView : View {
     }
 }
 
-struct TextCircleView: View {
+struct DisplayTitle: View {
     let text: String
     let isSimplified: Bool
-    
+
     var body: some View {
-        ZStack {
-            Circle()
-                .fill(
-                    isSimplified 
-                    ? RadialGradient(
-                        gradient: Gradient(colors: [.white.opacity(0.9), .clear]),
-                        center: .center,
-                        startRadius: 0,
-                        endRadius: 80
-                    )
-                    : RadialGradient(
-                        gradient: Gradient(colors: [.white.opacity(0.9), .white.opacity(0.9)]),
-                        center: .center,
-                        startRadius: 0,
-                        endRadius: 80
-                    )
-                )
-                .frame(width: 80, height: 80)
-                .shadow(color: isSimplified ? .clear : .black.opacity(0.3), radius: 4, x: 0, y: 2)
-            
+
             Text(text)
-                .font(.system(.extraLargeTitle, design: .rounded, weight: .heavy))
-        }
+                .font(.system(size: 42, weight: .heavy, design: .rounded))
+                .contentTransition(.numericText(countsDown: true))
+
+
     }
 }
+
+
 
 struct DisplayLayout: View {
     let display: DisplayOption
     let text: String
     let isSimplified: Bool
 
+    @Environment(\.widgetRenderingMode) var renderingMode: WidgetRenderingMode
+
     var body: some View {
         GeometryReader { geometry in
+
             switch display {
             case .live:
-                TextCircleView(text: text, isSimplified: isSimplified)
+                DisplayTitle(text: text, isSimplified: isSimplified)
                     .position(x: geometry.size.width * 0.25, y: geometry.size.height * 0.25)
 
             case .laugh:
-                TextCircleView(text: text, isSimplified: isSimplified)
+                DisplayTitle(text: text, isSimplified: isSimplified)
                     .position(x: geometry.size.width * 0.5, y: geometry.size.height * 0.5)
 
             case .love:
-                TextCircleView(text: text, isSimplified: isSimplified)
+                DisplayTitle(text: text, isSimplified: isSimplified)
                     .position(x: geometry.size.width * 0.75, y: geometry.size.height * 0.75)
             }
         }
@@ -161,9 +149,11 @@ struct SimpleWidgets: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
             SimpleWidgetsEntryView(entry: entry)
+                .containerBackground(.background, for: .widget)
         }
         .supportedFamilies([.systemSmall])
         .supportedMountingStyles([.elevated, .recessed])
+
         .widgetTexture(.paper)
     }
 }
