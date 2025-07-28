@@ -53,8 +53,45 @@ struct SimpleWidgetsEntryView : View {
             }
         default:
             ZStack {
+                EmojiBackground(emoji: entry.configuration.emoji)
+                    .position(x: -50, y: -50)
+
                 Text(entry.configuration.display.rawValue)
             }
+        }
+    }
+}
+
+struct EmojiBackground: View {
+    var emoji: String
+
+    var body: some View {
+        GeometryReader { geometry in
+            let emojiSize: CGFloat = 20
+            let spacing: CGFloat = 5
+
+            // Make the pattern area much larger than the widget
+            let patternWidth = geometry.size.width * 4
+            let patternHeight = geometry.size.height * 4
+
+            let rows = Int(patternHeight / (emojiSize + spacing))
+            let cols = Int(patternWidth / (emojiSize + spacing))
+
+            VStack(spacing: spacing) {
+                ForEach(0..<rows, id: \.self) { row in
+                    HStack(spacing: spacing) {
+                        ForEach(0..<cols, id: \.self) { col in
+                            Text(emoji)
+                                .font(.system(size: emojiSize))
+                                .opacity(0.3)
+                        }
+                    }
+                    .offset(x: row % 2 == 0 ? 0 : emojiSize / 2 + spacing / 2)
+                }
+            }
+            .frame(width: patternWidth, height: patternHeight)
+            .offset(x: -patternWidth / 3, y: -patternHeight / 3) // Center the visible portion
+            .clipped()
         }
     }
 }
@@ -65,7 +102,6 @@ struct SimpleWidgets: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
             SimpleWidgetsEntryView(entry: entry)
-                .containerBackground(.white.gradient, for: .widget)
         }
         .supportedFamilies([.systemSmall])
         .supportedMountingStyles([.elevated, .recessed])
