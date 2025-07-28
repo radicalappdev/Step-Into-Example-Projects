@@ -46,50 +46,77 @@ struct SimpleWidgetsEntryView : View {
     @Environment(\.levelOfDetail) var levelOfDetail: LevelOfDetail
 
     var body: some View {
-        switch levelOfDetail {
+                switch levelOfDetail {
         case .simplified:
             ZStack {
                 EmojiBackground(emoji: entry.configuration.emoji)
                     .position(x: -50, y: -50)
                     .opacity(0.3)
 
-                DisplyView(display: entry.configuration.display, text: entry.configuration.display.rawValue)
-                                }
+                DisplayLayout(display: entry.configuration.display, text: entry.configuration.display.rawValue, isSimplified: true)
+            }
         default:
             ZStack {
                 EmojiBackground(emoji: entry.configuration.emoji)
                     .position(x: -50, y: -50)
                     .opacity(0.6)
 
-                DisplyView(display: entry.configuration.display, text: entry.configuration.display.rawValue)
-
+                DisplayLayout(display: entry.configuration.display, text: entry.configuration.display.rawValue, isSimplified: false)
             }
         }
     }
 }
 
-struct DisplyView: View {
+struct TextCircleView: View {
+    let text: String
+    let isSimplified: Bool
+    
+    var body: some View {
+        ZStack {
+            Circle()
+                .fill(
+                    isSimplified 
+                    ? RadialGradient(
+                        gradient: Gradient(colors: [.white.opacity(0.9), .clear]),
+                        center: .center,
+                        startRadius: 0,
+                        endRadius: 80
+                    )
+                    : RadialGradient(
+                        gradient: Gradient(colors: [.white.opacity(0.9), .white.opacity(0.9)]),
+                        center: .center,
+                        startRadius: 0,
+                        endRadius: 80
+                    )
+                )
+                .frame(width: 80, height: 80)
+                .shadow(color: isSimplified ? .clear : .black.opacity(0.3), radius: 4, x: 0, y: 2)
+            
+            Text(text)
+                .font(.system(.extraLargeTitle, design: .rounded, weight: .heavy))
+        }
+    }
+}
+
+struct DisplayLayout: View {
     let display: DisplayOption
     let text: String
+    let isSimplified: Bool
 
     var body: some View {
         GeometryReader { geometry in
             switch display {
             case .live:
-                Text(text)
-                    .font(.system(.title, design: .rounded, weight: .heavy))
+                TextCircleView(text: text, isSimplified: isSimplified)
                     .position(x: geometry.size.width * 0.25, y: geometry.size.height * 0.25)
 
             case .laugh:
-                Text(text)
-                    .font(.system(.title, design: .rounded, weight: .heavy))
+                TextCircleView(text: text, isSimplified: isSimplified)
                     .position(x: geometry.size.width * 0.5, y: geometry.size.height * 0.5)
 
             case .love:
-                Text(text)
-                    .font(.system(.title, design: .rounded, weight: .heavy))
+                TextCircleView(text: text, isSimplified: isSimplified)
                     .position(x: geometry.size.width * 0.75, y: geometry.size.height * 0.75)
-
             }
         }
     }
@@ -100,7 +127,7 @@ struct EmojiBackground: View {
 
     var body: some View {
         GeometryReader { geometry in
-            let emojiSize: CGFloat = 20
+            let emojiSize: CGFloat = 24
             let spacing: CGFloat = 4
 
             // Make the pattern area much larger than the widget
