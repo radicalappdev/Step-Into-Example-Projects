@@ -41,9 +41,6 @@ struct EmojiConfigurationAppIntent: WidgetConfigurationIntent {
 
     @Parameter(title: "Emoji", default: "🌟")
     var emoji: String
-    
-    @Parameter(title: "Count", default: 3)
-    var count: Int
 }
 
 struct IncrementCountIntent: AppIntent {

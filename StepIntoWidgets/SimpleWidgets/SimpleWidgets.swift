@@ -170,14 +170,11 @@ struct SimpleWidgets: Widget {
 struct EmojiProvider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> EmojiEntry {
         let config = EmojiConfigurationAppIntent()
-        config.count = getStoredCount()
         return EmojiEntry(date: Date(), configuration: config)
     }
 
     func snapshot(for configuration: EmojiConfigurationAppIntent, in context: Context) async -> EmojiEntry {
-        let config = EmojiConfigurationAppIntent()
-        config.count = getStoredCount()
-        return EmojiEntry(date: Date(), configuration: config)
+        return EmojiEntry(date: Date(), configuration: configuration)
     }
     
     func timeline(for configuration: EmojiConfigurationAppIntent, in context: Context) async -> Timeline<EmojiEntry> {
@@ -187,9 +184,7 @@ struct EmojiProvider: AppIntentTimelineProvider {
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let config = EmojiConfigurationAppIntent()
-            config.count = getStoredCount()
-            let entry = EmojiEntry(date: entryDate, configuration: config)
+            let entry = EmojiEntry(date: entryDate, configuration: configuration)
             entries.append(entry)
         }
 
@@ -214,6 +209,11 @@ struct EmojiEntry: TimelineEntry {
 struct EmojiWidgetEntryView: View {
     var entry: EmojiProvider.Entry
     @Environment(\.levelOfDetail) var levelOfDetail: LevelOfDetail
+    
+    private var storedCount: Int {
+        let count = UserDefaults.standard.integer(forKey: "EmojiWidgetCount")
+        return count > 0 ? count : 3 // Default to 3 if no count stored
+    }
 
     var body: some View {
         ZStack {
@@ -225,14 +225,14 @@ struct EmojiWidgetEntryView: View {
             )
 
             VStack {
-                // Radial emoji layout
-                RadialLayout(angleOffset: .degrees(0)) {
-                    ForEach(0..<max(1, entry.configuration.count), id: \.self) { index in
-                        Text(entry.configuration.emoji)
-                            .font(.system(size: levelOfDetail == .simplified ? 30 : 40, weight: .medium))
-                            .shadow(color: .black.opacity(0.2), radius: 2, x: 1, y: 1)
-                    }
+                            // Radial emoji layout
+            RadialLayout(angleOffset: .degrees(0)) {
+                ForEach(0..<max(1, storedCount), id: \.self) { index in
+                    Text(entry.configuration.emoji)
+                        .font(.system(size: levelOfDetail == .simplified ? 30 : 40, weight: .medium))
+                        .shadow(color: .black.opacity(0.2), radius: 2, x: 1, y: 1)
                 }
+            }
                 .padding()
                 Spacer()
             }
