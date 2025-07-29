@@ -196,10 +196,6 @@ struct EmojiProvider: AppIntentTimelineProvider {
         return []
     }
     
-    private func getStoredCount() -> Int {
-        let count = UserDefaults.standard.integer(forKey: "EmojiWidgetCount")
-        return count > 0 ? count : 3 // Default to 3 if no count stored
-    }
 }
 
 struct EmojiEntry: TimelineEntry {
@@ -226,22 +222,22 @@ struct EmojiWidgetEntryView: View {
             )
 
             VStack {
-                            // Radial emoji layout
-            RadialLayout(angleOffset: .degrees(0)) {
-                ForEach(0..<max(1, storedCount), id: \.self) { index in
-                    Text(entry.configuration.emoji)
-                        .font(.system(size: levelOfDetail == .simplified ? 30 : 40, weight: .medium))
-                        .shadow(color: .black.opacity(0.2), radius: 2, x: 1, y: 1)
+                // Radial emoji layout
+                RadialLayout(angleOffset: .degrees(0)) {
+                    ForEach(0..<max(1, storedCount), id: \.self) { index in
+                        Text(entry.configuration.emoji)
+                            .font(.system(size: levelOfDetail == .simplified ? 30 : 40, weight: .medium))
+                            .shadow(color: .black.opacity(0.2), radius: 2, x: 1, y: 1)
+                    }
                 }
-            }
                 .padding()
                 Spacer()
             }
-            
+
             // Interactive buttons
             VStack {
                 Spacer()
-                HStack {
+                HStack(spacing: 12) {
                     Button(intent: DecrementCountIntent()) {
                         Image(systemName: "minus.circle.fill")
                             .font(.extraLargeTitle2)
@@ -250,9 +246,7 @@ struct EmojiWidgetEntryView: View {
                             .background(Circle().fill(Color.black.opacity(0.3)))
                     }
                     .buttonStyle(.plain)
-                    
-                    Spacer()
-                    
+
                     Button(intent: IncrementCountIntent()) {
                         Image(systemName: "plus.circle.fill")
                             .font(.extraLargeTitle2)
@@ -262,8 +256,7 @@ struct EmojiWidgetEntryView: View {
                     }
                     .buttonStyle(.plain)
                 }
-                .padding(.horizontal)
-                .padding(.bottom, 8)
+                .padding()
             }
         }
     }
@@ -331,3 +324,6 @@ fileprivate struct RadialLayout: Layout, Animatable {
         set { angleOffset.animatableData = newValue }
     }
 }
+
+
+
