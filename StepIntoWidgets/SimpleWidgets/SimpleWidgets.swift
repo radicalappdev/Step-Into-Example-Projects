@@ -223,14 +223,18 @@ struct EmojiWidgetEntryView: View {
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
-            
-            // Radial emoji layout
-            RadialLayout(angleOffset: .degrees(0)) {
-                ForEach(0..<max(1, entry.configuration.count), id: \.self) { index in
-                    Text(entry.configuration.emoji)
-                        .font(.system(size: levelOfDetail == .simplified ? 30 : 40, weight: .medium))
-                        .shadow(color: .black.opacity(0.2), radius: 2, x: 1, y: 1)
+
+            VStack {
+                // Radial emoji layout
+                RadialLayout(angleOffset: .degrees(0)) {
+                    ForEach(0..<max(1, entry.configuration.count), id: \.self) { index in
+                        Text(entry.configuration.emoji)
+                            .font(.system(size: levelOfDetail == .simplified ? 30 : 40, weight: .medium))
+                            .shadow(color: .black.opacity(0.2), radius: 2, x: 1, y: 1)
+                    }
                 }
+                .padding()
+                Spacer()
             }
             
             // Interactive buttons
@@ -239,7 +243,8 @@ struct EmojiWidgetEntryView: View {
                 HStack {
                     Button(intent: DecrementCountIntent()) {
                         Image(systemName: "minus.circle.fill")
-                            .font(.title2)
+                            .font(.extraLargeTitle2)
+                            .padding(8)
                             .foregroundColor(.white)
                             .background(Circle().fill(Color.black.opacity(0.3)))
                     }
@@ -249,7 +254,8 @@ struct EmojiWidgetEntryView: View {
                     
                     Button(intent: IncrementCountIntent()) {
                         Image(systemName: "plus.circle.fill")
-                            .font(.title2)
+                            .font(.extraLargeTitle2)
+                            .padding(8)
                             .foregroundColor(.white)
                             .background(Circle().fill(Color.black.opacity(0.3)))
                     }
@@ -270,7 +276,7 @@ struct EmojiWidget: Widget {
             EmojiWidgetEntryView(entry: entry)
                 .containerBackground(.white.gradient, for: .widget)
         }
-        .supportedFamilies([.systemSmall])
+        .supportedFamilies([.systemExtraLargePortrait])
         .supportedMountingStyles([.elevated, .recessed])
         .widgetTexture(.paper)
         .configurationDisplayName("Emoji Widget")
