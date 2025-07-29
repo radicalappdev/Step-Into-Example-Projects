@@ -34,3 +34,11 @@ struct ConfigurationAppIntent: WidgetConfigurationIntent {
     @Parameter(title: "Emoji", default: "🌸")
     var emoji: String
 }
+
+struct EmojiConfigurationAppIntent: WidgetConfigurationIntent {
+    static var title: LocalizedStringResource { "Emoji Configuration" }
+    static var description: IntentDescription { "Choose an emoji to display" }
+
+    @Parameter(title: "Emoji", default: "🌟")
+    var emoji: String
+}
