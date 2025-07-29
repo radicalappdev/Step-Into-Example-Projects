@@ -41,4 +41,41 @@ struct EmojiConfigurationAppIntent: WidgetConfigurationIntent {
 
     @Parameter(title: "Emoji", default: "🌟")
     var emoji: String
+    
+    @Parameter(title: "Count", default: 3)
+    var count: Int
+}
+
+struct IncrementCountIntent: AppIntent {
+    static var title: LocalizedStringResource = "Increment Count"
+    static var description: IntentDescription = "Increase the emoji count by 1"
+    
+    func perform() async throws -> some IntentResult {
+        // Get current count from UserDefaults and increment
+        let currentCount = UserDefaults.standard.integer(forKey: "EmojiWidgetCount")
+        let newCount = min(currentCount + 1, 12)
+        UserDefaults.standard.set(newCount, forKey: "EmojiWidgetCount")
+        
+        // Reload the widget timeline
+        WidgetCenter.shared.reloadTimelines(ofKind: "EmojiWidget")
+        
+        return .result()
+    }
+}
+
+struct DecrementCountIntent: AppIntent {
+    static var title: LocalizedStringResource = "Decrement Count"
+    static var description: IntentDescription = "Decrease the emoji count by 1"
+    
+    func perform() async throws -> some IntentResult {
+        // Get current count from UserDefaults and decrement
+        let currentCount = UserDefaults.standard.integer(forKey: "EmojiWidgetCount")
+        let newCount = max(currentCount - 1, 1)
+        UserDefaults.standard.set(newCount, forKey: "EmojiWidgetCount")
+        
+        // Reload the widget timeline
+        WidgetCenter.shared.reloadTimelines(ofKind: "EmojiWidget")
+        
+        return .result()
+    }
 }

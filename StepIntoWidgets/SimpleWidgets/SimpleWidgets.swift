@@ -7,6 +7,7 @@
 
 import WidgetKit
 import SwiftUI
+import AppIntents
 
 struct Provider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
@@ -168,11 +169,15 @@ struct SimpleWidgets: Widget {
 
 struct EmojiProvider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> EmojiEntry {
-        EmojiEntry(date: Date(), configuration: EmojiConfigurationAppIntent())
+        let config = EmojiConfigurationAppIntent()
+        config.count = getStoredCount()
+        return EmojiEntry(date: Date(), configuration: config)
     }
 
     func snapshot(for configuration: EmojiConfigurationAppIntent, in context: Context) async -> EmojiEntry {
-        EmojiEntry(date: Date(), configuration: configuration)
+        let config = EmojiConfigurationAppIntent()
+        config.count = getStoredCount()
+        return EmojiEntry(date: Date(), configuration: config)
     }
     
     func timeline(for configuration: EmojiConfigurationAppIntent, in context: Context) async -> Timeline<EmojiEntry> {
@@ -182,11 +187,22 @@ struct EmojiProvider: AppIntentTimelineProvider {
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = EmojiEntry(date: entryDate, configuration: configuration)
+            let config = EmojiConfigurationAppIntent()
+            config.count = getStoredCount()
+            let entry = EmojiEntry(date: entryDate, configuration: config)
             entries.append(entry)
         }
 
         return Timeline(entries: entries, policy: .atEnd)
+    }
+    
+    func recommendations(for configuration: EmojiConfigurationAppIntent, in context: Context) async -> [EmojiConfigurationAppIntent] {
+        return []
+    }
+    
+    private func getStoredCount() -> Int {
+        let count = UserDefaults.standard.integer(forKey: "EmojiWidgetCount")
+        return count > 0 ? count : 3 // Default to 3 if no count stored
     }
 }
 
@@ -208,10 +224,40 @@ struct EmojiWidgetEntryView: View {
                 endPoint: .bottomTrailing
             )
             
-            // Emoji display
-            Text(entry.configuration.emoji)
-                .font(.system(size: levelOfDetail == .simplified ? 60 : 80, weight: .medium))
-                .shadow(color: .black.opacity(0.2), radius: 2, x: 1, y: 1)
+            // Radial emoji layout
+            RadialLayout(angleOffset: .degrees(0)) {
+                ForEach(0..<max(1, entry.configuration.count), id: \.self) { index in
+                    Text(entry.configuration.emoji)
+                        .font(.system(size: levelOfDetail == .simplified ? 30 : 40, weight: .medium))
+                        .shadow(color: .black.opacity(0.2), radius: 2, x: 1, y: 1)
+                }
+            }
+            
+            // Interactive buttons
+            VStack {
+                Spacer()
+                HStack {
+                    Button(intent: DecrementCountIntent()) {
+                        Image(systemName: "minus.circle.fill")
+                            .font(.title2)
+                            .foregroundColor(.white)
+                            .background(Circle().fill(Color.black.opacity(0.3)))
+                    }
+                    .buttonStyle(.plain)
+                    
+                    Spacer()
+                    
+                    Button(intent: IncrementCountIntent()) {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.title2)
+                            .foregroundColor(.white)
+                            .background(Circle().fill(Color.black.opacity(0.3)))
+                    }
+                    .buttonStyle(.plain)
+                }
+                .padding(.horizontal)
+                .padding(.bottom, 8)
+            }
         }
     }
 }
@@ -227,6 +273,9 @@ struct EmojiWidget: Widget {
         .supportedFamilies([.systemSmall])
         .supportedMountingStyles([.elevated, .recessed])
         .widgetTexture(.paper)
+        .configurationDisplayName("Emoji Widget")
+        .description("Display emojis in a radial layout")
+        .contentMarginsDisabled()
     }
 }
 
