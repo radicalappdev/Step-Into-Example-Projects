@@ -160,8 +160,9 @@ struct SimpleWidgets: Widget {
         }
         .supportedFamilies([.systemSmall])
         .supportedMountingStyles([.elevated, .recessed])
-
         .widgetTexture(.paper)
+        .configurationDisplayName("Basic Widget")
+        .description("Display Live, Laugh, or Love")
     }
 }
 
@@ -279,8 +280,8 @@ struct EmojiWidget: Widget {
         .supportedFamilies([.systemExtraLargePortrait])
         .supportedMountingStyles([.elevated, .recessed])
         .widgetTexture(.paper)
-        .configurationDisplayName("Emoji Widget")
-        .description("Display emojis in a radial layout")
+        .configurationDisplayName("Emoji Circle")
+        .description("Adjust the number of emojis in a radial layout")
         .contentMarginsDisabled()
     }
 }
