@@ -67,10 +67,23 @@ struct ClockWidgetEntryView: View {
 }
 
 fileprivate struct ClockView: View {
-    @State private var currentSecond: Int = 0
-    @State private var currentHour: Int = 0
-    @State private var currentMinute: Int = 0
-    @State private var timer: Timer?
+    let currentTime: Date
+    
+    init() {
+        self.currentTime = Date()
+    }
+    
+    private var currentSecond: Int {
+        Calendar.current.component(.second, from: currentTime)
+    }
+    
+    private var currentHour: Int {
+        Calendar.current.component(.hour, from: currentTime) % 12
+    }
+    
+    private var currentMinute: Int {
+        Calendar.current.component(.minute, from: currentTime)
+    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -94,7 +107,6 @@ fileprivate struct ClockView: View {
                             .opacity(index == currentSecond ? 1.0 : 0.25)
                             .offset(z: index == currentSecond ? 5 : 0)
                             .shadow(radius: index == currentSecond ? 5 : 0, x: 0.0, y: 0.0)
-                            .animation(.easeInOut(duration: 0.5), value: currentSecond)
                             .id(index)
                     }
                 }
@@ -124,54 +136,6 @@ fileprivate struct ClockView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .onAppear {
-            startTimer()
-        }
-        .onDisappear {
-            stopTimer()
-        }
-    }
-
-    private func startTimer() {
-        // Update to current time immediately
-        updateTime()
-
-        // Calculate time until next second starts
-        scheduleNextUpdate()
-    }
-
-    private func updateTime() {
-        let calendar = Calendar.current
-        let now = Date().addingTimeInterval(0.1) // Add small offset to get current time
-        currentSecond = calendar.component(.second, from: now)
-        currentHour = calendar.component(.hour, from: now) % 12
-        currentMinute = calendar.component(.minute, from: now)
-    }
-
-    private func scheduleNextUpdate() {
-        // Get the current second interval
-        let now = Date()
-        guard let currentSecondInterval = Calendar.current.dateInterval(of: .second, for: now) else { return }
-
-        // Calculate time until the start of the next second
-        let nextSecondStart = currentSecondInterval.end
-        let timeUntilNextSecond = nextSecondStart.timeIntervalSinceNow
-
-        // Schedule update at the exact start of the next second
-        DispatchQueue.main.asyncAfter(deadline: .now() + timeUntilNextSecond) {
-            // Get time immediately when this fires
-            let calendar = Calendar.current
-            let currentTime = Date()
-            self.currentSecond = calendar.component(.second, from: currentTime)
-            self.currentHour = calendar.component(.hour, from: currentTime) % 12
-            self.currentMinute = calendar.component(.minute, from: currentTime)
-            self.scheduleNextUpdate() // Schedule the next update
-        }
-    }
-
-    private func stopTimer() {
-        timer?.invalidate()
-        timer = nil
     }
 }
 
