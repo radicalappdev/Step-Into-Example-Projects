@@ -50,22 +50,24 @@ struct ClockWidgetEntryView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(
-                colors: [.stepBackgroundPrimary, .stepBackgroundSecondary],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
+
+            RadialGradient(
+                colors: [.stepBackgroundSecondary, .stepGreen],
+                center: .center,
+                startRadius: 0.0,
+                endRadius: 200
             )
+
             switch levelOfDetail {
             case .simplified:
                 ClockView(showSeconds: false)
                     .offset(z: 10)
-                    .padding(.vertical, 20)
+                    .padding(.vertical, 6)
 
             default:
-
                 ClockView()
                     .offset(z: 10)
-                    .padding(.vertical, 20)
+                    .padding(.vertical, 6)
             }
         }
     }
