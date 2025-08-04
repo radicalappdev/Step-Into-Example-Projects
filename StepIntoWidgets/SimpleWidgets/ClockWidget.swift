@@ -55,13 +55,9 @@ struct ClockWidgetEntryView: View {
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
-
-            VStack {
-                ClockView()
-                    .offset(z: 10)
-                    .padding(.vertical, 20)
-                    .manipulable()
-            }
+            ClockView()
+                .offset(z: 10)
+                .padding(.vertical, 20)
         }
     }
 }
@@ -87,54 +83,63 @@ fileprivate struct ClockView: View {
 
     var body: some View {
         GeometryReader { geometry in
+            let size = min(geometry.size.width, geometry.size.height)
+            let scale = size / 200 // Base scale for a 200pt reference size
+            
             ZStack {
+                // Background circle
                 Circle()
                     .fill(.stepGreen)
+                    .frame(width: size * 0.9, height: size * 0.9)
+                
+                // Hour numbers
                 RadialLayout(angleOffset: .degrees(180)) {
                     ForEach([12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], id: \.self) { hour in
                         Text("\(hour)")
-                            .font(.system(size: 20, weight: .bold))
+                            .font(.system(size: 16 * scale, weight: .bold))
                             .foregroundColor(.stepBackgroundPrimary)
-                            .scaleEffect(min(geometry.size.width, geometry.size.height) / 400)
                     }
                 }
+                .frame(width: size * 0.8, height: size * 0.8)
 
+                // Second markers
                 RadialLayout(angleOffset: .degrees(180)) {
                     ForEach(0..<60, id: \.self) { index in
                         Circle()
                             .fill(.stepBackgroundSecondary)
-                            .scaleEffect(index == currentSecond ? 2.0 : 1.0)
+                            .frame(width: index == currentSecond ? 6 * scale : 3 * scale, 
+                                   height: index == currentSecond ? 6 * scale : 3 * scale)
                             .opacity(index == currentSecond ? 1.0 : 0.25)
                             .offset(z: index == currentSecond ? 5 : 0)
-                            .shadow(radius: index == currentSecond ? 5 : 0, x: 0.0, y: 0.0)
+                            .shadow(radius: index == currentSecond ? 3 : 0, x: 0.0, y: 0.0)
                             .id(index)
                     }
                 }
-                .scaleEffect(0.74)
+                .frame(width: size * 0.6, height: size * 0.6)
 
+                // Clock hands
                 ZStack {
                     // Hour hand
                     Rectangle()
                         .fill(.stepBackgroundSecondary)
-                        .frame(width: 6, height: 80)
-                        .offset(y: -40)
+                        .frame(width: 4 * scale, height: 50 * scale)
+                        .offset(y: -25 * scale)
                         .offset(z: 5)
                         .rotationEffect(.degrees(Double(currentHour) * 30 + Double(currentMinute) * 0.5))
                         .shadow(radius: 1, x: 0.0, y: 0.0)
-                        .scaleEffect(min(geometry.size.width, geometry.size.height) / 400)
 
                     // Minute hand
                     Rectangle()
                         .fill(.stepBackgroundSecondary)
-                        .frame(width: 4, height: 100)
-                        .offset(y: -40)
+                        .frame(width: 3 * scale, height: 70 * scale)
+                        .offset(y: -35 * scale)
                         .offset(z: 3)
                         .rotationEffect(.degrees(Double(currentMinute) * 6))
                         .shadow(radius: 1, x: 0.0, y: 0.0)
-                        .scaleEffect(min(geometry.size.width, geometry.size.height) / 400)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+
         }
     }
 }
