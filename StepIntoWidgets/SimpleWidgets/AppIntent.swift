@@ -76,3 +76,11 @@ struct DecrementCountIntent: AppIntent {
         return .result()
     }
 }
+
+struct ClockConfigurationAppIntent: WidgetConfigurationIntent {
+    static var title: LocalizedStringResource { "Clock Face Message" }
+    static var description: IntentDescription { "Enter a short message to display on the clock face" }
+
+    @Parameter(title: "Message", default: "🌟")
+    var message: String
+}
