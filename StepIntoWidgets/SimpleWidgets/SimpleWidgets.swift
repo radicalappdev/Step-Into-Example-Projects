@@ -50,7 +50,7 @@ struct SimpleWidgetsEntryView : View {
                 switch levelOfDetail {
         case .simplified:
             ZStack {
-                EmojiBackground(emoji: entry.configuration.emoji)
+                SimpleWidgetBackground(emoji: entry.configuration.emoji)
                     .position(x: -50, y: -50)
                     .opacity(0.3)
 
@@ -58,7 +58,7 @@ struct SimpleWidgetsEntryView : View {
             }
         default:
             ZStack {
-                EmojiBackground(emoji: entry.configuration.emoji)
+                SimpleWidgetBackground(emoji: entry.configuration.emoji)
                     .position(x: -50, y: -50)
                     .opacity(0.6)
 
@@ -76,8 +76,6 @@ struct DisplayTitle: View {
                 .font(.system(size: 42, weight: .heavy, design: .rounded))
     }
 }
-
-
 
 struct DisplayLayout: View {
     let display: DisplayOption
@@ -118,7 +116,7 @@ struct DisplayLayout: View {
 
 /// This will repeat an emoji in a layout larger than the parent view.
 /// Use .position to adjust the starting position
-struct EmojiBackground: View {
+struct SimpleWidgetBackground: View {
     var emoji: String
 
     var body: some View {
@@ -165,165 +163,3 @@ struct SimpleWidgets: Widget {
         .description("Display Live, Laugh, or Love")
     }
 }
-
-// MARK: - Emoji Widget
-
-struct EmojiProvider: AppIntentTimelineProvider {
-    func placeholder(in context: Context) -> EmojiEntry {
-        let config = EmojiConfigurationAppIntent()
-        return EmojiEntry(date: Date(), configuration: config)
-    }
-
-    func snapshot(for configuration: EmojiConfigurationAppIntent, in context: Context) async -> EmojiEntry {
-        return EmojiEntry(date: Date(), configuration: configuration)
-    }
-    
-    func timeline(for configuration: EmojiConfigurationAppIntent, in context: Context) async -> Timeline<EmojiEntry> {
-        var entries: [EmojiEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = EmojiEntry(date: entryDate, configuration: configuration)
-            entries.append(entry)
-        }
-
-        return Timeline(entries: entries, policy: .atEnd)
-    }
-    
-    func recommendations(for configuration: EmojiConfigurationAppIntent, in context: Context) async -> [EmojiConfigurationAppIntent] {
-        return []
-    }
-    
-}
-
-struct EmojiEntry: TimelineEntry {
-    let date: Date
-    let configuration: EmojiConfigurationAppIntent
-}
-
-struct EmojiWidgetEntryView: View {
-    var entry: EmojiProvider.Entry
-    @Environment(\.levelOfDetail) var levelOfDetail: LevelOfDetail
-    
-    private var storedCount: Int {
-        let count = UserDefaults.standard.integer(forKey: "EmojiWidgetCount")
-        return count > 0 ? count : 3 // Default to 3 if no count stored
-    }
-
-    var body: some View {
-        ZStack {
-            // Background gradient
-            LinearGradient(
-                colors: [.blue.opacity(0.3), .purple.opacity(0.3)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-
-            VStack {
-                // Radial emoji layout
-                RadialLayout(angleOffset: .degrees(0)) {
-                    ForEach(0..<max(1, storedCount), id: \.self) { index in
-                        Text(entry.configuration.emoji)
-                            .font(.system(size: levelOfDetail == .simplified ? 30 : 40, weight: .medium))
-                            .shadow(color: .black.opacity(0.2), radius: 2, x: 1, y: 1)
-                    }
-                }
-                .padding()
-                Spacer()
-            }
-
-            // Interactive buttons
-            VStack {
-                Spacer()
-                HStack(spacing: 12) {
-                    Button(intent: DecrementCountIntent()) {
-                        Image(systemName: "minus.circle.fill")
-                            .font(.extraLargeTitle2)
-                            .padding(8)
-                            .foregroundColor(.white)
-                            .background(Circle().fill(Color.black.opacity(0.3)))
-                    }
-                    .buttonStyle(.plain)
-
-                    Button(intent: IncrementCountIntent()) {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.extraLargeTitle2)
-                            .padding(8)
-                            .foregroundColor(.white)
-                            .background(Circle().fill(Color.black.opacity(0.3)))
-                    }
-                    .buttonStyle(.plain)
-                }
-                .padding()
-            }
-        }
-    }
-}
-
-struct EmojiWidget: Widget {
-    let kind: String = "EmojiWidget"
-
-    var body: some WidgetConfiguration {
-        AppIntentConfiguration(kind: kind, intent: EmojiConfigurationAppIntent.self, provider: EmojiProvider()) { entry in
-            EmojiWidgetEntryView(entry: entry)
-                .containerBackground(.white.gradient, for: .widget)
-        }
-        .supportedFamilies([.systemExtraLargePortrait])
-        .supportedMountingStyles([.elevated, .recessed])
-        .widgetTexture(.paper)
-        .configurationDisplayName("Emoji Circle")
-        .description("Adjust the number of emojis in a radial layout")
-        .contentMarginsDisabled()
-    }
-}
-
-// Taken from Canyon Crosser from WWDC 2025
-// For information on custom layouts, watch https://developer.apple.com/videos/play/wwdc2022/10056.
-fileprivate struct RadialLayout: Layout, Animatable {
-    var angleOffset: Angle = .zero
-
-    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-        let updatedProposal = proposal.replacingUnspecifiedDimensions()
-        let minDim = min(updatedProposal.width, updatedProposal.height)
-        return CGSize(width: minDim, height: minDim)
-    }
-
-    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-        guard subviews.count > 1 else {
-            subviews[0].place(
-                at: .init(x: bounds.midX, y: bounds.midY),
-                anchor: .center,
-                proposal: proposal)
-            return
-        }
-        let minDimension = min(bounds.width, bounds.height)
-        let subViewDim = minDimension / CGFloat((subviews.count / 2) + 1)
-        let radius = min(bounds.width, bounds.height) / 2
-        let placementRadius = radius - (subViewDim / 2)
-        let center = CGPoint(x: bounds.midX, y: bounds.midY)
-        let angleIncrement = 2 * .pi / CGFloat(subviews.count)
-        let centerOffset = Double.pi / 2 // Centers the view.
-
-        for (index, subview) in subviews.enumerated() {
-            let angle = angleIncrement * CGFloat(index) + angleOffset.radians + centerOffset
-
-            let xPosition = center.x + (placementRadius * cos(angle))
-            let yPosition = center.y + (placementRadius * sin(angle))
-
-            let point = CGPoint(x: xPosition, y: yPosition)
-            subview.place(
-                at: point, anchor: .center,
-                proposal: .init(width: subViewDim, height: subViewDim))
-        }
-    }
-
-    var animatableData: Angle.AnimatableData {
-        get { angleOffset.animatableData }
-        set { angleOffset.animatableData = newValue }
-    }
-}
-
-
-
