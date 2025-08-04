@@ -22,10 +22,10 @@ struct ClockProvider: AppIntentTimelineProvider {
     func timeline(for configuration: ClockConfigurationAppIntent, in context: Context) async -> Timeline<ClockEntry> {
         var entries: [ClockEntry] = []
 
-        // Generate a timeline with entries every half second for the next 30 seconds
+        // Generate a timeline with entries every second for the next minute
         let currentDate = Date()
-        for halfSecondOffset in 0 ..< 60 {
-            let entryDate = currentDate.addingTimeInterval(TimeInterval(halfSecondOffset) * 0.5)
+        for secondOffset in 0 ..< 60 {
+            let entryDate = Calendar.current.date(byAdding: .second, value: secondOffset, to: currentDate)!
             let entry = ClockEntry(date: entryDate, configuration: configuration)
             entries.append(entry)
         }
