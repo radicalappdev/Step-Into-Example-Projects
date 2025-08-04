@@ -102,12 +102,12 @@ fileprivate struct ClockView: View {
         Calendar.current.component(.second, from: currentTime)
     }
     
-    private var currentHour: Int {
-        Calendar.current.component(.hour, from: currentTime) % 12
-    }
-    
     private var currentMinute: Int {
         Calendar.current.component(.minute, from: currentTime)
+    }
+
+    private var currentHour: Int {
+        Calendar.current.component(.hour, from: currentTime) % 12
     }
 
     var body: some View {
@@ -141,7 +141,7 @@ fileprivate struct ClockView: View {
                                        height: index == currentSecond ? 6 * scale : 3 * scale)
                                 .opacity(index == currentSecond ? 1.0 : 0.25)
                                 .offset(z: index == currentSecond ? 5 : 0)
-                                .animation(.easeInOut(duration: 0.5), value: currentSecond)
+//                                .animation(.easeInOut(duration: 0.5), value: currentSecond)
                                 .shadow(radius: index == currentSecond ? 3 : 0, x: 0.0, y: 0.0)
                                 .id(index)
                         }
