@@ -48,58 +48,130 @@ struct ClockWidgetEntryView: View {
     var entry: ClockProvider.Entry
     @Environment(\.levelOfDetail) var levelOfDetail: LevelOfDetail
 
-    private var storedCount: Int {
-        let count = UserDefaults.standard.integer(forKey: "ClockWidgetCount")
-        return count > 0 ? count : 3 // Default to 3 if no count stored
-    }
-
     var body: some View {
         ZStack {
-            // Background gradient
             LinearGradient(
-                colors: [.blue.opacity(0.3), .purple.opacity(0.3)],
+                colors: [.stepBackgroundPrimary, .stepBackgroundSecondary],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
 
             VStack {
-                // Radial Clock layout
-                RadialLayout(angleOffset: .degrees(0)) {
-                    ForEach(0..<max(1, storedCount), id: \.self) { index in
-                        Text(entry.configuration.message)
-                            .font(.system(size: levelOfDetail == .simplified ? 30 : 40, weight: .medium))
-                            .shadow(color: .black.opacity(0.2), radius: 2, x: 1, y: 1)
-                    }
-                }
-                .padding()
-                Spacer()
-            }
-
-            // Interactive buttons
-            VStack {
-                Spacer()
-                HStack(spacing: 12) {
-                    Button(intent: DecrementCountIntent()) {
-                        Image(systemName: "minus.circle.fill")
-                            .font(.extraLargeTitle2)
-                            .padding(8)
-                            .foregroundColor(.white)
-                            .background(Circle().fill(Color.black.opacity(0.3)))
-                    }
-                    .buttonStyle(.plain)
-
-                    Button(intent: IncrementCountIntent()) {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.extraLargeTitle2)
-                            .padding(8)
-                            .foregroundColor(.white)
-                            .background(Circle().fill(Color.black.opacity(0.3)))
-                    }
-                    .buttonStyle(.plain)
-                }
-                .padding()
+                ClockView()
+                    .offset(z: 10)
+                    .padding(.vertical, 20)
+                    .manipulable()
             }
         }
+    }
+}
+
+fileprivate struct ClockView: View {
+    @State private var currentSecond: Int = 0
+    @State private var currentHour: Int = 0
+    @State private var currentMinute: Int = 0
+    @State private var timer: Timer?
+
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack {
+                Circle()
+                    .fill(.stepGreen)
+                RadialLayout(angleOffset: .degrees(180)) {
+                    ForEach([12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], id: \.self) { hour in
+                        Text("\(hour)")
+                            .font(.system(size: 20, weight: .bold))
+                            .foregroundColor(.stepBackgroundPrimary)
+                            .scaleEffect(min(geometry.size.width, geometry.size.height) / 400)
+                    }
+                }
+
+                RadialLayout(angleOffset: .degrees(180)) {
+                    ForEach(0..<60, id: \.self) { index in
+                        Circle()
+                            .fill(.stepBackgroundSecondary)
+                            .scaleEffect(index == currentSecond ? 2.0 : 1.0)
+                            .opacity(index == currentSecond ? 1.0 : 0.25)
+                            .offset(z: index == currentSecond ? 5 : 0)
+                            .shadow(radius: index == currentSecond ? 5 : 0, x: 0.0, y: 0.0)
+                            .animation(.easeInOut(duration: 0.5), value: currentSecond)
+                            .id(index)
+                    }
+                }
+                .scaleEffect(0.74)
+
+                ZStack {
+                    // Hour hand
+                    Rectangle()
+                        .fill(.stepBackgroundSecondary)
+                        .frame(width: 6, height: 80)
+                        .offset(y: -40)
+                        .offset(z: 5)
+                        .rotationEffect(.degrees(Double(currentHour) * 30 + Double(currentMinute) * 0.5))
+                        .shadow(radius: 1, x: 0.0, y: 0.0)
+                        .scaleEffect(min(geometry.size.width, geometry.size.height) / 400)
+
+                    // Minute hand
+                    Rectangle()
+                        .fill(.stepBackgroundSecondary)
+                        .frame(width: 4, height: 100)
+                        .offset(y: -40)
+                        .offset(z: 3)
+                        .rotationEffect(.degrees(Double(currentMinute) * 6))
+                        .shadow(radius: 1, x: 0.0, y: 0.0)
+                        .scaleEffect(min(geometry.size.width, geometry.size.height) / 400)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .onAppear {
+            startTimer()
+        }
+        .onDisappear {
+            stopTimer()
+        }
+    }
+
+    private func startTimer() {
+        // Update to current time immediately
+        updateTime()
+
+        // Calculate time until next second starts
+        scheduleNextUpdate()
+    }
+
+    private func updateTime() {
+        let calendar = Calendar.current
+        let now = Date().addingTimeInterval(0.1) // Add small offset to get current time
+        currentSecond = calendar.component(.second, from: now)
+        currentHour = calendar.component(.hour, from: now) % 12
+        currentMinute = calendar.component(.minute, from: now)
+    }
+
+    private func scheduleNextUpdate() {
+        // Get the current second interval
+        let now = Date()
+        guard let currentSecondInterval = Calendar.current.dateInterval(of: .second, for: now) else { return }
+
+        // Calculate time until the start of the next second
+        let nextSecondStart = currentSecondInterval.end
+        let timeUntilNextSecond = nextSecondStart.timeIntervalSinceNow
+
+        // Schedule update at the exact start of the next second
+        DispatchQueue.main.asyncAfter(deadline: .now() + timeUntilNextSecond) {
+            // Get time immediately when this fires
+            let calendar = Calendar.current
+            let currentTime = Date()
+            self.currentSecond = calendar.component(.second, from: currentTime)
+            self.currentHour = calendar.component(.hour, from: currentTime) % 12
+            self.currentMinute = calendar.component(.minute, from: currentTime)
+            self.scheduleNextUpdate() // Schedule the next update
+        }
+    }
+
+    private func stopTimer() {
+        timer?.invalidate()
+        timer = nil
     }
 }
 
@@ -111,8 +183,8 @@ struct ClockWidget: Widget {
             ClockWidgetEntryView(entry: entry)
                 .containerBackground(.white.gradient, for: .widget)
         }
-        .supportedFamilies([.systemExtraLargePortrait])
-        .supportedMountingStyles([.elevated, .recessed])
+        .supportedFamilies([.systemSmall])
+        .supportedMountingStyles([.elevated])
         .widgetTexture(.paper)
         .configurationDisplayName("Clock Circle")
         .description("Adjust the number of Clocks in a radial layout")

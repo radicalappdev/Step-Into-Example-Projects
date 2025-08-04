@@ -13,5 +13,6 @@ struct SimpleWidgetsBundle: WidgetBundle {
     var body: some Widget {
         SimpleWidgets()
         EmojiWidget()
+        ClockWidget()
     }
 }
