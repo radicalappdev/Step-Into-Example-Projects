@@ -47,7 +47,7 @@ struct SimpleWidgetsEntryView : View {
     @Environment(\.levelOfDetail) var levelOfDetail: LevelOfDetail
 
     var body: some View {
-                switch levelOfDetail {
+        switch levelOfDetail {
         case .simplified:
             ZStack {
                 SimpleWidgetBackground(emoji: entry.configuration.emoji)

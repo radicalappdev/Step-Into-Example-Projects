@@ -55,18 +55,30 @@ struct ClockWidgetEntryView: View {
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
-            ClockView()
-                .offset(z: 10)
-                .padding(.vertical, 20)
+            switch levelOfDetail {
+            case .simplified:
+                ClockView(showSeconds: false)
+                    .offset(z: 10)
+                    .padding(.vertical, 20)
+
+            default:
+
+                ClockView()
+                    .offset(z: 10)
+                    .padding(.vertical, 20)
+            }
         }
     }
 }
 
 fileprivate struct ClockView: View {
+
     let currentTime: Date
-    
-    init() {
+    let showSeconds: Bool
+
+    init(showSeconds: Bool = true) {
         self.currentTime = Date()
+        self.showSeconds = showSeconds
     }
     
     private var currentSecond: Int {
@@ -85,12 +97,12 @@ fileprivate struct ClockView: View {
         GeometryReader { geometry in
             let size = min(geometry.size.width, geometry.size.height)
             let scale = size / 200 // Base scale for a 200pt reference size
-            
+
             ZStack {
                 // Background circle
                 Circle()
                     .fill(.stepGreen)
-                    .frame(width: size * 0.9, height: size * 0.9)
+                    .frame(width: size , height: size )
                 
                 // Hour numbers
                 RadialLayout(angleOffset: .degrees(180)) {
@@ -100,22 +112,24 @@ fileprivate struct ClockView: View {
                             .foregroundColor(.stepBackgroundPrimary)
                     }
                 }
-                .frame(width: size * 0.8, height: size * 0.8)
+                .frame(width: size * 0.95, height: size * 0.95)
 
-                // Second markers
-                RadialLayout(angleOffset: .degrees(180)) {
-                    ForEach(0..<60, id: \.self) { index in
-                        Circle()
-                            .fill(.stepBackgroundSecondary)
-                            .frame(width: index == currentSecond ? 6 * scale : 3 * scale, 
-                                   height: index == currentSecond ? 6 * scale : 3 * scale)
-                            .opacity(index == currentSecond ? 1.0 : 0.25)
-                            .offset(z: index == currentSecond ? 5 : 0)
-                            .shadow(radius: index == currentSecond ? 3 : 0, x: 0.0, y: 0.0)
-                            .id(index)
+                if(showSeconds) {
+                    // Second markers
+                    RadialLayout(angleOffset: .degrees(180)) {
+                        ForEach(0..<60, id: \.self) { index in
+                            Circle()
+                                .fill(.stepBackgroundSecondary)
+                                .frame(width: index == currentSecond ? 6 * scale : 3 * scale, 
+                                       height: index == currentSecond ? 6 * scale : 3 * scale)
+                                .opacity(index == currentSecond ? 1.0 : 0.25)
+                                .offset(z: index == currentSecond ? 5 : 0)
+                                .shadow(radius: index == currentSecond ? 3 : 0, x: 0.0, y: 0.0)
+                                .id(index)
+                        }
                     }
+                    .frame(width: size * 0.66, height: size * 0.66)
                 }
-                .frame(width: size * 0.6, height: size * 0.6)
 
                 // Clock hands
                 ZStack {
