@@ -48,11 +48,23 @@ struct ClockWidgetEntryView: View {
     var entry: ClockProvider.Entry
     @Environment(\.levelOfDetail) var levelOfDetail: LevelOfDetail
 
+    private var backgroundColor: Color {
+        let color = entry.configuration.backgroundColorString
+        switch color {
+        case .blue:
+            return .stepBlue
+        case .green:
+            return .stepGreen
+        case .red:
+            return .stepRed
+        }
+    }
+
     var body: some View {
         ZStack {
 
             RadialGradient(
-                colors: [.stepBackgroundSecondary, .stepGreen],
+                colors: [.stepBackgroundSecondary, backgroundColor],
                 center: .center,
                 startRadius: 0.0,
                 endRadius: 200
@@ -60,14 +72,15 @@ struct ClockWidgetEntryView: View {
 
             switch levelOfDetail {
             case .simplified:
-                ClockView(showSeconds: false)
-                    .offset(z: 10)
+                ClockView(showSeconds: false, backgroundColor: backgroundColor)
+                    .shadow(radius: 3, x: 0.0, y: 0.0)
                     .padding(.vertical, 6)
 
             default:
-                ClockView()
-                    .offset(z: 10)
+                ClockView(backgroundColor: backgroundColor)
+                    .shadow(radius: 3, x: 0.0, y: 0.0)
                     .padding(.vertical, 6)
+
             }
         }
     }
@@ -77,10 +90,12 @@ fileprivate struct ClockView: View {
 
     let currentTime: Date
     let showSeconds: Bool
+    let backgroundColor: Color
 
-    init(showSeconds: Bool = true) {
+    init(showSeconds: Bool = true, backgroundColor: Color = .stepGreen) {
         self.currentTime = Date()
         self.showSeconds = showSeconds
+        self.backgroundColor = backgroundColor
     }
     
     private var currentSecond: Int {
@@ -103,7 +118,7 @@ fileprivate struct ClockView: View {
             ZStack {
                 // Background circle
                 Circle()
-                    .fill(.stepGreen)
+                    .fill(backgroundColor)
                     .frame(width: size , height: size )
                 
                 // Hour numbers
@@ -126,6 +141,7 @@ fileprivate struct ClockView: View {
                                        height: index == currentSecond ? 6 * scale : 3 * scale)
                                 .opacity(index == currentSecond ? 1.0 : 0.25)
                                 .offset(z: index == currentSecond ? 5 : 0)
+                                .animation(.easeInOut(duration: 0.5), value: currentSecond)
                                 .shadow(radius: index == currentSecond ? 3 : 0, x: 0.0, y: 0.0)
                                 .id(index)
                         }
@@ -153,6 +169,11 @@ fileprivate struct ClockView: View {
                         .rotationEffect(.degrees(Double(currentMinute) * 6))
                         .shadow(radius: 1, x: 0.0, y: 0.0)
                 }
+
+                Circle()
+                    .fill(.stepBackgroundSecondary)
+                    .shadow(radius: 3, x: 0.0, y: 0.0)
+                    .frame(width: 6 , height: 6)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 

@@ -77,10 +77,25 @@ struct DecrementCountIntent: AppIntent {
     }
 }
 
-struct ClockConfigurationAppIntent: WidgetConfigurationIntent {
-    static var title: LocalizedStringResource { "Clock Face Message" }
-    static var description: IntentDescription { "Enter a short message to display on the clock face" }
+// Create a custom type we can use with a picker
+enum ClockColor: String, AppEnum {
+    case red = "Red"
+    case green = "Green"
+    case blue = "Blue"
 
-    @Parameter(title: "Message", default: "🌟")
-    var message: String
+    static var typeDisplayRepresentation: TypeDisplayRepresentation = "Color Options"
+
+    static var caseDisplayRepresentations: [Self: DisplayRepresentation] = [
+        .red: DisplayRepresentation(title: "Red"),
+        .green: DisplayRepresentation(title: "Green"),
+        .blue: DisplayRepresentation(title: "Blue")
+    ]
+}
+
+struct ClockConfigurationAppIntent: WidgetConfigurationIntent {
+    static var title: LocalizedStringResource { "Clock Color" }
+    static var description: IntentDescription { "Select a background color" }
+
+    @Parameter(title: "Color", default: .green)
+    var backgroundColorString: ClockColor
 }
