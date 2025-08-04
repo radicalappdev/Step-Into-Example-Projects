@@ -22,10 +22,10 @@ struct ClockProvider: AppIntentTimelineProvider {
     func timeline(for configuration: ClockConfigurationAppIntent, in context: Context) async -> Timeline<ClockEntry> {
         var entries: [ClockEntry] = []
 
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
+        // Generate a timeline with entries every half second for the next 30 seconds
         let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
+        for halfSecondOffset in 0 ..< 60 {
+            let entryDate = currentDate.addingTimeInterval(TimeInterval(halfSecondOffset) * 0.5)
             let entry = ClockEntry(date: entryDate, configuration: configuration)
             entries.append(entry)
         }
@@ -72,12 +72,12 @@ struct ClockWidgetEntryView: View {
 
             switch levelOfDetail {
             case .simplified:
-                ClockView(showSeconds: false, backgroundColor: backgroundColor)
+                ClockView(showSeconds: false, backgroundColor: backgroundColor, currentTime: entry.date)
                     .shadow(radius: 3, x: 0.0, y: 0.0)
                     .padding(.vertical, 6)
 
             default:
-                ClockView(backgroundColor: backgroundColor)
+                ClockView(backgroundColor: backgroundColor, currentTime: entry.date)
                     .shadow(radius: 3, x: 0.0, y: 0.0)
                     .padding(.vertical, 6)
 
@@ -92,8 +92,8 @@ fileprivate struct ClockView: View {
     let showSeconds: Bool
     let backgroundColor: Color
 
-    init(showSeconds: Bool = true, backgroundColor: Color = .stepGreen) {
-        self.currentTime = Date()
+    init(showSeconds: Bool = true, backgroundColor: Color = .stepGreen, currentTime: Date = Date()) {
+        self.currentTime = currentTime
         self.showSeconds = showSeconds
         self.backgroundColor = backgroundColor
     }
