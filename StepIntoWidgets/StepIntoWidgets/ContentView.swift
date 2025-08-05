@@ -51,8 +51,8 @@ struct ContentView: View {
         print("Saved emoji: \(emoji) to shared UserDefaults")
         currentEmoji = emoji
         
-        // Reload all widget timelines to update the widget
-        WidgetCenter.shared.reloadAllTimelines()
+        // Reload the specific widget timeline to update the widget
+        WidgetCenter.shared.reloadTimelines(ofKind: "MoodWidgets")
     }
     
     private func loadCurrentEmoji() {
