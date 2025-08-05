@@ -47,8 +47,17 @@ struct MoodWidgetsEntryView : View {
 
     var body: some View {
         VStack {
-            Text("🤷🏻‍♂️")
+            Text(getCurrentEmoji())
+                .font(.system(size: 60))
         }
+    }
+    
+    private func getCurrentEmoji() -> String {
+        return sharedUserDefaults.string(forKey: "dataEmojiExample") ?? "🤷🏻‍♂️"
+    }
+    
+    private var sharedUserDefaults: UserDefaults {
+        return UserDefaults(suiteName: "group.com.radicalappdev.StepIntoWidgets") ?? UserDefaults.standard
     }
 }
 

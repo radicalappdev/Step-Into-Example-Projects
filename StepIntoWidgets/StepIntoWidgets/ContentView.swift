@@ -20,21 +20,21 @@ struct ContentView: View {
             
             HStack(spacing: 20) {
                 Button(action: {
-                    saveEmojiToUserDefaults("🚀")
+                    saveEmojiToUserDefaults("☹️")
                 }) {
-                    Text("🚀")
+                    Text("☹️")
                 }
                 
                 Button(action: {
-                    saveEmojiToUserDefaults("🌸")
+                    saveEmojiToUserDefaults("😊")
                 }) {
-                    Text("🌸")
+                    Text("😊")
                 }
                 
                 Button(action: {
-                    saveEmojiToUserDefaults("🐸")
+                    saveEmojiToUserDefaults("🤪")
                 }) {
-                    Text("🐸")
+                    Text("🤪")
                 }
             }
             .controlSize(.extraLarge)
@@ -46,15 +46,19 @@ struct ContentView: View {
     }
     
     private func saveEmojiToUserDefaults(_ emoji: String) {
-        UserDefaults.standard.set(emoji, forKey: "dataEmojiExample")
-        print("Saved emoji: \(emoji) to UserDefaults")
+        sharedUserDefaults.set(emoji, forKey: "dataEmojiExample")
+        print("Saved emoji: \(emoji) to shared UserDefaults")
         currentEmoji = emoji
     }
     
     private func loadCurrentEmoji() {
-        if let savedEmoji = UserDefaults.standard.string(forKey: "dataEmojiExample") {
+        if let savedEmoji = sharedUserDefaults.string(forKey: "dataEmojiExample") {
             currentEmoji = savedEmoji
         }
+    }
+    
+    private var sharedUserDefaults: UserDefaults {
+        return UserDefaults(suiteName: "group.com.radicalappdev.StepIntoWidgets") ?? UserDefaults.standard
     }
 }
 

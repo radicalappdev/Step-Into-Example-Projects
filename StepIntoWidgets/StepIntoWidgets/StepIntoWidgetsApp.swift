@@ -17,6 +17,7 @@ struct StepIntoWidgetsApp: App {
             ContentView()
                 .environment(appModel)
         }
+        .defaultSize(width: 400, height: 400)
 
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
             ImmersiveView()
@@ -29,5 +30,7 @@ struct StepIntoWidgetsApp: App {
                 }
         }
         .immersionStyle(selection: .constant(.mixed), in: .mixed)
+        .defaultLaunchBehavior(.suppressed)
+        .restorationBehavior(.disabled)
      }
 }
