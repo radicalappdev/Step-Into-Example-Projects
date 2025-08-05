@@ -8,6 +8,7 @@
 import SwiftUI
 import RealityKit
 import RealityKitContent
+import WidgetKit
 
 struct ContentView: View {
     @State private var currentEmoji: String = ""
@@ -49,6 +50,9 @@ struct ContentView: View {
         sharedUserDefaults.set(emoji, forKey: "dataEmojiExample")
         print("Saved emoji: \(emoji) to shared UserDefaults")
         currentEmoji = emoji
+        
+        // Reload all widget timelines to update the widget
+        WidgetCenter.shared.reloadAllTimelines()
     }
     
     private func loadCurrentEmoji() {
