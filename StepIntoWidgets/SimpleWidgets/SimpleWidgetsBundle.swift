@@ -15,5 +15,6 @@ struct SimpleWidgetsBundle: WidgetBundle {
         EmojiWidget()
         ClockWidget()
         MoodWidgets()
+        RenderWidgets()
     }
 }

@@ -99,3 +99,29 @@ struct ClockConfigurationAppIntent: WidgetConfigurationIntent {
     @Parameter(title: "Color", default: .green)
     var backgroundColorString: ClockColor
 }
+
+
+// Create a custom type we can use with a picker
+enum RenderingMode: String, AppEnum {
+    case accented = ".accented"
+    case accentedDesaturated = ".accentedDesaturated"
+    case desaturated = ".desaturated"
+    case fullColor = ".fullColor"
+
+    static var typeDisplayRepresentation: TypeDisplayRepresentation = "Color Options"
+
+    static var caseDisplayRepresentations: [Self: DisplayRepresentation] = [
+        .accented: DisplayRepresentation(title: ".accented"),
+        .accentedDesaturated: DisplayRepresentation(title: ".accentedDesaturated"),
+        .desaturated: DisplayRepresentation(title: ".desaturated"),
+        .fullColor: DisplayRepresentation(title: ".fullColor")
+    ]
+}
+
+struct RenderConfigurationAppIntent: WidgetConfigurationIntent {
+    static var title: LocalizedStringResource { "Rendering MOde" }
+    static var description: IntentDescription { "widgetAccentedRenderingMode" }
+
+    @Parameter(title: "Mode", default: .accented)
+    var value: RenderingMode
+}
