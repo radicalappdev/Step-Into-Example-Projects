@@ -125,8 +125,10 @@ fileprivate struct ClockView: View {
                 RadialLayout(angleOffset: .degrees(180)) {
                     ForEach([12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], id: \.self) { hour in
                         Text("\(hour)")
+                            .widgetAccentable(true)
                             .font(.system(size: 16 * scale, weight: .bold))
                             .foregroundColor(.stepBackgroundPrimary)
+
                     }
                 }
                 .frame(width: size * 0.95, height: size * 0.95)
@@ -137,7 +139,8 @@ fileprivate struct ClockView: View {
                         ForEach(0..<60, id: \.self) { index in
                             Circle()
                                 .fill(.stepBackgroundSecondary)
-                                .frame(width: index == currentSecond ? 6 * scale : 3 * scale, 
+                                .widgetAccentable(true)
+                                .frame(width: index == currentSecond ? 6 * scale : 3 * scale,
                                        height: index == currentSecond ? 6 * scale : 3 * scale)
                                 .opacity(index == currentSecond ? 1.0 : 0.25)
                                 .offset(z: index == currentSecond ? 5 : 0)
@@ -154,6 +157,7 @@ fileprivate struct ClockView: View {
                     // Hour hand
                     Rectangle()
                         .fill(.stepBackgroundSecondary)
+                        .widgetAccentable(true)
                         .frame(width: 4 * scale, height: 50 * scale)
                         .offset(y: -25 * scale)
                         .offset(z: 5)
@@ -163,6 +167,7 @@ fileprivate struct ClockView: View {
                     // Minute hand
                     Rectangle()
                         .fill(.stepBackgroundSecondary)
+                        .widgetAccentable(true)
                         .frame(width: 3 * scale, height: 70 * scale)
                         .offset(y: -35 * scale)
                         .offset(z: 3)

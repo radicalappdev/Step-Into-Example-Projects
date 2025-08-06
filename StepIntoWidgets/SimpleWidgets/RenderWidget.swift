@@ -60,19 +60,33 @@ struct RenderWidgetsEntryView : View {
     }
 
     var body: some View {
-        VStack() {
-            Label("WANTED", systemImage: "target")
-                .font(.headline)
+        if renderingMode == .fullColor {
+            VStack() {
+                Label("WANTED", systemImage: "target")
+                    .font(.headline)
 
-            Image(.jsWidget)
-                .resizable()
-                .widgetAccentedRenderingMode(widgetRenderingMode)
-                .scaledToFit()
+                Image(.jsWidget)
+                    .resizable()
+                    .scaledToFit()
 
-            Text("For taking silly photos at a metro park")
-                .font(.caption)
-                .widgetAccentable()
-                .multilineTextAlignment(.center)
+                Text("For taking silly photos at a metro park")
+                    .font(.caption)
+            }
+        } else if renderingMode == .accented {
+            // Provide an alternative view in accented mode
+            VStack() {
+                Label("WANTED", systemImage: "target")
+                    .font(.headline)
+
+                Image(.jsWidget)
+                    .resizable()
+                    .widgetAccentedRenderingMode(widgetRenderingMode)
+                    .scaledToFit()
+
+                Text("For taking silly photos at a metro park")
+                    .font(.caption)
+                    .multilineTextAlignment(.center)
+            }
         }
     }
 }
