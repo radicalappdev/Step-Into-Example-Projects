@@ -1,0 +1,141 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (448.60.4)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    quatf xformOp:orient = (1, 0, 0, 0)
+    float3 xformOp:scale = (1, 1, 1)
+    float3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    def "SkyDome" (
+        active = true
+        references = @../Resources/SkyDome.usdz@
+    )
+    {
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (10, 10, 10)
+        float3 xformOp:translate = (0, 0, -2)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Grid" (
+            active = false
+        )
+        {
+        }
+
+        over "Looks"
+        {
+            over "GroundMATSG"
+            {
+                token inputs:frame:stPrimvarName = "st" (
+                    customData = {
+                        dictionary realitykit = {
+                            bool hide = 1
+                        }
+                    }
+                )
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+
+                over "GroundMAT"
+                {
+                    delete color3f inputs:emissiveColor.connect = </Root/SkyDome/Looks/GroundMATSG/file4.outputs:rgb>
+                    prepend color3f inputs:emissiveColor.connect = </Root/SkyDome/Looks/GroundMATSG/emissiveColor.outputs:rgb>
+                }
+
+                def Shader "emissiveColor"
+                {
+                    uniform token info:id = "UsdUVTexture"
+                    asset inputs:file = @ds-gradient.png@
+                    float2 inputs:st.connect = </Root/SkyDome/Looks/GroundMATSG/emissiveColor/TexCoordReader.outputs:result>
+                    color3f outputs:rgb
+
+                    def Shader "TexCoordReader"
+                    {
+                        uniform token info:id = "UsdPrimvarReader_float2"
+                        token inputs:varname.connect = </Root/SkyDome/Looks/GroundMATSG.inputs:frame:stPrimvarName>
+                        float2 outputs:result
+                    }
+                }
+            }
+
+            over "DomeMATSG"
+            {
+                token inputs:frame:stPrimvarName = "st" (
+                    customData = {
+                        dictionary realitykit = {
+                            bool hide = 1
+                        }
+                    }
+                )
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+
+                over "DomeMAT"
+                {
+                    delete color3f inputs:emissiveColor.connect = </Root/SkyDome/Looks/DomeMATSG/file5.outputs:rgb>
+                    prepend color3f inputs:emissiveColor.connect = </Root/SkyDome/Looks/DomeMATSG/emissiveColor.outputs:rgb>
+                }
+
+                def Shader "emissiveColor"
+                {
+                    uniform token info:id = "UsdUVTexture"
+                    asset inputs:file = @ds-gradient.png@
+                    float2 inputs:st.connect = </Root/SkyDome/Looks/DomeMATSG/emissiveColor/TexCoordReader.outputs:result>
+                    color3f outputs:rgb
+
+                    def Shader "TexCoordReader"
+                    {
+                        uniform token info:id = "UsdPrimvarReader_float2"
+                        token inputs:varname.connect = </Root/SkyDome/Looks/DomeMATSG.inputs:frame:stPrimvarName>
+                        float2 outputs:result
+                    }
+                }
+            }
+
+            over "GridMATSG" (
+                active = false
+            )
+            {
+                token inputs:frame:stPrimvarName = "st" (
+                    customData = {
+                        dictionary realitykit = {
+                            bool hide = 1
+                        }
+                    }
+                )
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+
+                over "GridMAT"
+                {
+                    color3f inputs:emissiveColor.connect = </Root/SkyDome/Looks/GridMATSG/emissiveColor.outputs:rgb>
+                }
+
+                def Shader "emissiveColor"
+                {
+                    uniform token info:id = "UsdUVTexture"
+                    asset inputs:file = @ds-ramp.png@
+                    float2 inputs:st.connect = </Root/SkyDome/Looks/GridMATSG/emissiveColor/TexCoordReader.outputs:result>
+                    color3f outputs:rgb
+
+                    def Shader "TexCoordReader"
+                    {
+                        uniform token info:id = "UsdPrimvarReader_float2"
+                        token inputs:varname.connect = </Root/SkyDome/Looks/GridMATSG.inputs:frame:stPrimvarName>
+                        float2 outputs:result
+                    }
+                }
+            }
+        }
+    }
+}
+

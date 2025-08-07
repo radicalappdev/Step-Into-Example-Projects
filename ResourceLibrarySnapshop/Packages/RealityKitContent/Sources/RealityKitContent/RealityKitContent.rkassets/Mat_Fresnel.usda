@@ -1,0 +1,503 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (448.60.4)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    quatf xformOp:orient = (1, 0, 0, 0)
+    float3 xformOp:scale = (1, 1, 1)
+    float3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    def Material "DS_Fresnel" (
+        active = true
+        references = @Mat_Fresnel_references/Immersive.usda@</Root/FresnelShader/Material>
+    )
+    {
+        reorder nameChildren = ["UnlitSurface", "Constant", "Normal", "TransformNormal", "Normalize", "ViewDirection", "Normalize_1", "TransformVector", "Constant_1", "fresnel_details", "usePower"]
+        token outputs:mtlx:surface.connect = </Root/DS_Fresnel/UnlitSurface.outputs:out>
+        token outputs:realitykit:vertex
+        float2 ui:nodegraph:node:pos = (-554.07043, 111.042435)
+        int ui:nodegraph:node:stackingOrder = 1
+        float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (468.41586, 417.2663)
+        float2 ui:nodegraph:realitykit:subgraphOutputs:size = (181.5, 99)
+        int ui:nodegraph:realitykit:subgraphOutputs:stackingOrder = 922
+
+        def Shader "UnlitSurface"
+        {
+            uniform token info:id = "ND_realitykit_unlit_surfaceshader"
+            bool inputs:applyPostProcessToneMap = 0
+            color3f inputs:color.connect = </Root/DS_Fresnel/fresnel_details.outputs:ColorOut>
+            bool inputs:hasPremultipliedAlpha
+            float inputs:opacity
+            float inputs:opacityThreshold
+            token outputs:out
+            float2 ui:nodegraph:node:pos = (199.0381, 382.949)
+            float2 ui:nodegraph:node:size = (194.5, 181)
+            int ui:nodegraph:node:stackingOrder = 922
+            string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["inputs:applyPostProcessToneMap"]
+        }
+
+        def Shader "Constant"
+        {
+            uniform token info:id = "ND_constant_color3"
+            color3f inputs:value = (0.38013548, 0.38013548, 1) (
+                colorSpace = "Input - Texture - Linear - sRGB"
+            )
+            color3f inputs:value.connect = None
+            color3f outputs:out
+            float2 ui:nodegraph:node:pos = (-603.6445, -232.86414)
+            float2 ui:nodegraph:node:size = (151, 53)
+            int ui:nodegraph:node:stackingOrder = 950
+        }
+
+        def Shader "Normal"
+        {
+            uniform token info:id = "ND_normal_vector3"
+            string inputs:space = "model"
+            float3 outputs:out
+            float2 ui:nodegraph:node:pos = (-1564.2887, 28.604855)
+            float2 ui:nodegraph:node:size = (128.5, 40)
+            int ui:nodegraph:node:stackingOrder = 475
+        }
+
+        def Shader "TransformNormal"
+        {
+            uniform token info:id = "ND_transformnormal_vector3"
+            string inputs:fromspace = "model"
+            float3 inputs:in.connect = </Root/DS_Fresnel/Normal.outputs:out>
+            string inputs:tospace = "world"
+            float3 outputs:out
+            float2 ui:nodegraph:node:pos = (-1345.1564, 6.0454626)
+            float2 ui:nodegraph:node:size = (158, 145)
+            int ui:nodegraph:node:stackingOrder = 475
+        }
+
+        def Shader "Normalize"
+        {
+            uniform token info:id = "ND_normalize_vector3"
+            float3 inputs:in.connect = </Root/DS_Fresnel/TransformNormal.outputs:out>
+            float3 outputs:out
+            float2 ui:nodegraph:node:pos = (-1127.3228, 41.952896)
+            float2 ui:nodegraph:node:size = (149, 40)
+            int ui:nodegraph:node:stackingOrder = 475
+        }
+
+        def Shader "ViewDirection"
+        {
+            uniform token info:id = "ND_realitykit_viewdirection_vector3"
+            float3 outputs:out
+            float2 ui:nodegraph:node:pos = (-1565.0568, 339.0302)
+            float2 ui:nodegraph:node:size = (210, 53)
+            int ui:nodegraph:node:stackingOrder = 875
+        }
+
+        def Shader "Normalize_1"
+        {
+            uniform token info:id = "ND_normalize_vector3"
+            float3 inputs:in.connect = </Root/DS_Fresnel/TransformVector.outputs:out>
+            float3 outputs:out
+            float2 ui:nodegraph:node:pos = (-1120.0498, 325.71423)
+            float2 ui:nodegraph:node:size = (161, 53)
+            int ui:nodegraph:node:stackingOrder = 875
+        }
+
+        def Shader "TransformVector"
+        {
+            uniform token info:id = "ND_transformvector_vector3"
+            string inputs:fromspace = "model"
+            float3 inputs:in.connect = </Root/DS_Fresnel/ViewDirection.outputs:out>
+            string inputs:tospace = "world"
+            float3 outputs:out
+            float2 ui:nodegraph:node:pos = (-1340.3607, 341.315)
+            float2 ui:nodegraph:node:size = (153.5, 145)
+            int ui:nodegraph:node:stackingOrder = 875
+            string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["inputs:tospace"]
+        }
+
+        def Shader "Constant_1"
+        {
+            uniform token info:id = "ND_constant_color3"
+            color3f inputs:value = (0.116917975, 1, 0) (
+                colorSpace = "Input - Texture - Linear - sRGB"
+            )
+            color3f inputs:value.connect = None
+            color3f outputs:out
+            float2 ui:nodegraph:node:pos = (-609.6839, -55.88352)
+            float2 ui:nodegraph:node:size = (155, 53)
+            int ui:nodegraph:node:stackingOrder = 950
+        }
+
+        def Shader "usePower"
+        {
+            uniform token info:id = "ND_constant_boolean"
+            bool inputs:value = 1
+            bool outputs:out
+            float2 ui:nodegraph:node:pos = (-607.5307, -152.82693)
+            float2 ui:nodegraph:node:size = (146.5, 53)
+            int ui:nodegraph:node:stackingOrder = 950
+        }
+
+        def NodeGraph "fresnel_details"
+        {
+            reorder nameChildren = ["Mix_1", "PowerMixOutHigh", "ColorMixOutLow", "PowerRangeInHigh", "PowerMixInLow", "PowerMixRange", "ColorMixInHigh", "Power", "PowerMixOutLow", "IfEqual", "PowerMixClamp", "DotProduct", "PowerRangeOutHigh", "ColorMixOutHigh", "PowerRangeInLow", "ColorMixRange", "PowerMixGamma", "Mix", "PowerRangeOutLow", "ColorMixInLow", "PowerRangeClamp", "SmoothStep", "ColorMixClamp", "PowerRangeGamma", "PowerMixInHigh", "ColorMixGamma", "PowerRange", "Dot", "OriginalColorIn"]
+            bool inputs:ColorMixClamp = 0 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-461.8642, 1979.6067)
+                        float2 sizeInSubgraph = (163, 53)
+                    }
+                }
+            )
+            float inputs:ColorMixGamma = 1 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-469.7566, 1761.6057)
+                        float2 sizeInSubgraph = (170.5, 53)
+                    }
+                }
+            )
+            float inputs:ColorMixInHigh = 1 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-463.9552, 1688.2316)
+                        float2 sizeInSubgraph = (163.5, 53)
+                    }
+                }
+            )
+            float inputs:ColorMixInLow = 0 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-460.67523, 1620.2175)
+                        float2 sizeInSubgraph = (159.5, 53)
+                    }
+                }
+            )
+            float inputs:ColorMixOutHigh = 1 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-466.07477, 1903.8319)
+                        float2 sizeInSubgraph = (175, 53)
+                    }
+                }
+            )
+            float inputs:ColorMixOutLow = 0 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-470.19873, 1831.1027)
+                        float2 sizeInSubgraph = (171, 53)
+                    }
+                }
+            )
+            float3 inputs:NormalInWorldSpace = (0, 0, 0) (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-518.60114, 253.46475)
+                        float2 sizeInSubgraph = (199, 53)
+                        int stackingOrderInSubgraph = 1419
+                    }
+                }
+            )
+            float3 inputs:NormalInWorldSpace.connect = </Root/DS_Fresnel/Normalize.outputs:out>
+            color3f inputs:OriginalColorIn = (0.26051742, 0.2605244, 0.26052064) (
+                colorSpace = "srgb_texture"
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-490.3451, 59.94653)
+                        float2 sizeInSubgraph = (161, 53)
+                        int stackingOrderInSubgraph = 1602
+                    }
+                }
+            )
+            bool inputs:PowerMixClamp = 0 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-455.64465, 1513.4567)
+                        float2 sizeInSubgraph = (168, 53)
+                    }
+                }
+            )
+            float inputs:PowerMixGamma = 1 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-455.69815, 1308.0951)
+                        float2 sizeInSubgraph = (175.5, 53)
+                    }
+                }
+            )
+            float inputs:PowerMixInHigh = 1 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-450.97125, 1243.3408)
+                        float2 sizeInSubgraph = (168.5, 53)
+                    }
+                }
+            )
+            float inputs:PowerMixInLow = 0 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-452.20712, 1164.6293)
+                        float2 sizeInSubgraph = (164.5, 53)
+                    }
+                }
+            )
+            float inputs:PowerMixOutHigh = 1.5 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-457.70627, 1443.4193)
+                        float2 sizeInSubgraph = (180, 53)
+                    }
+                }
+            )
+            float inputs:PowerMixOutLow = 0.5 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-456.12762, 1374.4557)
+                        float2 sizeInSubgraph = (176, 53)
+                    }
+                }
+            )
+            bool inputs:PowerRangeClamp = 1 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-454.1895, 1039.7618)
+                        float2 sizeInSubgraph = (185.5, 53)
+                    }
+                }
+            )
+            float inputs:PowerRangeGamma = 1 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-452.3883, 812.764)
+                        float2 sizeInSubgraph = (193, 53)
+                    }
+                }
+            )
+            float inputs:PowerRangeInHigh = 1 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-440.83258, 739.1637)
+                        float2 sizeInSubgraph = (186, 53)
+                    }
+                }
+            )
+            float inputs:PowerRangeInLow = 0 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-436.589, 672.06885)
+                        float2 sizeInSubgraph = (182, 53)
+                    }
+                }
+            )
+            float inputs:PowerRangeOutHigh = 2 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-452.51294, 959.44324)
+                        float2 sizeInSubgraph = (197, 53)
+                    }
+                }
+            )
+            float inputs:PowerRangeOutLow = 0 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-448.56403, 885.86255)
+                        float2 sizeInSubgraph = (193.5, 53)
+                    }
+                }
+            )
+            color3f inputs:SecondaryColorIn = (0.837418, 0.8374378, 0.83742714) (
+                colorSpace = "srgb_texture"
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-486.85812, 134.5837)
+                        float2 sizeInSubgraph = (179.5, 53)
+                        int stackingOrderInSubgraph = 1602
+                    }
+                }
+            )
+            color3f inputs:SecondaryColorIn.connect = None
+            bool inputs:UsePower = 1 (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-505.92792, 2074.7876)
+                        float2 sizeInSubgraph = (130.5, 53)
+                        int stackingOrderInSubgraph = 1517
+                    }
+                }
+            )
+            bool inputs:UsePower.connect = None
+            float3 inputs:ViewDirectionInWorldSpace = (0, 0, 0) (
+                customData = {
+                    dictionary realitykit = {
+                        float2 positionInSubgraph = (-566.1517, 419.79733)
+                        float2 sizeInSubgraph = (240, 53)
+                        int stackingOrderInSubgraph = 1419
+                    }
+                }
+            )
+            float3 inputs:ViewDirectionInWorldSpace.connect = </Root/DS_Fresnel/Normalize_1.outputs:out>
+            color3f outputs:ColorOut.connect = </Root/DS_Fresnel/fresnel_details/IfEqual.outputs:out>
+            float2 ui:nodegraph:node:pos = (-272.21497, 155.19995)
+            float2 ui:nodegraph:node:size = (199.5, 505)
+            int ui:nodegraph:node:stackingOrder = 967
+            string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["inputs:DotProduct_in1", "inputs:NormalInWorldSpace", "inputs:ColorMixInHigh", "inputs:ColorMixGamma"]
+            float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (2303.9067, 869.26544)
+            float2 ui:nodegraph:realitykit:subgraphOutputs:size = (190.5, 81)
+            int ui:nodegraph:realitykit:subgraphOutputs:stackingOrder = 1440
+
+            def Shader "Mix_1"
+            {
+                uniform token info:id = "ND_mix_color3"
+                color3f inputs:bg.connect = </Root/DS_Fresnel/fresnel_details.inputs:SecondaryColorIn>
+                color3f inputs:fg.connect = </Root/DS_Fresnel/fresnel_details.inputs:OriginalColorIn>
+                float inputs:mix.connect = </Root/DS_Fresnel/fresnel_details/ColorMixRange.outputs:out>
+                color3f outputs:out
+                float2 ui:nodegraph:node:pos = (1407.3292, 381.38046)
+                float2 ui:nodegraph:node:size = (109, 145)
+                int ui:nodegraph:node:stackingOrder = 1002
+            }
+
+            def Shader "PowerMixRange"
+            {
+                uniform token info:id = "ND_range_float"
+                bool inputs:doclamp = 0
+                bool inputs:doclamp.connect = </Root/DS_Fresnel/fresnel_details.inputs:PowerMixClamp>
+                float inputs:gamma.connect = </Root/DS_Fresnel/fresnel_details.inputs:PowerMixGamma>
+                float inputs:in.connect = </Root/DS_Fresnel/fresnel_details/SmoothStep.outputs:out>
+                float inputs:inhigh.connect = </Root/DS_Fresnel/fresnel_details.inputs:PowerMixInHigh>
+                float inputs:inlow.connect = </Root/DS_Fresnel/fresnel_details.inputs:PowerMixInLow>
+                float inputs:outhigh = 2
+                float inputs:outhigh.connect = </Root/DS_Fresnel/fresnel_details.inputs:PowerMixOutHigh>
+                float inputs:outlow = 0.5
+                float inputs:outlow.connect = </Root/DS_Fresnel/fresnel_details.inputs:PowerMixOutLow>
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (960.9607, 1167.7692)
+                float2 ui:nodegraph:node:size = (151.5, 217)
+                int ui:nodegraph:node:stackingOrder = 1559
+                string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["inputs:inlow", "inputs:inlow"]
+            }
+
+            def Shader "Power"
+            {
+                uniform token info:id = "ND_power_color3FA"
+                color3f inputs:in1.connect = </Root/DS_Fresnel/fresnel_details.inputs:OriginalColorIn>
+                float inputs:in2.connect = </Root/DS_Fresnel/fresnel_details/PowerRange.outputs:out>
+                color3f outputs:out
+                float2 ui:nodegraph:node:pos = (1006.18884, 67.90364)
+                float2 ui:nodegraph:node:size = (123.5, 40)
+                int ui:nodegraph:node:stackingOrder = 996
+            }
+
+            def Shader "IfEqual"
+            {
+                uniform token info:id = "ND_ifequal_color3B"
+                color3f inputs:in1.connect = </Root/DS_Fresnel/fresnel_details/Mix.outputs:out>
+                color3f inputs:in2.connect = </Root/DS_Fresnel/fresnel_details/Mix_1.outputs:out>
+                bool inputs:value1 = 1
+                bool inputs:value1.connect = </Root/DS_Fresnel/fresnel_details/Dot.outputs:out>
+                bool inputs:value2 = 1
+                bool inputs:value2.connect = None
+                color3f outputs:out
+                float2 ui:nodegraph:node:pos = (2068.7146, 757.6813)
+                float2 ui:nodegraph:node:size = (109, 163)
+                int ui:nodegraph:node:stackingOrder = 1439
+                string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["inputs:in2"]
+            }
+
+            def Shader "DotProduct"
+            {
+                uniform token info:id = "ND_dotproduct_vector3"
+                float3 inputs:in1.connect = </Root/DS_Fresnel/fresnel_details.inputs:NormalInWorldSpace>
+                float3 inputs:in2.connect = </Root/DS_Fresnel/fresnel_details.inputs:ViewDirectionInWorldSpace>
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-145.95898, 367.19418)
+                float2 ui:nodegraph:node:size = (153.5, 53)
+                int ui:nodegraph:node:stackingOrder = 1419
+            }
+
+            def Shader "ColorMixRange"
+            {
+                uniform token info:id = "ND_range_float"
+                bool inputs:doclamp = 0
+                bool inputs:doclamp.connect = </Root/DS_Fresnel/fresnel_details.inputs:ColorMixClamp>
+                float inputs:gamma = 2
+                float inputs:gamma.connect = </Root/DS_Fresnel/fresnel_details.inputs:ColorMixGamma>
+                float inputs:in.connect = </Root/DS_Fresnel/fresnel_details/SmoothStep.outputs:out>
+                float inputs:inhigh.connect = </Root/DS_Fresnel/fresnel_details.inputs:ColorMixInHigh>
+                float inputs:inlow.connect = </Root/DS_Fresnel/fresnel_details.inputs:ColorMixInLow>
+                float inputs:outhigh = 1.2
+                float inputs:outhigh.connect = </Root/DS_Fresnel/fresnel_details.inputs:ColorMixOutHigh>
+                float inputs:outlow = 0
+                float inputs:outlow.connect = </Root/DS_Fresnel/fresnel_details.inputs:ColorMixOutLow>
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (986.736, 1836.0846)
+                float2 ui:nodegraph:node:size = (146.5, 217)
+                int ui:nodegraph:node:stackingOrder = 1543
+                string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["inputs:inlow"]
+            }
+
+            def Shader "Mix"
+            {
+                uniform token info:id = "ND_mix_color3"
+                color3f inputs:bg.connect = </Root/DS_Fresnel/fresnel_details/Power.outputs:out>
+                color3f inputs:fg.connect = </Root/DS_Fresnel/fresnel_details.inputs:OriginalColorIn>
+                float inputs:mix = 0
+                float inputs:mix.connect = </Root/DS_Fresnel/fresnel_details/PowerMixRange.outputs:out>
+                color3f outputs:out
+                float2 ui:nodegraph:node:pos = (1416.263, 176.07253)
+                float2 ui:nodegraph:node:size = (109, 145)
+                int ui:nodegraph:node:stackingOrder = 998
+                string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["inputs:fg"]
+            }
+
+            def Shader "SmoothStep"
+            {
+                uniform token info:id = "ND_smoothstep_float"
+                float inputs:high
+                float inputs:in.connect = </Root/DS_Fresnel/fresnel_details/DotProduct.outputs:out>
+                float inputs:low
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (95.615585, 330.2049)
+                float2 ui:nodegraph:node:size = (127.5, 145)
+                int ui:nodegraph:node:stackingOrder = 1419
+            }
+
+            def Shader "PowerRange"
+            {
+                uniform token info:id = "ND_range_float"
+                bool inputs:doclamp = 1
+                bool inputs:doclamp.connect = </Root/DS_Fresnel/fresnel_details.inputs:PowerRangeClamp>
+                float inputs:gamma.connect = </Root/DS_Fresnel/fresnel_details.inputs:PowerRangeGamma>
+                float inputs:in.connect = </Root/DS_Fresnel/fresnel_details/SmoothStep.outputs:out>
+                float inputs:inhigh.connect = </Root/DS_Fresnel/fresnel_details.inputs:PowerRangeInHigh>
+                float inputs:inlow.connect = </Root/DS_Fresnel/fresnel_details.inputs:PowerRangeInLow>
+                float inputs:outhigh = 2
+                float inputs:outhigh.connect = </Root/DS_Fresnel/fresnel_details.inputs:PowerRangeOutHigh>
+                float inputs:outlow = 0
+                float inputs:outlow.connect = </Root/DS_Fresnel/fresnel_details.inputs:PowerRangeOutLow>
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (822.4507, 658.5296)
+                float2 ui:nodegraph:node:size = (129.5, 217)
+                int ui:nodegraph:node:stackingOrder = 1470
+                string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["inputs:inlow"]
+            }
+
+            def Shader "Dot"
+            {
+                uniform token info:id = "ND_dot_boolean"
+                bool inputs:in.connect = </Root/DS_Fresnel/fresnel_details.inputs:UsePower>
+                bool outputs:out
+                float2 ui:nodegraph:node:pos = (1136.6007, 2077.1323)
+                float2 ui:nodegraph:node:size = (44, 18)
+                int ui:nodegraph:node:stackingOrder = 1517
+            }
+        }
+    }
+}
+

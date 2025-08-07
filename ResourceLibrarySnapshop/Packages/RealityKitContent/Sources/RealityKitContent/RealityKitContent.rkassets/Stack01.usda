@@ -1,0 +1,168 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (448.60.4)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    quatf xformOp:orient = (1, 0, 0, 0)
+    float3 xformOp:scale = (1, 1, 1)
+    float3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    def Xform "Stack_1" (
+        active = true
+    )
+    {
+        reorder nameChildren = ["FresnelShader", "Base_1", "Base_2", "Base_3", "Base_4", "Base_5", "SmoothConcrete"]
+        float3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Cylinder "Base_1" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            uniform token axis = "Y"
+            double height = 0.3
+            rel material:binding = </Root/Stack_1/SmoothConcrete> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double radius = 1
+            float2 ui:nodegraph:node:pos = (1228.5114, 330.83783)
+            int ui:nodegraph:node:stackingOrder = 4
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "EnvironmentLightingConfiguration"
+            {
+                float environmentLightingWeight = 0
+                uniform token info:id = "RealityKit.EnvironmentLightingConfiguration"
+            }
+        }
+
+        def Cylinder "Base_2" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            uniform token axis = "Y"
+            double height = 0.3
+            rel material:binding = </Root/Stack_1/SmoothConcrete> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double radius = 1.5
+            float2 ui:nodegraph:node:pos = (1248.5114, 350.83783)
+            int ui:nodegraph:node:stackingOrder = 5
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 0.5, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "EnvironmentLightingConfiguration"
+            {
+                float environmentLightingWeight = 0
+                uniform token info:id = "RealityKit.EnvironmentLightingConfiguration"
+            }
+        }
+
+        def Cylinder "Base_3" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            uniform token axis = "Y"
+            double height = 0.3
+            rel material:binding = </Root/Stack_1/SmoothConcrete> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double radius = 2
+            float2 ui:nodegraph:node:pos = (1268.5114, 370.83783)
+            int ui:nodegraph:node:stackingOrder = 6
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 1, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "EnvironmentLightingConfiguration"
+            {
+                float environmentLightingWeight = 0
+                uniform token info:id = "RealityKit.EnvironmentLightingConfiguration"
+            }
+        }
+
+        def Cylinder "Base_4" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            uniform token axis = "Y"
+            double height = 0.3
+            rel material:binding = </Root/Stack_1/SmoothConcrete> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double radius = 2.5
+            float2 ui:nodegraph:node:pos = (1288.5114, 390.83783)
+            int ui:nodegraph:node:stackingOrder = 7
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 1.5, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "EnvironmentLightingConfiguration"
+            {
+                float environmentLightingWeight = 0
+                uniform token info:id = "RealityKit.EnvironmentLightingConfiguration"
+            }
+        }
+
+        def Cylinder "Base_5" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            uniform token axis = "Y"
+            double height = 0.3
+            rel material:binding = </Root/Stack_1/SmoothConcrete> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double radius = 3
+            float2 ui:nodegraph:node:pos = (1308.5114, 410.83783)
+            int ui:nodegraph:node:stackingOrder = 8
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 2, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "EnvironmentLightingConfiguration"
+            {
+                float environmentLightingWeight = 0
+                uniform token info:id = "RealityKit.EnvironmentLightingConfiguration"
+            }
+        }
+
+        def "SmoothConcrete" (
+            active = true
+            references = @Stack01_references/SmoothConcrete.usdz@
+        )
+        {
+            token cullMode = "none" (
+                allowedTokens = ["unspecified", "none", "front", "back"]
+            )
+            color3f inputs:Basecolor_Tint = (0.83137256, 0.73333335, 0.73333335) (
+                colorSpace = "srgb_displayp3"
+            )
+            float2 inputs:UV_Scale = (5, 5)
+            token outputs:mtlx:surface.connect = </Root/Stack_1/SmoothConcrete/PreviewSurface.outputs:out>
+            float2 ui:nodegraph:node:pos = (40, 40)
+            int ui:nodegraph:node:stackingOrder = 2
+        }
+    }
+}
+

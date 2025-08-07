@@ -1,0 +1,1674 @@
+#usda 1.0
+(
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    reorder nameChildren = ["DirectionalLight", "SkyDome_DS01", "Examples", "FresnelShader", "SGMatFresnel"]
+    def Xform "DirectionalLight" (
+        customData = {
+            float3 rotationEulerHint = (-1.378981, 0, 0)
+        }
+    )
+    {
+        quatf xformOp:orient = (0.7715702, -0.6361441, 0, 0)
+        float3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "DirectionalLight"
+        {
+            token info:id = "RealityKit.DirectionalLight"
+
+            def RealityKitStruct "Shadow"
+            {
+            }
+        }
+    }
+
+    def "SkyDome_DS01" (
+        active = true
+        references = @SkyDome_DS01.usda@
+    )
+    {
+        float3 xformOp:scale = (1, 1, 1)
+    }
+
+    def Xform "Examples" (
+        active = true
+    )
+    {
+        reorder nameChildren = ["BlackSky", "SGMatEx09", "SGMatEx03", "SGMatEx06a", "MLBlackABSPlastic", "MLScratchedMetallicPaint", "MLSmoothConcrete", "MLGrayFeltFabric", "PBRClear", "PBRFlatBlack", "PBRMirror", "PBRFlatWhite"]
+        def Sphere "BlackSky" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            reorder nameChildren = ["InputTarget", "Collider", "MaterialEx03", "SkyMat"]
+            rel material:binding = </Root/Examples/BlackSky/SkyMat> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double radius = 0.35
+            float2 ui:nodegraph:node:pos = (40, 40)
+            int ui:nodegraph:node:stackingOrder = 2
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 1.1635412, -1.4)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "InputTarget"
+            {
+                uniform token info:id = "RealityKit.InputTarget"
+            }
+
+            def RealityKitComponent "Collider"
+            {
+                uint group = 1
+                uniform token info:id = "RealityKit.Collider"
+                uint mask = 4294967295
+                token type = "Default"
+
+                def RealityKitStruct "Shape"
+                {
+                    float3 extent = (0.7, 0.7, 0.7)
+                    float radius = 0.35
+                    token shapeType = "Sphere"
+
+                    def RealityKitStruct "pose"
+                    {
+                    }
+                }
+            }
+
+            def Material "SkyMat"
+            {
+                token cullMode = "unspecified" (
+                    allowedTokens = ["unspecified", "none", "front", "back"]
+                )
+                color4f inputs:Background = (0.999996, 1, 1, 1) (
+                    colorSpace = "srgb_texture"
+                    customData = {
+                        dictionary realitykit = {
+                            float2 positionInSubgraph = (909.8596, -46.64475)
+                            int stackingOrderInSubgraph = 1827
+                        }
+                    }
+                )
+                color4f inputs:Foreground = (0, 0, 0, 1) (
+                    colorSpace = "srgb_texture"
+                    customData = {
+                        dictionary realitykit = {
+                            float2 positionInSubgraph = (896.67993, -127.019745)
+                            int stackingOrderInSubgraph = 1833
+                        }
+                    }
+                )
+                token outputs:mtlx:surface.connect = </Root/Examples/BlackSky/SkyMat/PreviewSurface.outputs:out>
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = None
+                float2 ui:nodegraph:node:pos = (80, 80)
+                int ui:nodegraph:node:stackingOrder = 4
+                float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (1681.75, 139.5)
+                int ui:nodegraph:realitykit:subgraphOutputs:stackingOrder = 1696
+
+                def Shader "DefaultSurfaceShader" (
+                    active = false
+                )
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    color3f inputs:diffuseColor = (1, 1, 1)
+                    float inputs:roughness = 0.75
+                    token outputs:surface
+                }
+
+                def Shader "PreviewSurface"
+                {
+                    uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
+                    color3f inputs:diffuseColor.connect = </Root/Examples/BlackSky/SkyMat/Mix.outputs:out>
+                    float inputs:metallic
+                    float inputs:roughness
+                    token outputs:out
+                    float2 ui:nodegraph:node:pos = (1440, 139.5)
+                    int ui:nodegraph:node:stackingOrder = 1698
+                }
+
+                def Shader "Position"
+                {
+                    uniform token info:id = "ND_position_vector3"
+                    string inputs:space
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (162.46315, 394.34058)
+                    int ui:nodegraph:node:stackingOrder = 1748
+                }
+
+                def Shader "Multiply"
+                {
+                    uniform token info:id = "ND_multiply_float"
+                    float inputs:in1.connect = </Root/Examples/BlackSky/SkyMat/Time.outputs:out>
+                    float inputs:in2 = 0.01
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (253.25, 98)
+                    int ui:nodegraph:node:stackingOrder = 1834
+                }
+
+                def Shader "Fractal3D_1"
+                {
+                    uniform token info:id = "ND_fractal3d_float"
+                    float inputs:amplitude = 2
+                    float inputs:diminish = 10
+                    float inputs:lacunarity = 1
+                    int inputs:octaves = 2
+                    float3 inputs:position.connect = </Root/Examples/BlackSky/SkyMat/Add_1.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (711, 109.5)
+                    int ui:nodegraph:node:stackingOrder = 1851
+                }
+
+                def Shader "Add"
+                {
+                    uniform token info:id = "ND_add_vector3FA"
+                    float3 inputs:in1.connect = </Root/Examples/BlackSky/SkyMat/Position.outputs:out>
+                    float inputs:in2.connect = </Root/Examples/BlackSky/SkyMat/Multiply.outputs:out>
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (526.75, 352.5)
+                    int ui:nodegraph:node:stackingOrder = 1835
+                }
+
+                def Shader "Fractal3D"
+                {
+                    uniform token info:id = "ND_fractal3d_float"
+                    float inputs:diminish = 0.6
+                    float inputs:lacunarity = 3
+                    int inputs:octaves = 10
+                    float3 inputs:position.connect = </Root/Examples/BlackSky/SkyMat/Add.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (711.17645, 331.6948)
+                    int ui:nodegraph:node:stackingOrder = 1853
+                }
+
+                def Shader "Multiply_2"
+                {
+                    uniform token info:id = "ND_multiply_vector3"
+                    float3 inputs:in1.connect = </Root/Examples/BlackSky/SkyMat/Position.outputs:out>
+                    float3 inputs:in2 = (0.4, 0.4, 0.4)
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (282.32416, 265.7471)
+                    int ui:nodegraph:node:stackingOrder = 1836
+                    string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["inputs:in2"]
+                }
+
+                def Shader "Abs"
+                {
+                    uniform token info:id = "ND_absval_float"
+                    float inputs:in.connect = </Root/Examples/BlackSky/SkyMat/Multiply_1.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (1040.5, 139.5)
+                    int ui:nodegraph:node:stackingOrder = 1854
+                }
+
+                def Shader "Multiply_1"
+                {
+                    uniform token info:id = "ND_multiply_float"
+                    float inputs:in1.connect = </Root/Examples/BlackSky/SkyMat/Fractal3D_1.outputs:out>
+                    float inputs:in2.connect = </Root/Examples/BlackSky/SkyMat/Fractal3D.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (894.5, 139.5)
+                    int ui:nodegraph:node:stackingOrder = 1839
+                    string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["inputs:in1"]
+                }
+
+                def Shader "Mix"
+                {
+                    uniform token info:id = "ND_mix_color3"
+                    color3f inputs:bg = (0, 0, 0) (
+                        colorSpace = "srgb_texture"
+                    )
+                    color3f inputs:bg.connect = </Root/Examples/BlackSky/SkyMat/Convert.outputs:out>
+                    color3f inputs:fg = (0.999996, 1, 1) (
+                        colorSpace = "srgb_texture"
+                    )
+                    color3f inputs:fg.connect = </Root/Examples/BlackSky/SkyMat/Convert_1.outputs:out>
+                    float inputs:mix.connect = </Root/Examples/BlackSky/SkyMat/Abs.outputs:out>
+                    color3f outputs:out
+                    float2 ui:nodegraph:node:pos = (1222.5, 139.5)
+                    int ui:nodegraph:node:stackingOrder = 1751
+                }
+
+                def Shader "Time"
+                {
+                    uniform token info:id = "ND_time_float"
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (62.25, 98)
+                    int ui:nodegraph:node:stackingOrder = 1704
+                }
+
+                def Shader "Add_1"
+                {
+                    uniform token info:id = "ND_add_vector3FA"
+                    float3 inputs:in1.connect = </Root/Examples/BlackSky/SkyMat/Multiply_2.outputs:out>
+                    float inputs:in2.connect = </Root/Examples/BlackSky/SkyMat/Multiply_3.outputs:out>
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (526.75, 109.5)
+                    int ui:nodegraph:node:stackingOrder = 1183
+                }
+
+                def Shader "Multiply_3"
+                {
+                    uniform token info:id = "ND_multiply_float"
+                    float inputs:in1.connect = </Root/Examples/BlackSky/SkyMat/Multiply.outputs:out>
+                    float inputs:in2 = 0.5
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (410, 18)
+                    int ui:nodegraph:node:stackingOrder = 1833
+                }
+
+                def Shader "Convert"
+                {
+                    uniform token info:id = "ND_convert_color4_color3"
+                    color4f inputs:in.connect = </Root/Examples/BlackSky/SkyMat.inputs:Background>
+                    color3f outputs:out
+                    float2 ui:nodegraph:node:pos = (1030.5, 51.464844)
+                    int ui:nodegraph:node:stackingOrder = 1829
+                }
+
+                def Shader "Convert_1"
+                {
+                    uniform token info:id = "ND_convert_color4_color3"
+                    color4f inputs:in.connect = </Root/Examples/BlackSky/SkyMat.inputs:Foreground>
+                    color3f outputs:out
+                    float2 ui:nodegraph:node:pos = (1086.8438, -94.73047)
+                    int ui:nodegraph:node:stackingOrder = 1832
+                }
+            }
+        }
+
+        def Sphere "SGMatEx09" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            reorder nameChildren = ["InputTarget", "Collider", "MaterialEx09"]
+            rel material:binding = </Root/Examples/SGMatEx09/MaterialEx09> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double radius = 0.35
+            float2 ui:nodegraph:node:pos = (139.10727, 60.693462)
+            int ui:nodegraph:node:stackingOrder = 1
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (1, 1.4, -1.4)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "InputTarget"
+            {
+                uniform token info:id = "RealityKit.InputTarget"
+            }
+
+            def RealityKitComponent "Collider"
+            {
+                uint group = 1
+                uniform token info:id = "RealityKit.Collider"
+                uint mask = 4294967295
+                token type = "Default"
+
+                def RealityKitStruct "Shape"
+                {
+                    float3 extent = (0.7, 0.7, 0.7)
+                    float radius = 0.35
+                    token shapeType = "Sphere"
+
+                    def RealityKitStruct "pose"
+                    {
+                    }
+                }
+            }
+
+            def Material "MaterialEx09"
+            {
+                token outputs:mtlx:surface.connect = </Root/Examples/SGMatEx09/MaterialEx09/UnlitSurface.outputs:out>
+                token outputs:realitykit:vertex
+                float2 ui:nodegraph:node:pos = (139.10727, 60.693462)
+                int ui:nodegraph:node:stackingOrder = 1
+                float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (758.46094, -52.179688)
+                float2 ui:nodegraph:realitykit:subgraphOutputs:size = (181.5, 99)
+                int ui:nodegraph:realitykit:subgraphOutputs:stackingOrder = 47
+
+                def Shader "UnlitSurface"
+                {
+                    uniform token info:id = "ND_realitykit_unlit_surfaceshader"
+                    bool inputs:applyPostProcessToneMap
+                    color3f inputs:color.connect = </Root/Examples/SGMatEx09/MaterialEx09/Mix.outputs:out>
+                    bool inputs:hasPremultipliedAlpha
+                    float inputs:opacity
+                    float inputs:opacityThreshold
+                    token outputs:out
+                    float2 ui:nodegraph:node:pos = (549.1953, -49.20703)
+                    float2 ui:nodegraph:node:size = (194.5, 181)
+                    int ui:nodegraph:node:stackingOrder = 133
+                }
+
+                def Shader "Texcoord"
+                {
+                    uniform token info:id = "ND_texcoord_vector2"
+                    float2 outputs:out
+                    float2 ui:nodegraph:node:pos = (-573.6697, -95.06069)
+                    float2 ui:nodegraph:node:size = (180.5, 53)
+                    int ui:nodegraph:node:stackingOrder = 272
+                }
+
+                def Shader "Separate2"
+                {
+                    uniform token info:id = "ND_separate2_vector2"
+                    float2 inputs:in.connect = </Root/Examples/SGMatEx09/MaterialEx09/Multiply.outputs:out>
+                    float outputs:outx
+                    float outputs:outy
+                    float2 ui:nodegraph:node:pos = (-337.4249, -89.38712)
+                    float2 ui:nodegraph:node:size = (115, 127)
+                    int ui:nodegraph:node:stackingOrder = 272
+                }
+
+                def Shader "Combine3_1"
+                {
+                    uniform token info:id = "ND_combine3_vector3"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx09/MaterialEx09/Separate2.outputs:outx>
+                    float inputs:in2.connect = </Root/Examples/SGMatEx09/MaterialEx09/Separate2.outputs:outy>
+                    float inputs:in3.connect = </Root/Examples/SGMatEx09/MaterialEx09/Multiply_1.outputs:out>
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (-189.07318, -45.043297)
+                    float2 ui:nodegraph:node:size = (157, 54)
+                    int ui:nodegraph:node:stackingOrder = 272
+                }
+
+                def Shader "Multiply"
+                {
+                    uniform token info:id = "ND_multiply_vector2"
+                    float2 inputs:in1.connect = </Root/Examples/SGMatEx09/MaterialEx09/Texcoord.outputs:out>
+                    float2 inputs:in2 = (20, 20)
+                    float2 outputs:out
+                    float2 ui:nodegraph:node:pos = (-441.89413, -85.75292)
+                    float2 ui:nodegraph:node:size = (60, 36)
+                    int ui:nodegraph:node:stackingOrder = 272
+                }
+
+                def Shader "Mix"
+                {
+                    uniform token info:id = "ND_mix_color3"
+                    color3f inputs:bg.connect = </Root/Examples/SGMatEx09/MaterialEx09/Color_2.outputs:out>
+                    color3f inputs:fg.connect = </Root/Examples/SGMatEx09/MaterialEx09/Color_1.outputs:out>
+                    float inputs:mix.connect = </Root/Examples/SGMatEx09/MaterialEx09/Fractal3D.outputs:out>
+                    color3f outputs:out
+                    float2 ui:nodegraph:node:pos = (317.61337, -53.934288)
+                    float2 ui:nodegraph:node:size = (109, 145)
+                    int ui:nodegraph:node:stackingOrder = 272
+                }
+
+                def Shader "Time"
+                {
+                    uniform token info:id = "ND_time_float"
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-541.4288, 20.852156)
+                    float2 ui:nodegraph:node:size = (122.5, 53)
+                    int ui:nodegraph:node:stackingOrder = 272
+                }
+
+                def Shader "Multiply_1"
+                {
+                    uniform token info:id = "ND_multiply_float"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx09/MaterialEx09/Time.outputs:out>
+                    float inputs:in2 = 0.6
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-440.30405, 30.697676)
+                    float2 ui:nodegraph:node:size = (60, 36)
+                    int ui:nodegraph:node:stackingOrder = 280
+                    string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["outputs:out"]
+                }
+
+                def Shader "Color_1"
+                {
+                    uniform token info:id = "ND_constant_color3"
+                    color3f inputs:value = (0.6642242, 0.66424006, 0.66423154) (
+                        colorSpace = "srgb_texture"
+                    )
+                    color3f outputs:out
+                    float2 ui:nodegraph:node:pos = (104.24623, -252.33679)
+                    float2 ui:nodegraph:node:size = (151, 53)
+                    int ui:nodegraph:node:stackingOrder = 291
+                }
+
+                def Shader "Color_2"
+                {
+                    uniform token info:id = "ND_constant_color3"
+                    color3f inputs:value = (0, 0, 0) (
+                        colorSpace = "srgb_texture"
+                    )
+                    color3f outputs:out
+                    float2 ui:nodegraph:node:pos = (108.881485, -183.49747)
+                    float2 ui:nodegraph:node:size = (151, 53)
+                    int ui:nodegraph:node:stackingOrder = 290
+                }
+
+                def Shader "Fractal3D"
+                {
+                    uniform token info:id = "ND_fractal3d_float"
+                    float inputs:amplitude
+                    float inputs:diminish
+                    float inputs:lacunarity
+                    int inputs:octaves
+                    float3 inputs:position.connect = </Root/Examples/SGMatEx09/MaterialEx09/Combine3_1.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (33.43575, -12.341937)
+                    float2 ui:nodegraph:node:size = (130.5, 181)
+                    int ui:nodegraph:node:stackingOrder = 288
+                }
+            }
+        }
+
+        def Sphere "SGMatEx03" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            reorder nameChildren = ["InputTarget", "Collider", "MaterialEx03"]
+            rel material:binding = </Root/Examples/SGMatEx03/MaterialEx03> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double radius = 0.35
+            float2 ui:nodegraph:node:pos = (20, 20)
+            int ui:nodegraph:node:stackingOrder = 1
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 1.9425262, -1.4)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "InputTarget"
+            {
+                uniform token info:id = "RealityKit.InputTarget"
+            }
+
+            def RealityKitComponent "Collider"
+            {
+                uint group = 1
+                uniform token info:id = "RealityKit.Collider"
+                uint mask = 4294967295
+                token type = "Default"
+
+                def RealityKitStruct "Shape"
+                {
+                    float3 extent = (0.7, 0.7, 0.7)
+                    float radius = 0.35
+                    token shapeType = "Sphere"
+
+                    def RealityKitStruct "pose"
+                    {
+                    }
+                }
+            }
+
+            def Material "MaterialEx03"
+            {
+                color3f inputs:Color1 = (0.12984204, 0.12984613, 0.12984395) (
+                    colorSpace = "srgb_texture"
+                    customData = {
+                        dictionary realitykit = {
+                            float2 positionInSubgraph = (309.8797, -448.56262)
+                            int stackingOrderInSubgraph = 1169
+                        }
+                    }
+                )
+                color3f inputs:Color2 = (0, 0, 0) (
+                    colorSpace = "srgb_texture"
+                    customData = {
+                        dictionary realitykit = {
+                            float2 positionInSubgraph = (327.52814, -174.08217)
+                            int stackingOrderInSubgraph = 1177
+                        }
+                    }
+                )
+                token outputs:mtlx:surface.connect = </Root/Examples/SGMatEx03/MaterialEx03/PreviewSurface.outputs:out>
+                token outputs:realitykit:vertex
+                float2 ui:nodegraph:node:pos = (20, 20)
+                int ui:nodegraph:node:stackingOrder = 1
+                float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (1209.7546, -282.96652)
+                float2 ui:nodegraph:realitykit:subgraphOutputs:size = (181.5, 99)
+                int ui:nodegraph:realitykit:subgraphOutputs:stackingOrder = 842
+
+                def Shader "PreviewSurface"
+                {
+                    uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
+                    float inputs:clearcoat
+                    float inputs:clearcoatRoughness
+                    color3f inputs:diffuseColor = (0, 0, 0) (
+                        colorSpace = "srgb_texture"
+                    )
+                    color3f inputs:emissiveColor.connect = </Root/Examples/SGMatEx03/MaterialEx03/Convert.outputs:out>
+                    float inputs:ior
+                    float inputs:metallic = 1
+                    float3 inputs:normal
+                    float inputs:opacity
+                    float inputs:roughness = 1
+                    token outputs:out
+                    float2 ui:nodegraph:node:pos = (956.54443, -279.79474)
+                    float2 ui:nodegraph:node:size = (159.5, 307)
+                    int ui:nodegraph:node:stackingOrder = 1190
+                    string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["Advanced"]
+                }
+
+                def Shader "Position"
+                {
+                    uniform token info:id = "ND_position_vector3"
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (-2308.357, -468.90225)
+                    float2 ui:nodegraph:node:size = (133.5, 40)
+                    int ui:nodegraph:node:stackingOrder = 1156
+                }
+
+                def Shader "Multiply"
+                {
+                    uniform token info:id = "ND_multiply_vector3"
+                    float3 inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Position.outputs:out>
+                    float3 inputs:in2 = (2, 2, 2)
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (-2181.1184, -463.85928)
+                    float2 ui:nodegraph:node:size = (60, 36)
+                    int ui:nodegraph:node:stackingOrder = 1183
+                }
+
+                def Shader "Subtract"
+                {
+                    uniform token info:id = "ND_subtract_vector3"
+                    float3 inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Multiply.outputs:out>
+                    float3 inputs:in2 = (1, 1, 1)
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (-2085.7395, -456.66788)
+                    float2 ui:nodegraph:node:size = (61.5, 36)
+                    int ui:nodegraph:node:stackingOrder = 1156
+                }
+
+                def Shader "Separate3"
+                {
+                    uniform token info:id = "ND_separate3_vector3"
+                    float3 inputs:in.connect = </Root/Examples/SGMatEx03/MaterialEx03/Subtract.outputs:out>
+                    float outputs:outx
+                    float outputs:outy
+                    float outputs:outz
+                    float2 ui:nodegraph:node:pos = (-1944.4467, -435.96085)
+                    float2 ui:nodegraph:node:size = (115.5, 145)
+                    int ui:nodegraph:node:stackingOrder = 1156
+                }
+
+                def Shader "Multiply_1"
+                {
+                    uniform token info:id = "ND_multiply_float"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Separate3.outputs:outy>
+                    float inputs:in2 = -1
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-1833.0873, -390.78116)
+                    float2 ui:nodegraph:node:size = (60, 36)
+                    int ui:nodegraph:node:stackingOrder = 1156
+                }
+
+                def Shader "DotProduct"
+                {
+                    uniform token info:id = "ND_dotproduct_vector3"
+                    float3 inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Multiply_3.outputs:out>
+                    float3 inputs:in2.connect = </Root/Examples/SGMatEx03/MaterialEx03/Combine3_2.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-1421.6932, -401.15472)
+                    float2 ui:nodegraph:node:size = (153.5, 53)
+                    int ui:nodegraph:node:stackingOrder = 1185
+                }
+
+                def Shader "Separate3_1"
+                {
+                    uniform token info:id = "ND_separate3_vector3"
+                    float3 inputs:in.connect = </Root/Examples/SGMatEx03/MaterialEx03/Combine3_2.outputs:out>
+                    float outputs:outx
+                    float outputs:outy
+                    float outputs:outz
+                    float2 ui:nodegraph:node:pos = (-1428.0671, -268.73898)
+                    float2 ui:nodegraph:node:size = (127.5, 145)
+                    int ui:nodegraph:node:stackingOrder = 1186
+                }
+
+                def Shader "Time"
+                {
+                    uniform token info:id = "ND_time_float"
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-1176.451, -27.902613)
+                    float2 ui:nodegraph:node:size = (122.5, 53)
+                    int ui:nodegraph:node:stackingOrder = 1188
+                }
+
+                def Shader "Combine3_2"
+                {
+                    uniform token info:id = "ND_combine3_vector3"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Separate3.outputs:outx>
+                    float inputs:in2.connect = </Root/Examples/SGMatEx03/MaterialEx03/Multiply_1.outputs:out>
+                    float inputs:in3.connect = </Root/Examples/SGMatEx03/MaterialEx03/Separate3.outputs:outz>
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (-1697.6526, -391.81598)
+                    float2 ui:nodegraph:node:size = (160, 54)
+                    int ui:nodegraph:node:stackingOrder = 1184
+                }
+
+                def Shader "Multiply_3"
+                {
+                    uniform token info:id = "ND_multiply_vector3"
+                    float3 inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Combine3_2.outputs:out>
+                    float3 inputs:in2.connect = </Root/Examples/SGMatEx03/MaterialEx03/Combine3_2.outputs:out>
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (-1548.4355, -453.48553)
+                    float2 ui:nodegraph:node:size = (60, 36)
+                    int ui:nodegraph:node:stackingOrder = 1156
+                }
+
+                def Shader "Combine3"
+                {
+                    uniform token info:id = "ND_combine3_vector3"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Separate3_1.outputs:outx>
+                    float inputs:in2.connect = </Root/Examples/SGMatEx03/MaterialEx03/DotProduct.outputs:out>
+                    float inputs:in3.connect = </Root/Examples/SGMatEx03/MaterialEx03/Separate3_1.outputs:outz>
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (-1186.776, -286.4197)
+                    float2 ui:nodegraph:node:size = (145, 54)
+                    int ui:nodegraph:node:stackingOrder = 1187
+                }
+
+                def Shader "Multiply_2"
+                {
+                    uniform token info:id = "ND_multiply_float"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/DotProduct.outputs:out>
+                    float inputs:in2 = 1.7
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-1212.6207, -101.73837)
+                    float2 ui:nodegraph:node:size = (60, 36)
+                    int ui:nodegraph:node:stackingOrder = 1156
+                }
+
+                def Shader "Multiply_4"
+                {
+                    uniform token info:id = "ND_multiply_float"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Separate3_1.outputs:outx>
+                    float inputs:in2 = 6.6
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-1209.4108, -156.2492)
+                    float2 ui:nodegraph:node:size = (60, 36)
+                    int ui:nodegraph:node:stackingOrder = 1156
+                }
+
+                def Shader "Add"
+                {
+                    uniform token info:id = "ND_add_float"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Multiply_4.outputs:out>
+                    float inputs:in2.connect = </Root/Examples/SGMatEx03/MaterialEx03/Multiply_2.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-1103.2401, -124.96439)
+                    float2 ui:nodegraph:node:size = (61.5, 36.5)
+                    int ui:nodegraph:node:stackingOrder = 1156
+                }
+
+                def Shader "Add_1"
+                {
+                    uniform token info:id = "ND_add_float"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Add.outputs:out>
+                    float inputs:in2.connect = </Root/Examples/SGMatEx03/MaterialEx03/Time.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-988.9852, -83.93218)
+                    float2 ui:nodegraph:node:size = (61.5, 36.5)
+                    int ui:nodegraph:node:stackingOrder = 1156
+                }
+
+                def Shader "Sin"
+                {
+                    uniform token info:id = "ND_sin_float"
+                    float inputs:in.connect = </Root/Examples/SGMatEx03/MaterialEx03/Add_1.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-853.9575, -84.05429)
+                    float2 ui:nodegraph:node:size = (116, 40)
+                    int ui:nodegraph:node:stackingOrder = 1156
+                }
+
+                def Shader "Add_2"
+                {
+                    uniform token info:id = "ND_add_float"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Sin.outputs:out>
+                    float inputs:in2 = 1.25
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-744.78485, -74.53899)
+                    float2 ui:nodegraph:node:size = (61.5, 36.5)
+                    int ui:nodegraph:node:stackingOrder = 1156
+                }
+
+                def Shader "Sin_1"
+                {
+                    uniform token info:id = "ND_sin_float"
+                    float inputs:in.connect = </Root/Examples/SGMatEx03/MaterialEx03/Time.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-966.0246, 31.481512)
+                    float2 ui:nodegraph:node:size = (118, 53)
+                    int ui:nodegraph:node:stackingOrder = 1156
+                }
+
+                def Shader "Multiply_5"
+                {
+                    uniform token info:id = "ND_multiply_float"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Sin_1.outputs:out>
+                    float inputs:in2 = 0.5
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-843.3569, 37.378826)
+                    float2 ui:nodegraph:node:size = (60, 36)
+                    int ui:nodegraph:node:stackingOrder = 1156
+                }
+
+                def Shader "Add_3"
+                {
+                    uniform token info:id = "ND_add_float"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Multiply_5.outputs:out>
+                    float inputs:in2 = 0.5
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-747.6205, 45.591652)
+                    float2 ui:nodegraph:node:size = (61.5, 36.5)
+                    int ui:nodegraph:node:stackingOrder = 1156
+                }
+
+                def Shader "Mix"
+                {
+                    uniform token info:id = "ND_mix_float"
+                    float inputs:bg = 0.29
+                    float inputs:fg = 0.15
+                    float inputs:mix.connect = </Root/Examples/SGMatEx03/MaterialEx03/Add_3.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-598.82635, 77.85503)
+                    float2 ui:nodegraph:node:size = (109, 145)
+                    int ui:nodegraph:node:stackingOrder = 1156
+                }
+
+                def Shader "Add_4"
+                {
+                    uniform token info:id = "ND_add_float"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/DotProduct.outputs:out>
+                    float inputs:in2.connect = </Root/Examples/SGMatEx03/MaterialEx03/Time.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-639.7061, -378.78455)
+                    float2 ui:nodegraph:node:size = (61.5, 36.5)
+                    int ui:nodegraph:node:stackingOrder = 1156
+                }
+
+                def Shader "Sin_2"
+                {
+                    uniform token info:id = "ND_sin_float"
+                    float inputs:in.connect = </Root/Examples/SGMatEx03/MaterialEx03/Add_4.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-324.3655, -392.4941)
+                    float2 ui:nodegraph:node:size = (121.5, 53)
+                    int ui:nodegraph:node:stackingOrder = 801
+                }
+
+                def Shader "Multiply_6"
+                {
+                    uniform token info:id = "ND_multiply_float"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Sin_2.outputs:out>
+                    float inputs:in2.connect = </Root/Examples/SGMatEx03/MaterialEx03/Add_2.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-185.80374, -374.50598)
+                    float2 ui:nodegraph:node:size = (60, 36)
+                    int ui:nodegraph:node:stackingOrder = 804
+                }
+
+                def Shader "Add_5"
+                {
+                    uniform token info:id = "ND_add_float"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Multiply_6.outputs:out>
+                    float inputs:in2.connect = </Root/Examples/SGMatEx03/MaterialEx03/Separate3_1.outputs:outx>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-74.44253, -338.6048)
+                    float2 ui:nodegraph:node:size = (61.5, 36.5)
+                    int ui:nodegraph:node:stackingOrder = 808
+                }
+
+                def Shader "Sin_3"
+                {
+                    uniform token info:id = "ND_sin_float"
+                    float inputs:in.connect = </Root/Examples/SGMatEx03/MaterialEx03/Add_5.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (45.05974, -325.05228)
+                    float2 ui:nodegraph:node:size = (121, 53)
+                    int ui:nodegraph:node:stackingOrder = 1002
+                }
+
+                def Shader "Divide"
+                {
+                    uniform token info:id = "ND_divide_float"
+                    float inputs:in1 = 1
+                    float inputs:in2.connect = </Root/Examples/SGMatEx03/MaterialEx03/Sin_3.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (191.39406, -321.2786)
+                    float2 ui:nodegraph:node:size = (61.5, 36)
+                    int ui:nodegraph:node:stackingOrder = 814
+                }
+
+                def Shader "Absval"
+                {
+                    uniform token info:id = "ND_absval_float"
+                    float inputs:in.connect = </Root/Examples/SGMatEx03/MaterialEx03/Divide.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (321.89664, -326.1305)
+                    float2 ui:nodegraph:node:size = (121.5, 53)
+                    int ui:nodegraph:node:stackingOrder = 819
+                }
+
+                def Shader "Multiply_7"
+                {
+                    uniform token info:id = "ND_multiply_float"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Absval.outputs:out>
+                    float inputs:in2.connect = </Root/Examples/SGMatEx03/MaterialEx03/Mix.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (450.44757, -318.55582)
+                    float2 ui:nodegraph:node:size = (60, 36)
+                    int ui:nodegraph:node:stackingOrder = 1037
+                }
+
+                def Shader "Multiply_8"
+                {
+                    uniform token info:id = "ND_multiply_vector3FA"
+                    float3 inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Convert_1.outputs:out>
+                    float inputs:in2.connect = </Root/Examples/SGMatEx03/MaterialEx03/Multiply_7.outputs:out>
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (588.21094, -294.2896)
+                    float2 ui:nodegraph:node:size = (60, 36)
+                    int ui:nodegraph:node:stackingOrder = 1047
+                }
+
+                def Shader "Convert"
+                {
+                    uniform token info:id = "ND_convert_vector3_color3"
+                    float3 inputs:in.connect = </Root/Examples/SGMatEx03/MaterialEx03/Add_9.outputs:out>
+                    color3f outputs:out
+                    float2 ui:nodegraph:node:pos = (787.79224, -222.40971)
+                    float2 ui:nodegraph:node:size = (135.5, 40)
+                    int ui:nodegraph:node:stackingOrder = 1161
+                }
+
+                def Shader "Cos"
+                {
+                    uniform token info:id = "ND_cos_float"
+                    float inputs:in.connect = </Root/Examples/SGMatEx03/MaterialEx03/Add_6.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-172.82372, 214.46198)
+                    float2 ui:nodegraph:node:size = (116, 40)
+                    int ui:nodegraph:node:stackingOrder = 916
+                }
+
+                def Shader "Add_6"
+                {
+                    uniform token info:id = "ND_add_float"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Add_4.outputs:out>
+                    float inputs:in2 = 1
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-293.83557, 215.0892)
+                    float2 ui:nodegraph:node:size = (61.5, 36.5)
+                    int ui:nodegraph:node:stackingOrder = 858
+                }
+
+                def Shader "Multiply_9"
+                {
+                    uniform token info:id = "ND_multiply_float"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Add_2.outputs:out>
+                    float inputs:in2.connect = </Root/Examples/SGMatEx03/MaterialEx03/Cos.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-58.83434, 187.27318)
+                    float2 ui:nodegraph:node:size = (60, 36)
+                    int ui:nodegraph:node:stackingOrder = 994
+                }
+
+                def Shader "Add_7"
+                {
+                    uniform token info:id = "ND_add_float"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Multiply_9.outputs:out>
+                    float inputs:in2 = 0.1
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (24.545166, 197.21382)
+                    float2 ui:nodegraph:node:size = (61.5, 36.5)
+                    int ui:nodegraph:node:stackingOrder = 1001
+                }
+
+                def Shader "Sin_4"
+                {
+                    uniform token info:id = "ND_sin_float"
+                    float inputs:in.connect = </Root/Examples/SGMatEx03/MaterialEx03/Add_8.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (218.97076, 142.49501)
+                    float2 ui:nodegraph:node:size = (121, 53)
+                    int ui:nodegraph:node:stackingOrder = 1007
+                }
+
+                def Shader "Add_8"
+                {
+                    uniform token info:id = "ND_add_float"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Separate3_1.outputs:outx>
+                    float inputs:in2.connect = </Root/Examples/SGMatEx03/MaterialEx03/Add_7.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (97.4476, 133.05994)
+                    float2 ui:nodegraph:node:size = (61.5, 36.5)
+                    int ui:nodegraph:node:stackingOrder = 1010
+                }
+
+                def Shader "Divide_1"
+                {
+                    uniform token info:id = "ND_divide_float"
+                    float inputs:in1 = 1
+                    float inputs:in2.connect = </Root/Examples/SGMatEx03/MaterialEx03/Sin_4.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (296.95773, 65.59648)
+                    float2 ui:nodegraph:node:size = (61.5, 36)
+                    int ui:nodegraph:node:stackingOrder = 1033
+                }
+
+                def Shader "Absval_1"
+                {
+                    uniform token info:id = "ND_absval_float"
+                    float inputs:in.connect = </Root/Examples/SGMatEx03/MaterialEx03/Divide_1.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (420.39255, 64.768745)
+                    float2 ui:nodegraph:node:size = (134, 53)
+                    int ui:nodegraph:node:stackingOrder = 1036
+                }
+
+                def Shader "Multiply_10"
+                {
+                    uniform token info:id = "ND_multiply_float"
+                    float inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Mix.outputs:out>
+                    float inputs:in2.connect = </Root/Examples/SGMatEx03/MaterialEx03/Absval_1.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (544.162, 29.859432)
+                    float2 ui:nodegraph:node:size = (60, 36)
+                    int ui:nodegraph:node:stackingOrder = 1040
+                }
+
+                def Shader "Multiply_11"
+                {
+                    uniform token info:id = "ND_multiply_vector3FA"
+                    float3 inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Convert_2.outputs:out>
+                    float inputs:in2.connect = </Root/Examples/SGMatEx03/MaterialEx03/Multiply_10.outputs:out>
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (641.5652, -15.011896)
+                    float2 ui:nodegraph:node:size = (60, 36)
+                    int ui:nodegraph:node:stackingOrder = 1050
+                }
+
+                def Shader "Add_9"
+                {
+                    uniform token info:id = "ND_add_vector3"
+                    float3 inputs:in1.connect = </Root/Examples/SGMatEx03/MaterialEx03/Multiply_8.outputs:out>
+                    float3 inputs:in2.connect = </Root/Examples/SGMatEx03/MaterialEx03/Multiply_11.outputs:out>
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (715.8569, -107.21965)
+                    float2 ui:nodegraph:node:size = (61.5, 36.5)
+                    int ui:nodegraph:node:stackingOrder = 1053
+                }
+
+                def Shader "Convert_1"
+                {
+                    uniform token info:id = "ND_convert_color3_vector3"
+                    color3f inputs:in.connect = </Root/Examples/SGMatEx03/MaterialEx03.inputs:Color1>
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (500.54297, -406.0078)
+                    int ui:nodegraph:node:stackingOrder = 1171
+                }
+
+                def Shader "Convert_2"
+                {
+                    uniform token info:id = "ND_convert_color3_vector3"
+                    color3f inputs:in.connect = </Root/Examples/SGMatEx03/MaterialEx03.inputs:Color2>
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (542.21484, -139.33594)
+                    int ui:nodegraph:node:stackingOrder = 1176
+                }
+            }
+        }
+
+        def Sphere "SGMatEx06a" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            reorder nameChildren = ["SGMatEx03", "MaterialEx06a", "InputTarget", "PointLight", "Collider", "InnerSphere"]
+            rel material:binding = </Root/Examples/SGMatEx06a/MaterialEx06a> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double radius = 0.45
+            float2 ui:nodegraph:node:pos = (120.71411, 172.4755)
+            int ui:nodegraph:node:stackingOrder = 3
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (-1, 1.4, -1.4)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Sphere "InnerSphere" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Examples/SGMatEx06a/InnerSphere/DefaultMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.3
+                float2 ui:nodegraph:node:pos = (80.71411, 132.4755)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (1, 0, 0, 0)
+                float3 xformOp:scale = (1, 1, 1)
+                float3 xformOp:translate = (0, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Material "DefaultMaterial"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+                    token outputs:surface.connect = </Root/Examples/SGMatEx06a/InnerSphere/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+                    float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (0, 110.5)
+
+                    def Shader "DefaultSurfaceShader"
+                    {
+                        uniform token info:id = "UsdPreviewSurface"
+                        color3f inputs:diffuseColor = (0, 0, 0) (
+                            colorSpace = "srgb_texture"
+                        )
+                        color3f inputs:emissiveColor = (0.999996, 1, 1) (
+                            colorSpace = "srgb_texture"
+                        )
+                        float inputs:roughness = 0.75
+                        token outputs:surface
+                    }
+                }
+            }
+
+            def Material "MaterialEx06a"
+            {
+                color3f inputs:Color = (0.999996, 1, 1) (
+                    colorSpace = "srgb_texture"
+                    customData = {
+                        dictionary realitykit = {
+                            float2 positionInSubgraph = (-168.28659, -75.11274)
+                            int stackingOrderInSubgraph = 259
+                        }
+                    }
+                )
+                token outputs:mtlx:surface.connect = </Root/Examples/SGMatEx06a/MaterialEx06a/UnlitSurface.outputs:out>
+                token outputs:realitykit:vertex
+                float2 ui:nodegraph:node:pos = (80.71411, 132.4755)
+                int ui:nodegraph:node:stackingOrder = 1
+                float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (405.0039, 24.082031)
+                float2 ui:nodegraph:realitykit:subgraphOutputs:size = (181.5, 99)
+                int ui:nodegraph:realitykit:subgraphOutputs:stackingOrder = 72
+
+                def Shader "UnlitSurface"
+                {
+                    uniform token info:id = "ND_realitykit_unlit_surfaceshader"
+                    bool inputs:applyPostProcessToneMap = 1
+                    color3f inputs:color.connect = </Root/Examples/SGMatEx06a/MaterialEx06a.inputs:Color>
+                    bool inputs:hasPremultipliedAlpha = 0
+                    float inputs:opacity.connect = </Root/Examples/SGMatEx06a/MaterialEx06a/Range.outputs:out>
+                    float inputs:opacityThreshold
+                    token outputs:out
+                    float2 ui:nodegraph:node:pos = (166.88281, 44.39453)
+                    float2 ui:nodegraph:node:size = (194.5, 181)
+                    int ui:nodegraph:node:stackingOrder = 257
+                }
+
+                def Shader "ViewDirection"
+                {
+                    uniform token info:id = "ND_realitykit_viewdirection_vector3"
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (-442.14844, 171.85938)
+                    float2 ui:nodegraph:node:size = (210, 53)
+                    int ui:nodegraph:node:stackingOrder = 235
+                }
+
+                def Shader "Normal"
+                {
+                    uniform token info:id = "ND_normal_vector3"
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (-411.03906, 249.8711)
+                    float2 ui:nodegraph:node:size = (128.5, 40)
+                    int ui:nodegraph:node:stackingOrder = 235
+                }
+
+                def Shader "DotProduct"
+                {
+                    uniform token info:id = "ND_dotproduct_vector3"
+                    float3 inputs:in1.connect = </Root/Examples/SGMatEx06a/MaterialEx06a/ViewDirection.outputs:out>
+                    float3 inputs:in2.connect = </Root/Examples/SGMatEx06a/MaterialEx06a/Normal.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-225.67969, 221.05469)
+                    float2 ui:nodegraph:node:size = (153.5, 53)
+                    int ui:nodegraph:node:stackingOrder = 235
+                }
+
+                def Shader "Range"
+                {
+                    uniform token info:id = "ND_range_float"
+                    bool inputs:doclamp
+                    float inputs:gamma = 0.3
+                    float inputs:in.connect = </Root/Examples/SGMatEx06a/MaterialEx06a/DotProduct.outputs:out>
+                    float inputs:inhigh
+                    float inputs:inlow
+                    float inputs:outhigh
+                    float inputs:outlow
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-30.855469, 203.51953)
+                    float2 ui:nodegraph:node:size = (98, 217)
+                    int ui:nodegraph:node:stackingOrder = 235
+                }
+            }
+
+            def RealityKitComponent "InputTarget"
+            {
+                uniform token info:id = "RealityKit.InputTarget"
+            }
+
+            def RealityKitComponent "PointLight"
+            {
+                uniform token info:id = "RealityKit.PointLight"
+            }
+
+            def RealityKitComponent "Collider"
+            {
+                uint group = 1
+                uniform token info:id = "RealityKit.Collider"
+                uint mask = 4294967295
+                token type = "Default"
+
+                def RealityKitStruct "Shape"
+                {
+                    float3 extent = (0.9, 0.9, 0.9)
+                    float radius = 0.45
+                    token shapeType = "Sphere"
+
+                    def RealityKitStruct "pose"
+                    {
+                    }
+                }
+            }
+        }
+
+        def Cube "MLBlackABSPlastic" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            reorder nameChildren = ["InputTarget", "Collider", "BlackABSPlastic"]
+            rel material:binding = </Root/Examples/MLBlackABSPlastic/BlackABSPlastic> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double size = 0.4
+            float2 ui:nodegraph:node:pos = (40, 40)
+            int ui:nodegraph:node:stackingOrder = 2
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (-1, 1, -0.76714694)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "InputTarget"
+            {
+                uniform token info:id = "RealityKit.InputTarget"
+            }
+
+            def RealityKitComponent "Collider"
+            {
+                uint group = 1
+                uniform token info:id = "RealityKit.Collider"
+                uint mask = 4294967295
+                token type = "Default"
+
+                def RealityKitStruct "Shape"
+                {
+                    float3 extent = (0.4, 0.4, 0.4)
+                    token shapeType = "Box"
+
+                    def RealityKitStruct "pose"
+                    {
+                    }
+                }
+            }
+
+            def "BlackABSPlastic" (
+                active = true
+                references = @../BlackABSPlastic.usdz@
+            )
+            {
+                token outputs:mtlx:surface.connect = </Root/Examples/MLBlackABSPlastic/BlackABSPlastic/PreviewSurface.outputs:out>
+                float2 ui:nodegraph:node:pos = (40, 40)
+                int ui:nodegraph:node:stackingOrder = 2
+            }
+        }
+
+        def Cube "MLScratchedMetallicPaint" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            reorder nameChildren = ["InputTarget", "Collider", "ScratchedMetallicPaint"]
+            rel material:binding = </Root/Examples/MLScratchedMetallicPaint/ScratchedMetallicPaint> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double size = 0.4
+            float2 ui:nodegraph:node:pos = (72.36331, 511.47977)
+            int ui:nodegraph:node:stackingOrder = 3
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (-1, 1, 0.73285306)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "InputTarget"
+            {
+                uniform token info:id = "RealityKit.InputTarget"
+            }
+
+            def RealityKitComponent "Collider"
+            {
+                uint group = 1
+                uniform token info:id = "RealityKit.Collider"
+                uint mask = 4294967295
+                token type = "Default"
+
+                def RealityKitStruct "Shape"
+                {
+                    float3 extent = (0.4, 0.4, 0.4)
+                    token shapeType = "Box"
+
+                    def RealityKitStruct "pose"
+                    {
+                    }
+                }
+            }
+
+            def "ScratchedMetallicPaint" (
+                active = true
+                references = @../ScratchedMetallicPaint.usdz@
+            )
+            {
+                token outputs:mtlx:surface.connect = </Root/Examples/MLScratchedMetallicPaint/ScratchedMetallicPaint/PreviewSurface.outputs:out>
+                float2 ui:nodegraph:node:pos = (40, 40)
+                int ui:nodegraph:node:stackingOrder = 2
+            }
+        }
+
+        def Cube "MLSmoothConcrete" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            reorder nameChildren = ["InputTarget", "Collider", "SmoothConcrete"]
+            rel material:binding = </Root/Examples/MLSmoothConcrete/SmoothConcrete> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double size = 0.4
+            float2 ui:nodegraph:node:pos = (92.36331, 531.47974)
+            int ui:nodegraph:node:stackingOrder = 4
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (-1, 1, 0.23285306)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "InputTarget"
+            {
+                uniform token info:id = "RealityKit.InputTarget"
+            }
+
+            def RealityKitComponent "Collider"
+            {
+                uint group = 1
+                uniform token info:id = "RealityKit.Collider"
+                uint mask = 4294967295
+                token type = "Default"
+
+                def RealityKitStruct "Shape"
+                {
+                    float3 extent = (0.4, 0.4, 0.4)
+                    token shapeType = "Box"
+
+                    def RealityKitStruct "pose"
+                    {
+                    }
+                }
+            }
+
+            def "SmoothConcrete" (
+                active = true
+                references = @../SmoothConcrete.usdz@
+            )
+            {
+                token outputs:mtlx:surface.connect = </Root/Examples/MLSmoothConcrete/SmoothConcrete/PreviewSurface.outputs:out>
+                float2 ui:nodegraph:node:pos = (40, 40)
+                int ui:nodegraph:node:stackingOrder = 2
+            }
+        }
+
+        def Cube "MLGrayFeltFabric" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            reorder nameChildren = ["InputTarget", "Collider", "GrayFeltFabric"]
+            rel material:binding = </Root/Examples/MLGrayFeltFabric/GrayFeltFabric> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double size = 0.4
+            float2 ui:nodegraph:node:pos = (929, 178.33752)
+            int ui:nodegraph:node:stackingOrder = 3
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (-1, 1, -0.2718717)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "InputTarget"
+            {
+                uniform token info:id = "RealityKit.InputTarget"
+            }
+
+            def RealityKitComponent "Collider"
+            {
+                uint group = 1
+                uniform token info:id = "RealityKit.Collider"
+                uint mask = 4294967295
+                token type = "Default"
+
+                def RealityKitStruct "Shape"
+                {
+                    float3 extent = (0.4, 0.4, 0.4)
+                    token shapeType = "Box"
+
+                    def RealityKitStruct "pose"
+                    {
+                    }
+                }
+            }
+
+            def "GrayFeltFabric" (
+                active = true
+                references = @../GrayFeltFabric.usdz@
+            )
+            {
+                token outputs:mtlx:surface.connect = </Root/Examples/MLGrayFeltFabric/GrayFeltFabric/PreviewSurface.outputs:out>
+                float2 ui:nodegraph:node:pos = (40, 40)
+                int ui:nodegraph:node:stackingOrder = 2
+            }
+        }
+
+        def Cube "PBRClear" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Root/Examples/PBRClear/Material> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double size = 0.4
+            float2 ui:nodegraph:node:pos = (112.36331, 551.47974)
+            int ui:nodegraph:node:stackingOrder = 5
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (1, 1, -0.8804402)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Material "Material"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/Examples/PBRClear/Material/UsdPreviewSurface.outputs:surface>
+
+                def Shader "UsdPreviewSurface"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    float inputs:clearcoat = 1
+                    color3f inputs:diffuseColor = (0, 0, 0) (
+                        colorSpace = "srgb_texture"
+                    )
+                    color3f inputs:emissiveColor = (0, 0, 0) (
+                        colorSpace = "srgb_texture"
+                    )
+                    float inputs:metallic = 1
+                    float inputs:opacity = 0.25
+                    float inputs:roughness = 0
+                    token outputs:surface
+                }
+            }
+
+            def RealityKitComponent "InputTarget"
+            {
+                uniform token info:id = "RealityKit.InputTarget"
+            }
+
+            def RealityKitComponent "Collider"
+            {
+                uint group = 1
+                uniform token info:id = "RealityKit.Collider"
+                uint mask = 4294967295
+                token type = "Default"
+
+                def RealityKitStruct "Shape"
+                {
+                    float3 extent = (0.4, 0.4, 0.4)
+                    token shapeType = "Box"
+
+                    def RealityKitStruct "pose"
+                    {
+                    }
+                }
+            }
+        }
+
+        def Cube "PBRFlatBlack" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Root/Examples/PBRFlatBlack/Material> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double size = 0.4
+            float2 ui:nodegraph:node:pos = (132.36331, 571.47974)
+            int ui:nodegraph:node:stackingOrder = 6
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (1, 1, 0.67164344)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Material "Material"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/Examples/PBRFlatBlack/Material/UsdPreviewSurface.outputs:surface>
+
+                def Shader "UsdPreviewSurface"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    float inputs:clearcoat = 0
+                    color3f inputs:diffuseColor = (0, 0, 0) (
+                        colorSpace = "srgb_texture"
+                    )
+                    color3f inputs:emissiveColor = (0, 0, 0) (
+                        colorSpace = "srgb_texture"
+                    )
+                    float inputs:metallic = 0
+                    float inputs:opacity = 1
+                    float inputs:roughness = 1
+                    token outputs:surface
+                }
+            }
+
+            def RealityKitComponent "InputTarget"
+            {
+                uniform token info:id = "RealityKit.InputTarget"
+            }
+
+            def RealityKitComponent "Collider"
+            {
+                uint group = 1
+                uniform token info:id = "RealityKit.Collider"
+                uint mask = 4294967295
+                token type = "Default"
+
+                def RealityKitStruct "Shape"
+                {
+                    float3 extent = (0.4, 0.4, 0.4)
+                    token shapeType = "Box"
+
+                    def RealityKitStruct "pose"
+                    {
+                    }
+                }
+            }
+        }
+
+        def Cube "PBRMirror" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            reorder nameChildren = ["InputTarget", "Collider", "Material"]
+            rel material:binding = </Root/Examples/PBRMirror/Material> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double size = 0.4
+            float2 ui:nodegraph:node:pos = (132.36331, 571.47974)
+            int ui:nodegraph:node:stackingOrder = 6
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (1, 1, -0.36574215)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "InputTarget"
+            {
+                uniform token info:id = "RealityKit.InputTarget"
+            }
+
+            def RealityKitComponent "Collider"
+            {
+                uint group = 1
+                uniform token info:id = "RealityKit.Collider"
+                uint mask = 4294967295
+                token type = "Default"
+
+                def RealityKitStruct "Shape"
+                {
+                    float3 extent = (0.4, 0.4, 0.4)
+                    token shapeType = "Box"
+
+                    def RealityKitStruct "pose"
+                    {
+                    }
+                }
+            }
+
+            def Material "Material"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/Examples/PBRMirror/Material/UsdPreviewSurface.outputs:surface>
+                float2 ui:nodegraph:node:pos = (-535.55115, -123.22014)
+                int ui:nodegraph:node:stackingOrder = 1
+                float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (0, 110.5)
+
+                def Shader "UsdPreviewSurface"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    float inputs:clearcoat = 0.5
+                    float inputs:clearcoatRoughness = 0.1
+                    color3f inputs:diffuseColor = (0.999996, 1, 1) (
+                        colorSpace = "srgb_texture"
+                    )
+                    float inputs:ior = 1.5
+                    float inputs:metallic = 0.6
+                    float inputs:opacity = 1
+                    float inputs:roughness = 0.1
+                    token outputs:surface
+                }
+            }
+        }
+
+        def Cube "PBRFlatWhite" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            reorder nameChildren = ["PBRMirror", "Material", "InputTarget", "Collider"]
+            rel material:binding = </Root/Examples/PBRFlatWhite/Material> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double size = 0.4
+            float2 ui:nodegraph:node:pos = (152.36331, 591.47974)
+            int ui:nodegraph:node:stackingOrder = 7
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (1, 1, 0.14679241)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Material "Material"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/Examples/PBRFlatWhite/Material/UsdPreviewSurface.outputs:surface>
+
+                def Shader "UsdPreviewSurface"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    float inputs:clearcoat = 0
+                    color3f inputs:diffuseColor = (0.999996, 1, 1) (
+                        colorSpace = "srgb_texture"
+                    )
+                    color3f inputs:emissiveColor = (0.999996, 1, 1) (
+                        colorSpace = "srgb_texture"
+                    )
+                    float inputs:metallic = 0
+                    float inputs:opacity = 1
+                    float inputs:roughness = 1
+                    token outputs:surface
+                }
+            }
+
+            def RealityKitComponent "InputTarget"
+            {
+                uniform token info:id = "RealityKit.InputTarget"
+            }
+
+            def RealityKitComponent "Collider"
+            {
+                uint group = 1
+                uniform token info:id = "RealityKit.Collider"
+                uint mask = 4294967295
+                token type = "Default"
+
+                def RealityKitStruct "Shape"
+                {
+                    float3 extent = (0.4, 0.4, 0.4)
+                    token shapeType = "Box"
+
+                    def RealityKitStruct "pose"
+                    {
+                    }
+                }
+            }
+        }
+    }
+
+    def Sphere "SGMatFresnel" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        rel material:binding = </Root/SGMatFresnel/Mat_Fresnel/DS_Fresnel> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        double radius = 0.5
+        float3 xformOp:translate = (2.0607617, 1.536222, -1.465002)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def "Mat_Fresnel" (
+            active = true
+            prepend references = @../Mat_Fresnel.usda@
+        )
+        {
+            float3 xformOp:scale = (1, 1, 1)
+        }
+    }
+}
+

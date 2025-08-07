@@ -21,6 +21,7 @@ struct ContentView: View {
         .padding()
         .ornament(attachmentAnchor: .scene(.top), contentAlignment: .bottom, ornament: {
             ToggleImmersiveSpaceButton()
+                .glassBackgroundEffect()
         })
         .persistentSystemOverlays(.hidden)
     }
@@ -30,3 +31,6 @@ struct ContentView: View {
     ContentView()
         .environment(AppModel())
 }
+
+
+
