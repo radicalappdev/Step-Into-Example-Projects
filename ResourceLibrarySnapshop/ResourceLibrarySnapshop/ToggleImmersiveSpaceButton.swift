@@ -14,6 +14,10 @@ struct ToggleImmersiveSpaceButton: View {
     @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
 
+    @Environment(\.dismissWindow) private var dismissWindow
+
+
+
     var body: some View {
         Button {
             Task { @MainActor in
@@ -24,6 +28,7 @@ struct ToggleImmersiveSpaceButton: View {
                         // Don't set immersiveSpaceState to .closed because there
                         // are multiple paths to ImmersiveView.onDisappear().
                         // Only set .closed in ImmersiveView.onDisappear().
+                    dismissWindow(id: "MainWindow")
 
                     case .closed:
                         appModel.immersiveSpaceState = .inTransition

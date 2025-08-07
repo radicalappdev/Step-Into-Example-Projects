@@ -23,7 +23,7 @@ struct ContentView: View {
             ToggleImmersiveSpaceButton()
                 .glassBackgroundEffect()
         })
-        .persistentSystemOverlays(.hidden)
+//        .persistentSystemOverlays(.hidden)
     }
 }
 

@@ -8,6 +8,19 @@
 import SwiftUI
 import RealityKit
 import RealityKitContent
+import WebKit
+
+struct AttachmentView: View {
+
+    var url = "https://github.com/Dave-Ed-Cast/SetMode?tab=readme-ov-file"
+
+    var body: some View {
+        VStack {
+            WebView(url: URL(string: url))
+        }
+        .frame(width: 1200, height: 800)
+    }
+}
 
 struct ImmersiveView: View {
 
@@ -26,6 +39,14 @@ struct ImmersiveView: View {
                 mac.position = [-0.25, 0.5, 0]
                 content.add(mac)
 
+                let webView = Entity()
+                webView.name = "WebView"
+                webView.position = [-0.25, 1.6, -1.6]
+                webView.scale = .init(repeating: 2)
+                content.add(webView)
+
+                let attachment = ViewAttachmentComponent(rootView: AttachmentView())
+                webView.components.set(attachment)
 
                 
             }

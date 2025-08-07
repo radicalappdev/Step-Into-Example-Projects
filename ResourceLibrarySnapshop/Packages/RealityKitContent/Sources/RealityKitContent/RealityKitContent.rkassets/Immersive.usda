@@ -7,12 +7,12 @@
 
 def Xform "Root" (
     customData = {
-        float3 rotationEulerHint = (0, -0.20943955, 0)
+        float3 rotationEulerHint = (0, -0.4188791, 0)
     }
 )
 {
     reorder nameChildren = ["Sphere_Left", "Sphere_Right", "GridMaterial"]
-    quatf xformOp:orient = (0.9945219, 0, -0.10452848, 0)
+    quatf xformOp:orient = (0.97814757, 0, -0.20791171, 0)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
     def "SkyDome" (
@@ -36,7 +36,7 @@ def Xform "Root" (
 
                 over "DomeMAT"
                 {
-                    color3f inputs:diffuseColor = (0.47450978, 0.086274505, 0.1764706) (
+                    color3f inputs:diffuseColor = (0.83137256, 0.73333335, 0.73333335) (
                         colorSpace = "srgb_displayp3"
                     )
                 }
