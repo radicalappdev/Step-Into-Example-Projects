@@ -12,7 +12,7 @@ import WebKit
 
 struct AttachmentView: View {
 
-    var url = "https://github.com/Dave-Ed-Cast/SetMode?tab=readme-ov-file"
+    var url = "https://github.com/XanderXu/RealityShaderExtension"
 
     var body: some View {
         VStack {
