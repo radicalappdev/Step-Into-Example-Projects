@@ -192,8 +192,9 @@ struct ClockWidget: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind, intent: ClockConfigurationAppIntent.self, provider: ClockProvider()) { entry in
             ClockWidgetEntryView(entry: entry)
-                .containerBackground(.white.gradient, for: .widget)
+//                .containerBackground(.white.gradient, for: .widget)
         }
+        .containerBackgroundRemovable(false)
         .supportedFamilies([.systemSmall])
         .supportedMountingStyles([.elevated])
         .widgetTexture(.paper)

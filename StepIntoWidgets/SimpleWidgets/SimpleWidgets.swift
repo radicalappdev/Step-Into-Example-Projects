@@ -155,6 +155,7 @@ struct SimpleWidgets: Widget {
         AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
             SimpleWidgetsEntryView(entry: entry)
                 .containerBackground(.white.gradient, for: .widget)
+
         }
         .supportedFamilies([.systemSmall])
         .supportedMountingStyles([.elevated, .recessed])
