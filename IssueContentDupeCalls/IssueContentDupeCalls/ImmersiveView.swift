@@ -16,7 +16,8 @@ struct ImmersiveView: View {
     var body: some View {
         RealityView { content in
 
-            launchEntity = createLaunchEntity() //This entity maybe creat two or more
+            print("RealityView Content Loaded!") // Called Once
+            launchEntity = createLaunchEntity()
             content.add(launchEntity)
         }
     }
@@ -29,10 +30,9 @@ struct ImmersiveView: View {
         let launchviewComponent = ViewAttachmentComponent(
             rootView: LaunchView()
         )
-        entity.components.set(launchviewComponent) // Create a UI View to show
-        //...
+        entity.components.set(launchviewComponent)
 
-        print("Has Creat Test!") // It has been output once.
+        print("createLaunchEntity was called") // Called Once
         return entity
     }
 }
@@ -47,7 +47,7 @@ struct LaunchView: View {
         }
         .padding()
         .onAppear() {
-            print("Launch view appears!")
+            print("Launch view appears!") // Called Twice
         }
     }
 }
