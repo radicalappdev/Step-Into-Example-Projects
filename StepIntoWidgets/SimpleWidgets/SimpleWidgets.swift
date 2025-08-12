@@ -52,7 +52,7 @@ struct SimpleWidgetsEntryView : View {
             ZStack {
                 SimpleWidgetBackground(emoji: entry.configuration.emoji)
                     .position(x: -50, y: -50)
-                    .opacity(0.3)
+                    .opacity(0.1)
 
                 DisplayLayout(display: entry.configuration.display, text: entry.configuration.display.rawValue)
             }
@@ -60,7 +60,7 @@ struct SimpleWidgetsEntryView : View {
             ZStack {
                 SimpleWidgetBackground(emoji: entry.configuration.emoji)
                     .position(x: -50, y: -50)
-                    .opacity(0.6)
+                    .opacity(0.3)
 
                 DisplayLayout(display: entry.configuration.display, text: entry.configuration.display.rawValue)
             }
@@ -73,7 +73,14 @@ struct DisplayTitle: View {
 
     var body: some View {
             Text(text)
-                .font(.system(size: 42, weight: .heavy, design: .rounded))
+                .font(.system(size: 36, weight: .heavy, design: .rounded))
+                .italic(true)
+                .foregroundStyle(.stepGreen)
+                .shadow(color: .stepBackgroundPrimary, radius: 6)
+//                .padding(3)
+//                .background(.stepBackgroundSecondary)
+//                .clipShape(.rect(cornerRadius: 12))
+//                .widgetAccentable(false)
     }
 }
 
@@ -154,8 +161,7 @@ struct SimpleWidgets: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
             SimpleWidgetsEntryView(entry: entry)
-                .containerBackground(.white.gradient, for: .widget)
-
+                .containerBackground(.stepBackgroundSecondary.gradient, for: .widget)
         }
         .supportedFamilies([.systemSmall])
         .supportedMountingStyles([.elevated, .recessed])
