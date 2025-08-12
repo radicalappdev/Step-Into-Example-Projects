@@ -57,7 +57,7 @@ struct EmojiWidgetEntryView: View {
         ZStack {
             // Background gradient
             LinearGradient(
-                colors: [.blue.opacity(0.3), .purple.opacity(0.3)],
+                colors: [.stepGreen.opacity(0.3), .stepGreen.opacity(0.8)],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -109,9 +109,10 @@ struct EmojiWidget: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind, intent: EmojiConfigurationAppIntent.self, provider: EmojiProvider()) { entry in
             EmojiWidgetEntryView(entry: entry)
-                .containerBackground(.white.gradient, for: .widget)
+//                .containerBackground(.white.gradient, for: .widget)
         }
-        .supportedFamilies([.systemExtraLargePortrait])
+        .containerBackgroundRemovable(false)
+        .supportedFamilies([.systemLarge])
         .supportedMountingStyles([.elevated, .recessed])
         .widgetTexture(.paper)
         .configurationDisplayName("Emoji Circle")
