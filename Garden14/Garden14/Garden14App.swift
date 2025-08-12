@@ -30,6 +30,12 @@ struct Garden14App: App {
         }
         .immersionStyle(selection: $appModel.progressiveGarden, in: .progressive)
 
+        ImmersiveSpace(id: "GardenSceneProgressiveAlt") {
+            ImmersiveViewProgressiveAlt()
+                .environment(appModel)
+        }
+        .immersionStyle(selection: $appModel.progressiveGardenAlt, in: .progressive)
+
         ImmersiveSpace(id: "GardenSceneFull") {
             ImmersiveViewFull()
                 .environment(appModel)

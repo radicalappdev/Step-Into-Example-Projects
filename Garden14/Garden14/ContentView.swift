@@ -19,7 +19,7 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: 18) {
 
             Text("🫧")
                 .font(.extraLargeTitle2)
@@ -39,7 +39,13 @@ struct ContentView: View {
             ImmersiveSpaceButton(
                 isOpen: appModel.gardenProgressiveOpen,
                 spaceID: "GardenSceneProgressive",
-                label: "Progressive"
+                label: "Progressive Landscale"
+            )
+
+            ImmersiveSpaceButton(
+                isOpen: appModel.gardenProgressiveAltOpen,
+                spaceID: "GardenSceneProgressiveAlt",
+                label: "Progressive Portrait"
             )
             ImmersiveSpaceButton(
                 isOpen: appModel.gardenFullOpen,
