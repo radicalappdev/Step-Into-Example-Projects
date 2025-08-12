@@ -64,28 +64,37 @@ struct RenderWidgetsEntryView : View {
             VStack() {
                 Label("WANTED", systemImage: "target")
                     .font(.headline)
+                    .foregroundStyle(.stepBackgroundSecondary)
+                    .padding()
 
                 Image(.jsWidget)
                     .resizable()
                     .scaledToFit()
+                    .clipShape(.rect(cornerRadius: 12))
+                    .shadow(radius: 6)
 
                 Text("For taking silly photos at a metro park")
-                    .font(.caption)
+                    .font(.caption2)
+                    .foregroundStyle(.stepBackgroundSecondary)
+                    .padding()
             }
         } else if renderingMode == .accented {
             // Provide an alternative view in accented mode
             VStack() {
                 Label("WANTED", systemImage: "target")
                     .font(.headline)
+                    .padding()
 
                 Image(.jsWidget)
                     .resizable()
                     .widgetAccentedRenderingMode(widgetRenderingMode)
+                    .clipShape(.rect(cornerRadius: 12))
                     .scaledToFit()
 
                 Text("For taking silly photos at a metro park")
-                    .font(.caption)
+                    .font(.caption2)
                     .multilineTextAlignment(.center)
+                    .padding()
             }
         }
     }
@@ -97,7 +106,7 @@ struct RenderWidgets: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind, intent: RenderConfigurationAppIntent.self, provider: RenderProvider()) { entry in
             RenderWidgetsEntryView(entry: entry)
-                .containerBackground(.white.gradient, for: .widget)
+                .containerBackground(.stepGreen.gradient, for: .widget)
         }
         .supportedFamilies([.systemExtraLargePortrait])
         .supportedMountingStyles([.elevated])
