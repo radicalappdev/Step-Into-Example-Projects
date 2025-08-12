@@ -73,11 +73,7 @@ struct EmojiWidgetEntryView: View {
                 }
                 .padding()
                 Spacer()
-            }
-
-            // Interactive buttons
-            VStack {
-                Spacer()
+                // Interactive buttons
                 HStack(spacing: 12) {
                     Button(intent: DecrementCountIntent()) {
                         Image(systemName: "minus.circle.fill")
