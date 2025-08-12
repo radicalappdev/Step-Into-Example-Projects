@@ -68,7 +68,12 @@ struct MoodWidgets: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: MoodProvider()) { entry in
             MoodWidgetsEntryView(entry: entry)
-                .containerBackground(.white.gradient, for: .widget)
+                .containerBackground(RadialGradient(
+                    colors: [.stepBackgroundSecondary, .stepRed],
+                    center: .center,
+                    startRadius: 0.0,
+                    endRadius: 200
+                ), for: .widget)
         }
         .supportedFamilies([.systemSmall])
         .supportedMountingStyles([.elevated, .recessed])
