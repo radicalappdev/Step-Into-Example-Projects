@@ -113,7 +113,7 @@ struct EmojiWidget: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind, intent: EmojiConfigurationAppIntent.self, provider: EmojiProvider()) { entry in
             EmojiWidgetEntryView(entry: entry)
-//                .containerBackground(.white.gradient, for: .widget)
+                .containerBackground(.white.gradient, for: .widget)
         }
         .containerBackgroundRemovable(false)
         .supportedFamilies([.systemLarge])
