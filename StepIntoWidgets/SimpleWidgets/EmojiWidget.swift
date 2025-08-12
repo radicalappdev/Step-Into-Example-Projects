@@ -62,19 +62,27 @@ struct EmojiWidgetEntryView: View {
                 endPoint: .bottomTrailing
             )
 
-            VStack {
+            ZStack(alignment: .bottom) {
                 // Radial emoji layout
-                RadialLayout(angleOffset: .degrees(0)) {
-                    ForEach(0..<max(1, storedCount), id: \.self) { index in
-                        Text(entry.configuration.emoji)
-                            .font(.system(size: levelOfDetail == .simplified ? 30 : 40, weight: .medium))
-                            .shadow(color: .black.opacity(0.2), radius: 2, x: 1, y: 1)
+                ZStack {
+                    Circle()
+                        .fill(.stepGreen)
+                        .shadow(radius: 3, x: 0.0, y: 0.0)
+
+                    RadialLayout(angleOffset: .degrees(0)) {
+                        ForEach(0..<max(1, storedCount), id: \.self) { index in
+                            Text(entry.configuration.emoji)
+                                .font(.system(size: levelOfDetail == .simplified ? 30 : 40, weight: .medium))
+                                .shadow(color: .black.opacity(0.2), radius: 2, x: 1, y: 1)
+                        }
                     }
+                    .padding()
+
                 }
-                .padding()
-                Spacer()
+                .padding(24)
+
                 // Interactive buttons
-                HStack(spacing: 12) {
+                HStack() {
                     Button(intent: DecrementCountIntent()) {
                         Image(systemName: "minus.circle.fill")
                             .font(.extraLargeTitle2)
@@ -83,7 +91,7 @@ struct EmojiWidgetEntryView: View {
                             .background(Circle().fill(Color.black.opacity(0.3)))
                     }
                     .buttonStyle(.plain)
-
+                    Spacer()
                     Button(intent: IncrementCountIntent()) {
                         Image(systemName: "plus.circle.fill")
                             .font(.extraLargeTitle2)
