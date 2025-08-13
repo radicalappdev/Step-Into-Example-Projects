@@ -12,7 +12,6 @@ import RealityKitContent
 struct ContentView: View {
 
     @State private var length: CGFloat = 0
-
     @State private var edges: Edge3D.Set = [.top, .leading, .bottom, .trailing, .back]
 
     var body: some View {
@@ -23,53 +22,19 @@ struct ContentView: View {
                     content.add(scene)
                 }
             }
-            .preferredWindowClippingMargins(edges, length)
-            .debugBorder3D(.white)
         }
+        .preferredWindowClippingMargins(edges, length)
+        .debugBorder3D(.white)
         .toolbar {
             ToolbarItem(placement: .bottomOrnament, content: {
                 HStack {
 
                     HStack {
-                        Button("Top") {
-                            if edges.contains(.top) {
-                                edges.remove(.top)
-                            } else {
-                                edges.insert(.top)
-                            }
-                        }
-                        
-                        Button("Bottom") {
-                            if edges.contains(.bottom) {
-                                edges.remove(.bottom)
-                            } else {
-                                edges.insert(.bottom)
-                            }
-                        }
-                        
-                        Button("Leading") {
-                            if edges.contains(.leading) {
-                                edges.remove(.leading)
-                            } else {
-                                edges.insert(.leading)
-                            }
-                        }
-                        
-                        Button("Trailing") {
-                            if edges.contains(.trailing) {
-                                edges.remove(.trailing)
-                            } else {
-                                edges.insert(.trailing)
-                            }
-                        }
-                        
-                        Button("Back") {
-                            if edges.contains(.back) {
-                                edges.remove(.back)
-                            } else {
-                                edges.insert(.back)
-                            }
-                        }
+                        EdgeToggleButton(edge: .top, label: "Top", edges: $edges)
+                        EdgeToggleButton(edge: .bottom, label: "Bottom", edges: $edges)
+                        EdgeToggleButton(edge: .leading, label: "Leading", edges: $edges)
+                        EdgeToggleButton(edge: .trailing, label: "Trailing", edges: $edges)
+                        EdgeToggleButton(edge: .back, label: "Back", edges: $edges)
                     }
 
                     Divider()
@@ -84,8 +49,23 @@ struct ContentView: View {
     }
 }
 
-#Preview(windowStyle: .volumetric) {
-    ContentView()
+struct EdgeToggleButton: View {
+    let edge: Edge3D.Set
+    let label: String
+    @Binding var edges: Edge3D.Set
+    
+    var body: some View {
+        Button(action: {
+            if edges.contains(edge) {
+                edges.remove(edge)
+            } else {
+                edges.insert(edge)
+            }
+        }, label: {
+            Label(label, systemImage: edges.contains(edge) ? "circle.circle.fill" : "circle")
+                .labelStyle(.titleAndIcon)
+        })
+    }
 }
 
 
