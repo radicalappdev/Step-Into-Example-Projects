@@ -11,7 +11,7 @@ import RealityKitContent
 
 struct ContentView: View {
 
-    @State var enlarge = false
+    @State var length: CGFloat = 0
 
     let edges: Edge3D.Set = [.top, .leading, .bottom, .trailing, .back]
 
@@ -23,9 +23,19 @@ struct ContentView: View {
                     content.add(scene)
                 }
             }
-            .preferredWindowClippingMargins(edges, 1000)
+            .preferredWindowClippingMargins(edges, length)
             .debugBorder3D(.white)
+        }
+        .toolbar {
+            ToolbarItem(placement: .bottomOrnament, content: {
+                HStack {
 
+                    Slider(value: $length, in: 0...1000, label: {
+                        Text("Length")
+                    })
+                    .frame(width: 200)
+                }
+            })
         }
     }
 }
