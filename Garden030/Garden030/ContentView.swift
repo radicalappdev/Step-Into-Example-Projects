@@ -11,9 +11,9 @@ import RealityKitContent
 
 struct ContentView: View {
 
-    @State var length: CGFloat = 0
+    @State private var length: CGFloat = 0
 
-    let edges: Edge3D.Set = [.top, .leading, .bottom, .trailing, .back]
+    @State private var edges: Edge3D.Set = [.top, .leading, .bottom, .trailing, .back]
 
     var body: some View {
         VStack {
@@ -29,6 +29,12 @@ struct ContentView: View {
         .toolbar {
             ToolbarItem(placement: .bottomOrnament, content: {
                 HStack {
+
+                    HStack {
+                        // TODO: add a list of buttons to update edges
+                    }
+
+                    Divider()
 
                     Slider(value: $length, in: 0...1000, label: {
                         Text("Length")
