@@ -31,7 +31,45 @@ struct ContentView: View {
                 HStack {
 
                     HStack {
-                        // TODO: add a list of buttons to update edges
+                        Button("Top") {
+                            if edges.contains(.top) {
+                                edges.remove(.top)
+                            } else {
+                                edges.insert(.top)
+                            }
+                        }
+                        
+                        Button("Bottom") {
+                            if edges.contains(.bottom) {
+                                edges.remove(.bottom)
+                            } else {
+                                edges.insert(.bottom)
+                            }
+                        }
+                        
+                        Button("Leading") {
+                            if edges.contains(.leading) {
+                                edges.remove(.leading)
+                            } else {
+                                edges.insert(.leading)
+                            }
+                        }
+                        
+                        Button("Trailing") {
+                            if edges.contains(.trailing) {
+                                edges.remove(.trailing)
+                            } else {
+                                edges.insert(.trailing)
+                            }
+                        }
+                        
+                        Button("Back") {
+                            if edges.contains(.back) {
+                                edges.remove(.back)
+                            } else {
+                                edges.insert(.back)
+                            }
+                        }
                     }
 
                     Divider()
