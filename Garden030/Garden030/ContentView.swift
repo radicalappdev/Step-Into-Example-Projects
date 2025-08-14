@@ -33,17 +33,19 @@ struct ContentView: View {
                          return
                      }
 
-                     // Calculate scale based on available space
-                     // When length is 0, we want scale 0.5 (default)
-                     // When length increases, we want to scale up proportionally
+                     // Use the actual windowClippingMargins from environment
+                     // When no margins, we want scale 0.5 (default)
+                     // When margins exist, scale up to fill the extra space
                      let baseScale: Float = 0.5
-                     let maxScale: Float = 1.0
-
-                     // Convert length to a scale factor (0-1 range)
-                     let lengthRatio = Float(length) / 640.0 // Normalize to 0-1
-                     let scaleFactor = baseScale + (maxScale - baseScale) * lengthRatio
                      
-                     print("length: \(length), lengthRatio: \(lengthRatio), scaleFactor: \(scaleFactor)")
+                     // We using the same margin on all sides, so just read one of them
+                     let margin = windowClippingMargins.top
+
+                     // Scale up based on available margin space
+                     let marginScale = Float(margin / points)
+                     let scaleFactor = baseScale + marginScale
+                     
+                     print("maxMargin: \(margin), marginScale: \(marginScale), scaleFactor: \(scaleFactor)")
                      scene.scale = .init(repeating: scaleFactor)
 
                  }
