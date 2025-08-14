@@ -11,8 +11,12 @@ import RealityKitContent
 
 struct ContentView: View {
 
+    @Environment(\.windowClippingMargins) private var windowClippingMargins
+    @PhysicalMetric(from: .meters) private var points = 1
+
     @State private var length: CGFloat = 0
     @State private var edges: Edge3D.Set = [.top, .leading, .bottom, .trailing, .back]
+    @State private var shouldScaleContent = false
 
     var body: some View {
         VStack {
@@ -21,6 +25,22 @@ struct ContentView: View {
                 if let scene = try? await Entity(named: "Scene", in: realityKitContentBundle) {
                     content.add(scene)
                 }
+            } update: { content in
+                if let scene = content.entities.first {
+
+                    if(!shouldScaleContent) {
+                        scene.scale = .init(repeating: 0.5)
+
+                        return
+                    }
+
+                    let scaler = Float(windowClippingMargins.top / points )
+                    print("window margins \(windowClippingMargins.top)")
+                    print("scaler \(scaler)")
+                    scene.scale = .init(repeating: max(0.5, scaler ))
+
+                }
+
             }
         }
         .preferredWindowClippingMargins(edges, length)
@@ -39,10 +59,18 @@ struct ContentView: View {
 
                     Divider()
 
-                    Slider(value: $length, in: 0...1000, label: {
+                    // 640 seems to be the max as of visionOS 26 beta 6
+                    Slider(value: $length, in: 0...640, label: {
                         Text("Length")
                     })
                     .frame(width: 200)
+
+                    Button(action: {
+                        shouldScaleContent.toggle()
+                    }, label: {
+                        Label("Scale", systemImage: shouldScaleContent ? "circle.circle.fill" : "circle")
+                            .labelStyle(.titleAndIcon)
+                    })
                 }
             })
         }
