@@ -33,7 +33,7 @@ struct ContentView: View {
                          return
                      }
 
-                     // Use the actual windowClippingMargins from environment
+
                      // When no margins, we want scale 0.5 (default)
                      // When margins exist, scale up to fill the extra space
                      let baseScale: Float = 0.5
@@ -124,3 +124,4 @@ extension View {
         }
     }
 }
+
