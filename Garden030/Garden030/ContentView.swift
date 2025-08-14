@@ -25,23 +25,30 @@ struct ContentView: View {
                 if let scene = try? await Entity(named: "Scene", in: realityKitContentBundle) {
                     content.add(scene)
                 }
-            } update: { content in
-                if let scene = content.entities.first {
+                         } update: { content in
+                 if let scene = content.entities.first {
 
-                    if(!shouldScaleContent) {
-                        scene.scale = .init(repeating: 0.5)
+                     if(!shouldScaleContent) {
+                         scene.scale = .init(repeating: 0.5)
+                         return
+                     }
 
-                        return
-                    }
+                     // Calculate scale based on available space
+                     // When length is 0, we want scale 0.5 (default)
+                     // When length increases, we want to scale up proportionally
+                     let baseScale: Float = 0.5
+                     let maxScale: Float = 1.0
 
-                    let scaler = Float(windowClippingMargins.top / points )
-                    print("window margins \(windowClippingMargins.top)")
-                    print("scaler \(scaler)")
-                    scene.scale = .init(repeating: max(0.5, scaler ))
+                     // Convert length to a scale factor (0-1 range)
+                     let lengthRatio = Float(length) / 640.0 // Normalize to 0-1
+                     let scaleFactor = baseScale + (maxScale - baseScale) * lengthRatio
+                     
+                     print("length: \(length), lengthRatio: \(lengthRatio), scaleFactor: \(scaleFactor)")
+                     scene.scale = .init(repeating: scaleFactor)
 
-                }
+                 }
 
-            }
+             }
         }
         .preferredWindowClippingMargins(edges, length)
         .debugBorder3D(.white)
