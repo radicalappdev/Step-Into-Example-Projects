@@ -12,7 +12,7 @@ import WebKit
 
 struct ContentView: View {
 
-    var url = "https://github.com/Dave-Ed-Cast/SetMode?tab=readme-ov-file"
+    var url = "https://learn-usd.github.io"
 
     var body: some View {
         VStack {
