@@ -30,7 +30,6 @@ struct ImmersiveView: View {
             } else if appModel.immersiveStyle is ProgressiveImmersionStyle {
                 skyDome.isEnabled = true
                 pillars.isEnabled = false
-
             }
         }
 
