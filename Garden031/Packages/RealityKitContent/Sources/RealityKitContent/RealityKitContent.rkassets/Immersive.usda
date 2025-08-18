@@ -7,7 +7,7 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["Sphere_Left", "Sphere_Right", "GridMaterial"]
+    reorder nameChildren = ["Sphere_Left", "Sphere_Right", "GridMaterial", "SkyDome", "DirectionalLight", "CylinderMaterial", "Pillars"]
     def Sphere "Sphere_Right" (
         active = true
         prepend apiSchemas = ["MaterialBindingAPI"]
@@ -40,11 +40,172 @@ def Xform "Root"
 
     def "GridMaterial" (
         active = true
-        prepend references = @Materials/GridMaterial.usda@
+        references = @Materials/GridMaterial.usda@
     )
     {
         float3 xformOp:scale = (1, 1, 1)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "GridMaterial"
+        {
+            over "LineColor"
+            {
+                color3f inputs:value = (0.99215686, 0.98039216, 0.98039216) (
+                    colorSpace = "srgb_displayp3"
+                )
+                int ui:nodegraph:node:stackingOrder = 1367
+            }
+
+            over "BaseColor"
+            {
+                color3f inputs:value = (0.003921569, 0.38039216, 0.41960785) (
+                    colorSpace = "srgb_texture"
+                )
+                int ui:nodegraph:node:stackingOrder = 1366
+            }
+        }
+    }
+
+    def "SkyDome" (
+        active = true
+        references = @SkyDome.usdz@
+    )
+    {
+        float3 xformOp:scale = (0.01, 0.01, 0.01)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Looks"
+        {
+            over "GridMATSG"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+
+                over "GridMAT"
+                {
+                    color3f inputs:diffuseColor = (0.47450978, 0.086274505, 0.1764706) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                }
+            }
+
+            over "GroundMATSG"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+
+                over "GroundMAT"
+                {
+                    color3f inputs:diffuseColor = (0.47450978, 0.086274505, 0.1764706) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                }
+            }
+
+            over "DomeMATSG"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+
+                over "DomeMAT"
+                {
+                    color3f inputs:diffuseColor = (0.47450978, 0.086274505, 0.1764706) (
+                        colorSpace = "srgb_displayp3"
+                    )
+                }
+            }
+        }
+    }
+
+    def Xform "DirectionalLight" (
+        customData = {
+            float3 rotationEulerHint = (-1.0821041, 0, 0)
+        }
+    )
+    {
+        quatf xformOp:orient = (0.8571673, -0.5150381, 0, 0)
+        float3 xformOp:scale = (0.99999994, 1, 1)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "DirectionalLight"
+        {
+            token info:id = "RealityKit.DirectionalLight"
+
+            def RealityKitStruct "Shadow"
+            {
+            }
+        }
+    }
+
+    def Material "CylinderMaterial"
+    {
+        token outputs:mtlx:surface
+        token outputs:realitykit:vertex
+        token outputs:surface.connect = </Root/CylinderMaterial/DefaultSurfaceShader.outputs:surface>
+
+        def Shader "DefaultSurfaceShader"
+        {
+            uniform token info:id = "UsdPreviewSurface"
+            color3f inputs:diffuseColor = (0.83137256, 0.73333335, 0.73333335) (
+                colorSpace = "srgb_displayp3"
+            )
+            float inputs:roughness = 0.75
+            token outputs:surface
+        }
+    }
+
+    def Xform "Pillars" (
+        active = true
+    )
+    {
+        def Cylinder "Cylinder" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            uniform token axis = "Y"
+            double height = 2
+            rel material:binding = </Root/CylinderMaterial>
+            double radius = 0.3
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (-2, 1, -4)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def Cylinder "Cylinder_1" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            uniform token axis = "Y"
+            double height = 2
+            rel material:binding = </Root/CylinderMaterial>
+            double radius = 0.3
+            float2 ui:nodegraph:node:pos = (1763.3296, 335.85605)
+            int ui:nodegraph:node:stackingOrder = 1
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 1, -4)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def Cylinder "Cylinder_2" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            uniform token axis = "Y"
+            double height = 2
+            rel material:binding = </Root/CylinderMaterial>
+            double radius = 0.3
+            float2 ui:nodegraph:node:pos = (1783.3296, 355.85605)
+            int ui:nodegraph:node:stackingOrder = 2
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (2, 1, -4)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
     }
 }
 

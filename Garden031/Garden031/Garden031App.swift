@@ -12,13 +12,12 @@ struct Garden031App: App {
 
     @State private var appModel = AppModel()
 
-
-
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(appModel)
         }
+        .defaultSize(width: 400, height: 400, depth: 400)
 
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
             ImmersiveView()

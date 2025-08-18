@@ -14,19 +14,36 @@ struct ContentView: View {
     @Environment(AppModel.self) private var appModel
 
     var body: some View {
-        VStack {
-            Model3D(named: "Scene", bundle: realityKitContentBundle)
-                .padding(.bottom, 50)
+        VStack(spacing: 24) {
 
-            Text("Hello, world!")
+            Text("Immersive Garden 031")
+                .font(.largeTitle)
+            Text("Changing immersive style")
 
             ToggleImmersiveSpaceButton()
 
-            Button(action: {
-                appModel.immersiveStyle = .full
-            }, label: {
-                Text("Full")
-            })
+            VStack {
+                Text("Immerive Style:")
+                HStack {
+                    Button(action: {
+                        appModel.immersiveStyle = .mixed
+                    }, label: {
+                        Text("Mixed")
+                    })
+                    Button(action: {
+                        appModel.immersiveStyle = .progressive(0.0...1.0, initialAmount: 0.3)
+                    }, label: {
+                        Text("Progressive")
+                    })
+                    Button(action: {
+                        appModel.immersiveStyle = .full
+                    }, label: {
+                        Text("Full")
+                    })
+                }
+            }
+            .padding(.vertical)
+
         }
         .padding()
     }
