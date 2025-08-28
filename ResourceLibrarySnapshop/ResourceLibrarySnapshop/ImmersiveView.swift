@@ -12,7 +12,7 @@ import WebKit
 
 struct AttachmentView: View {
 
-    var url = "https://learn-usd.github.io"
+    var url = "https://aousd.org"
 
     var body: some View {
         VStack {
