@@ -51,8 +51,8 @@ struct ContentView: View {
 
 fileprivate struct RocketCard: View {
     @State var title: String = "Rocket"
-    
-
+    @State var subtitle: String = "wow"
+    @FocusState private var isTextFieldFocused: Bool
 
     var body: some View {
         VStack {
@@ -66,6 +66,9 @@ fileprivate struct RocketCard: View {
             Form {
 
                 TextField("name", text: $title)
+                   .focused($isTextFieldFocused)
+
+                TextField("subtitle", text: $subtitle)
 
             }
             .frame(width: 300, height: 320)
@@ -73,6 +76,9 @@ fileprivate struct RocketCard: View {
 
         }
         .padding(.vertical, 12)
+        .onAppear {
+            isTextFieldFocused = true
+        }
     }
 }
 
