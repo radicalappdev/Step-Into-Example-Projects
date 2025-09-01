@@ -20,19 +20,17 @@ struct ContentView: View {
 
                 content.add(volumeRootEntity)
 
-
                 /// A root view for the graveyard content.  All other entities will be added to this.
                 guard let baseRoot = try? await Entity(named: "Scene", in: realityKitContentBundle) else { return }
                 baseRoot.name = "TableScene"
                 baseRoot.position = [0, -0.45, 0] // Move this down to the bottom of the volume
                 volumeRootEntity.addChild(baseRoot, preservingWorldTransform: true)
 
-                volumeRootEntity.scaleWithVolume(content, proxy)
+
 
             } update: { content in
 
                 volumeRootEntity.scaleWithVolume(content, proxy)
-
                 print("Update closure called. current scale: \(volumeRootEntity.scale.x)")
 
             }
@@ -99,3 +97,6 @@ extension View {
         }
     }
 }
+
+
+
