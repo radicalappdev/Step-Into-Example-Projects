@@ -23,6 +23,7 @@ struct ContentView: View {
 
                 /// A root view for the graveyard content.  All other entities will be added to this.
                 guard let baseRoot = try? await Entity(named: "Scene", in: realityKitContentBundle) else { return }
+                baseRoot.name = "TableScene"
                 baseRoot.position = [0, -0.45, 0] // Move this down to the bottom of the volume
                 volumeRootEntity.addChild(baseRoot, preservingWorldTransform: true)
 
@@ -35,6 +36,8 @@ struct ContentView: View {
                 print("Update closure called. current scale: \(volumeRootEntity.scale.x)")
 
             }
+            .debugBorder3D(.white)
+
         }
     }
 }
@@ -70,10 +73,29 @@ extension Entity {
         let newScale: SIMD3<Float> = [scaleX, scaleY, scaleZ]
         let scaleDifference = abs(newScale.x - self.scale.x)
 
-        if scaleDifference > 0.01 { // Only update if change is significant
+        if scaleDifference > 0.001 { // Only update if change is significant
             self.scale = newScale
             print("scalling to \(newScale)")
         }
 
+    }
+}
+
+/// See WWDC 2025 Session: Meet SwiftUI spatial layout
+/// https://developer.apple.com/videos/play/wwdc2025/273
+extension View {
+    func debugBorder3D(_ color: Color) -> some View {
+        spatialOverlay {
+            ZStack {
+                Color.clear.border(color, width: 4)
+                ZStack {
+                    Color.clear.border(color, width: 4)
+                    Spacer()
+                    Color.clear.border(color, width: 4)
+                }
+                .rotation3DLayout(.degrees(90), axis: .y)
+                Color.clear.border(color, width: 4)
+            }
+        }
     }
 }

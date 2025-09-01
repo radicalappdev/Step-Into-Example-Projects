@@ -49,16 +49,7 @@
       [
         "90C576A0-F90A-43B8-9998-14918A66F863",
         "Root",
-        "Sphere"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "90C576A0-F90A-43B8-9998-14918A66F863",
-        "Root",
-        "Cube"
+        "Base"
       ],
       {
         "isExpanded" : true,
