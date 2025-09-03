@@ -34,7 +34,7 @@ struct ContentView: View {
                 print("Update closure called. current scale: \(volumeRootEntity.scale.x)")
 
             }
-            .debugBorder3D(.white)
+//            .debugBorder3D(.white)
 
         }
     }
@@ -66,15 +66,17 @@ extension Entity {
         let scaleY = scaledVolumeContentBoundingBox.extents.y / Float(defaultVolumeSize.height)
         let scaleZ = scaledVolumeContentBoundingBox.extents.z / Float(defaultVolumeSize.depth)
 
+        self.scale = [scaleX, scaleY, scaleZ]
+
         /// Note that a GeometryProxy3D will trigger an update to RealityView when the user *moves* the a Volume. Not just when they resize it, when they move it.
         /// We can check the scale difference to avoid unnecessary updates
-        let newScale: SIMD3<Float> = [scaleX, scaleY, scaleZ]
-        let scaleDifference = abs(newScale.x - self.scale.x)
-
-        if scaleDifference > 0.001 { // Only update if change is significant
-            self.scale = newScale
-            print("scalling to \(newScale)")
-        }
+//        let newScale: SIMD3<Float> = [scaleX, scaleY, scaleZ]
+//        let scaleDifference = abs(newScale.x - self.scale.x)
+//
+//        if scaleDifference > 0.001 { // Only update if change is significant
+//            self.scale = newScale
+//            print("scalling to \(newScale)")
+//        }
 
     }
 }
