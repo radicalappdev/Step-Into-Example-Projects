@@ -20,6 +20,7 @@ struct ContentView: View {
     @State private var volumeRootEntity = Entity()
 
     @State private var useScaledLights = true
+    @State private var demoLightSource: Entity?
 
     var body: some View {
         GeometryReader3D { proxy in
@@ -52,14 +53,27 @@ struct ContentView: View {
                     nonUniformMode: .average
                 )
                 lightSource.components.set(slc)
+                demoLightSource = lightSource
 
             } update: { content in
-
                 volumeRootEntity.scaleWithVolume(content, proxy)
-
-
             }
             .debugBorder3D(.white)
+            // MARK: Demo state and button
+            .onChange(of: useScaledLights) { _, newValue in
+                // Just a hack to disable system for the demo. The system will exit if it does not find an entity matching scaleSourceName
+                demoLightSource?.components[ScalableLightComponent.self]?.scaleSourceName = newValue ? "VolumeRoot" : ""
+            }
+            .toolbar {
+                ToolbarItem(placement: .bottomOrnament, content: {
+                    Button(action: {
+                        useScaledLights.toggle()
+                    }, label: {
+                        Text(useScaledLights ? "Use Scaled Lights" : "Default Behavior")
+                    })
+
+                })
+            }
 
         }
     }
@@ -68,4 +82,3 @@ struct ContentView: View {
 #Preview(windowStyle: .volumetric) {
     ContentView()
 }
-

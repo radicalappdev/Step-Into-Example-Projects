@@ -48,8 +48,7 @@
     "objectMetadataList" : [
       [
         "90C576A0-F90A-43B8-9998-14918A66F863",
-        "Root",
-        "Base"
+        "Root"
       ],
       {
         "isExpanded" : true,
@@ -57,7 +56,8 @@
       },
       [
         "90C576A0-F90A-43B8-9998-14918A66F863",
-        "Root"
+        "Root",
+        "Base"
       ],
       {
         "isExpanded" : true,
