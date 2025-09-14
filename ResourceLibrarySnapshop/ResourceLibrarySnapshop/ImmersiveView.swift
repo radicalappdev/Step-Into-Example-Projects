@@ -12,7 +12,7 @@ import WebKit
 
 struct AttachmentView: View {
 
-    var url = "https://github.com/acuteimmersive/openimmersive"
+    var url = "https://kaylousberg.itch.io"
 
     var body: some View {
         VStack {

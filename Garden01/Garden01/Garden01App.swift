@@ -17,5 +17,9 @@ struct Garden01App: App {
         WindowGroup(id: "YellowFlower") {
             YellowFlowerView()
         }
+
+        Window("Unique Rose Window", id: "RoseWindow") {
+            RoseFlowerView()
+        }
     }
 }
