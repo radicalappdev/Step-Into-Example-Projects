@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSHandsTrackingUsageDescription</key>
-	<string></string>
+	<string>test reason</string>
 	<key>NSWorldSensingUsageDescription</key>
 	<string>test reason</string>
 	<key>UIApplicationSceneManifest</key>
