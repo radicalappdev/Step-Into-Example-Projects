@@ -2,10 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSHandsTrackingUsageDescription</key>
-	<string>test reason</string>
-	<key>NSWorldSensingUsageDescription</key>
-	<string>test reason</string>
+	<key>GCSupportedGameControllers</key>
+	<array>
+		<dict>
+			<key>ProfileName</key>
+			<string>SpatialGamepad</string>
+		</dict>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationPreferredDefaultSceneSessionRole</key>
