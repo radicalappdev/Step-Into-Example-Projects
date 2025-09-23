@@ -101,7 +101,10 @@ class AppModel {
             }
 
             guard !accessories.isEmpty else {
+                print("CONTROLLER nothing to process")
                 trackingState = .noControllerConnected
+                leftControllerConnected = false
+                rightControllerConnected = false
                 arkitSession.stop()
                 return
             }
@@ -130,37 +133,29 @@ class AppModel {
         switch update.event {
         case .added:
 
-            print("process anchor updates: added")
+            print("CONTROLLER anchor updates: added")
 
             if(update.anchor.accessory.inherentChirality == .left) {
                 leftControllerConnected = update.anchor.isTracked
-            }
-
-            if(update.anchor.accessory.inherentChirality == .right) {
+            } else {
                 rightControllerConnected = update.anchor.isTracked
             }
+
         case .updated:
             // do nothing for now. We'll use this to track anchors later
             return
 
         case .removed:
 
-            print("process anchor updates: removed")
+            print("CONTROLLER anchor updates: removed")
 
             if(update.anchor.accessory.inherentChirality == .left) {
                 leftControllerConnected = update.anchor.isTracked
-            }
-
-            if(update.anchor.accessory.inherentChirality == .right) {
+            } else {
                 rightControllerConnected = update.anchor.isTracked
             }
 
             return
-        }
-
-        if !leftControllerConnected && !rightControllerConnected {
-            print("both controllers disconnected")
-            trackingState = .noControllerConnected
         }
 
     }
