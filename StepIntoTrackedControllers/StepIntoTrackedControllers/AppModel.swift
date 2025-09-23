@@ -127,30 +127,42 @@ class AppModel {
 
     private func process(_ update: AnchorUpdate<AccessoryAnchor>) {
 
-
         switch update.event {
-        case .added, .updated:
+        case .added:
+
+            print("process anchor updates: added")
 
             if(update.anchor.accessory.inherentChirality == .left) {
                 leftControllerConnected = update.anchor.isTracked
             }
 
             if(update.anchor.accessory.inherentChirality == .right) {
-                leftControllerConnected = update.anchor.isTracked
+                rightControllerConnected = update.anchor.isTracked
             }
+        case .updated:
+            // do nothing for now. We'll use this to track anchors later
+            return
 
         case .removed:
 
+            print("process anchor updates: removed")
+
             if(update.anchor.accessory.inherentChirality == .left) {
                 leftControllerConnected = update.anchor.isTracked
             }
 
             if(update.anchor.accessory.inherentChirality == .right) {
-                leftControllerConnected = update.anchor.isTracked
+                rightControllerConnected = update.anchor.isTracked
             }
 
             return
         }
+
+        if !leftControllerConnected && !rightControllerConnected {
+            print("both controllers disconnected")
+            trackingState = .noControllerConnected
+        }
+
     }
 
 

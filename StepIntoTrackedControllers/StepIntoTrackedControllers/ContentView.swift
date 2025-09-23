@@ -29,7 +29,7 @@ struct ContentView: View {
                     .clipShape(.capsule)
                 Text("Right Controller")
                     .padding()
-                    .background(appModel.leftControllerConnected ? Color.green : Color.red)
+                    .background(appModel.rightControllerConnected ? Color.green : Color.red)
                     .clipShape(.capsule)
             }
 
