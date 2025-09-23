@@ -11,7 +11,7 @@ import RealityKitContent
 
 struct ImmersiveView: View {
 
-    
+    @Environment(AppModel.self) private var appModel
 
     var body: some View {
         RealityView { content in

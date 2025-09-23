@@ -17,6 +17,7 @@ struct StepIntoTrackedControllersApp: App {
             ContentView()
                 .environment(appModel)
         }
+        .defaultSize(width: 600, height: 600)
 
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
             ImmersiveView()

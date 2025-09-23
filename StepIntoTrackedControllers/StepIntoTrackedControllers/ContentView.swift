@@ -11,12 +11,27 @@ import RealityKitContent
 
 struct ContentView: View {
 
-    var body: some View {
-        VStack {
-            Model3D(named: "Scene", bundle: realityKitContentBundle)
-                .padding(.bottom, 50)
+    @Environment(AppModel.self) private var appModel
 
-            Text("Hello, world!")
+    var body: some View {
+        VStack(spacing: 24) {
+
+
+            Text("ARKit Tracked Controllers")
+                .font(.largeTitle)
+            
+            Text("Tracking State: \(appModel.trackingState.rawValue)")
+
+            HStack {
+                Text("Left Controller")
+                    .padding()
+                    .background(appModel.leftControllerConnected ? Color.green : Color.red)
+                    .clipShape(.capsule)
+                Text("Right Controller")
+                    .padding()
+                    .background(appModel.leftControllerConnected ? Color.green : Color.red)
+                    .clipShape(.capsule)
+            }
 
             ToggleImmersiveSpaceButton()
         }
