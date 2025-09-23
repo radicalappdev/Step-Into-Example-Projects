@@ -28,6 +28,9 @@ class AppModel {
     var leftControllerConnected = false
     var rightControllerConnected = false
 
+    var leftTransform: Transform?
+    var rightTransform: Transform?
+
     enum TrackingState: String {
         case startingUp = "Starting Up"
         case trackingNotAuthorized = "Tracking Not Authorized"
@@ -142,8 +145,14 @@ class AppModel {
             }
 
         case .updated:
-            // do nothing for now. We'll use this to track anchors later
-            return
+            if(update.anchor.accessory.inherentChirality == .left) {
+                leftTransform = Transform(matrix: update.anchor.originFromAnchorTransform)
+
+            } else {
+                rightTransform = Transform(matrix: update.anchor.originFromAnchorTransform)
+            }
+
+
 
         case .removed:
 
