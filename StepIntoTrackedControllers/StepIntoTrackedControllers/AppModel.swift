@@ -14,6 +14,8 @@ import GameController
 @MainActor
 @Observable
 class AppModel {
+
+    // Immersive Space state
     let immersiveSpaceID = "ImmersiveSpace"
     enum ImmersiveSpaceState {
         case closed
@@ -22,6 +24,8 @@ class AppModel {
     }
     var immersiveSpaceState = ImmersiveSpaceState.closed
 
+
+    // ARKit Controller Tracking
     let arkitSession = ARKitSession()
     var trackingState: TrackingState = .startingUp
 
@@ -52,12 +56,10 @@ class AppModel {
                     switch controller.productCategory {
                     case GCProductCategorySpatialController:
                         Task { @MainActor in
-                            // A spatial controller connected.
                             print("A spatial controller connected")
                             self.trackAllConnectedSpatialControllers()
                         }
                     default:
-                        // A standard controller connected.
                         print("A standard controller connected")
                     }
                 }
@@ -68,18 +70,17 @@ class AppModel {
                 switch controller.productCategory {
                 case GCProductCategorySpatialController:
                     Task { @MainActor in
-                        // A spatial controller connected.
                         print("A spatial controller disconnected")
+                        // When disconnecting a controller, rerun this to continue tracking remaining controllers
                         self.trackAllConnectedSpatialControllers()
                     }
                 default:
-                    // A standard controller connected.
                     print("A standard controller disconnected")
                 }
             }
         }
 
-        // Start tracking any spatial controllers that are already connected.
+        // Start tracking any controllers that were connected before init
         trackAllConnectedSpatialControllers()
     }
 
@@ -172,3 +173,8 @@ class AppModel {
 
 
 }
+
+
+
+
+
