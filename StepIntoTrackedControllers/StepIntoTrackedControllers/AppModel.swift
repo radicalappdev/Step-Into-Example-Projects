@@ -58,6 +58,8 @@ class AppModel {
                         Task { @MainActor in
                             print("A spatial controller connected")
                             self.trackAllConnectedSpatialControllers()
+                            self.setupControllerInputs(controller: controller)
+
                         }
                     default:
                         print("A standard controller connected")
@@ -73,6 +75,7 @@ class AppModel {
                         print("A spatial controller disconnected")
                         // When disconnecting a controller, rerun this to continue tracking remaining controllers
                         self.trackAllConnectedSpatialControllers()
+
                     }
                 default:
                     print("A standard controller disconnected")
@@ -168,6 +171,22 @@ class AppModel {
             return
         }
 
+    }
+
+    func setupControllerInputs(controller: GCController) {
+        // Get the spatial controller input profile
+        let input = controller.input
+
+        print("setting up inputs")// THIS WORKS
+
+        // Example: Trigger button (squeeze)
+        input.buttons[.trigger]?.pressedInput.pressedDidChangeHandler = { _, _, pressed in
+            print("Trigger pressed: \(pressed)") // THIS DOES NOT WORK
+        }
+        // Example: Thumbstick button
+        input.buttons[.thumbstickButton]?.pressedInput.pressedDidChangeHandler = { _, _, pressed in
+            print("Thumbstick button pressed: \(pressed)") // THIS DOES NOT WORK
+        }
     }
 
 
