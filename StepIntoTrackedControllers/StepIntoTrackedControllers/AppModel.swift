@@ -115,10 +115,10 @@ class AppModel {
                     switch accessory.inherentChirality {
                     case .left:
                         self.leftController = spatialController
-                        self.setupControllerInputs(controller: spatialController)
+                        self.setupControllerInputs(controller: spatialController, chirality: .left)
                     case .right:
                         self.rightController = spatialController
-                        self.setupControllerInputs(controller: spatialController)
+                        self.setupControllerInputs(controller: spatialController, chirality: .right)
                     default:
                         break
                     }
@@ -168,18 +168,25 @@ class AppModel {
             } else {
                 rightTransform = Transform(matrix: update.anchor.originFromAnchorTransform)
             }
-
+            
         case .removed:
             print("CONTROLLER anchor updates: removed")
         }
         
     }
     
-    func setupControllerInputs(controller: GCController) {
+    func setupControllerInputs(controller: GCController, chirality: Accessory.Chirality? = nil) {
         // Get the spatial controller input profile
         let input = controller.input
-
-        print("setting up inputs")// THIS WORKS
+        
+        // Resolve side for logs
+        let sideLabel: String
+        switch chirality {
+        case .left: sideLabel = "L"
+        case .right: sideLabel = "R"
+        default: sideLabel = ""
+        }
+        print("[\(sideLabel)] setting up inputs")
         
         // Example: Trigger button (squeeze)
         input.buttons[.trigger]?.pressedInput.pressedDidChangeHandler = { _, _, pressed in
@@ -191,15 +198,15 @@ class AppModel {
         input.buttons[.thumbstickButton]?.pressedInput.pressedDidChangeHandler = { _, _, pressed in
             print("Thumbstick button pressed: \(pressed)")
         }
-
-
+        
+        
         input.buttons[.a]?.pressedInput.pressedDidChangeHandler = { _, _, pressed in
             print("A pressed: \(pressed)")
         }
         input.buttons[.b]?.pressedInput.pressedDidChangeHandler = { _, _, pressed in
             print("B pressed: \(pressed)")
         }
-
+        
     }
     
     
