@@ -14,7 +14,7 @@ import GameController
 @MainActor
 @Observable
 class AppModel {
-
+    
     // Immersive Space state
     let immersiveSpaceID = "ImmersiveSpace"
     enum ImmersiveSpaceState {
@@ -23,18 +23,20 @@ class AppModel {
         case open
     }
     var immersiveSpaceState = ImmersiveSpaceState.closed
-
-
+    
+    
     // ARKit Controller Tracking
     let arkitSession = ARKitSession()
     var trackingState: TrackingState = .startingUp
-
+    
     var leftControllerConnected = false
     var rightControllerConnected = false
-
+    var leftController: GCController?
+    var rightController: GCController?
+    
     var leftTransform: Transform?
     var rightTransform: Transform?
-
+    
     enum TrackingState: String {
         case startingUp = "Starting Up"
         case trackingNotAuthorized = "Tracking Not Authorized"
@@ -43,30 +45,30 @@ class AppModel {
         case arkitSessionError = "ARKit Session Error"
         case tracking = "Tracking"
     }
-
+    
     init() {
-
+        
         if !AccessoryTrackingProvider.isSupported {
             trackingState = .trackingNotSupported
             return
         }
-
+        
         NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: nil) { notification in
-                if let controller = notification.object as? GCController {
-                    switch controller.productCategory {
-                    case GCProductCategorySpatialController:
-                        Task { @MainActor in
-                            print("A spatial controller connected")
-                            self.trackAllConnectedSpatialControllers()
-                            self.setupControllerInputs(controller: controller)
-
-                        }
-                    default:
-                        print("A standard controller connected")
+            if let controller = notification.object as? GCController {
+                switch controller.productCategory {
+                case GCProductCategorySpatialController:
+                    Task { @MainActor in
+                        print("A spatial controller connected")
+                        self.trackAllConnectedSpatialControllers()
+                        self.setupControllerInputs(controller: controller)
+                        
                     }
+                default:
+                    print("A standard controller connected")
                 }
             }
-
+        }
+        
         NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: nil) { notification in
             if let controller = notification.object as? GCController {
                 switch controller.productCategory {
@@ -75,110 +77,134 @@ class AppModel {
                         print("A spatial controller disconnected")
                         // When disconnecting a controller, rerun this to continue tracking remaining controllers
                         self.trackAllConnectedSpatialControllers()
-
+                        
+                        // Clear strong references when the specific controller disconnects
+                        if self.leftController === controller {
+                            self.leftController = nil
+                            self.leftControllerConnected = false
+                        }
+                        if self.rightController === controller {
+                            self.rightController = nil
+                            self.rightControllerConnected = false
+                        }
                     }
                 default:
                     print("A standard controller disconnected")
                 }
             }
         }
-
+        
         // Start tracking any controllers that were connected before init
         trackAllConnectedSpatialControllers()
     }
-
-
+    
+    
     private func trackAllConnectedSpatialControllers() {
         Task {
             guard trackingState != .trackingNotSupported && trackingState != .trackingNotAuthorized else {
                 print("Can't run ARKit session: \(trackingState)")
                 return
             }
-
+            
             var accessories: [Accessory] = []
             for spatialController in GCController
                 .controllers()
                 .filter({ $0.productCategory == GCProductCategorySpatialController }) {
                 do {
                     let accessory = try await Accessory(device: spatialController)
+                    // Maintain strong references to spatial controllers based on chirality
+                    switch accessory.inherentChirality {
+                    case .left:
+                        self.leftController = spatialController
+                        self.leftControllerConnected = true
+                        self.setupControllerInputs(controller: spatialController)
+                    case .right:
+                        self.rightController = spatialController
+                        self.rightControllerConnected = true
+                        self.setupControllerInputs(controller: spatialController)
+                    default:
+                        break
+                    }
                     accessories.append(accessory)
                 } catch {
                     print("Error during accessory initialization: \(error)")
                 }
             }
-
+            
             guard !accessories.isEmpty else {
                 print("CONTROLLER nothing to process")
                 trackingState = .noControllerConnected
                 leftControllerConnected = false
                 rightControllerConnected = false
+                self.leftController = nil
+                self.rightController = nil
                 arkitSession.stop()
                 return
             }
-
+            
             let accessoryTracking = AccessoryTrackingProvider(accessories: accessories)
-
+            
             do {
                 try await arkitSession.run([accessoryTracking])
                 trackingState = .tracking
-
+                
             } catch {
                 // No need to handle the error here; the app is already monitoring the
                 // session for errors in `monitorSessionEvents()`.
                 return
             }
-
+            
             for await update in accessoryTracking.anchorUpdates {
                 process(update)
             }
         }
     }
-
-
+    
+    
     private func process(_ update: AnchorUpdate<AccessoryAnchor>) {
-
+        
         switch update.event {
         case .added:
-
+            
             print("CONTROLLER anchor updates: added")
-
+            
             if(update.anchor.accessory.inherentChirality == .left) {
                 leftControllerConnected = update.anchor.isTracked
             } else {
                 rightControllerConnected = update.anchor.isTracked
             }
-
+            
         case .updated:
             if(update.anchor.accessory.inherentChirality == .left) {
                 leftTransform = Transform(matrix: update.anchor.originFromAnchorTransform)
-
+                
             } else {
                 rightTransform = Transform(matrix: update.anchor.originFromAnchorTransform)
             }
-
-
-
+            
+            
+            
         case .removed:
-
+            
             print("CONTROLLER anchor updates: removed")
-
+            
             if(update.anchor.accessory.inherentChirality == .left) {
                 leftControllerConnected = update.anchor.isTracked
             } else {
                 rightControllerConnected = update.anchor.isTracked
             }
-
+            
             return
         }
-
+        
     }
-
+    
     func setupControllerInputs(controller: GCController) {
         // Get the spatial controller input profile
         let input = controller.input
-
+        
         print("setting up inputs")// THIS WORKS
-
+        
         // Example: Trigger button (squeeze)
         input.buttons[.trigger]?.pressedInput.pressedDidChangeHandler = { _, _, pressed in
             print("Trigger pressed: \(pressed)") // THIS DOES NOT WORK
@@ -188,12 +214,8 @@ class AppModel {
             print("Thumbstick button pressed: \(pressed)") // THIS DOES NOT WORK
         }
     }
-
-
-
+    
+    
+    
 }
-
-
-
-
 

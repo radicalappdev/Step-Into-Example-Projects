@@ -12,7 +12,7 @@ import WebKit
 
 struct AttachmentView: View {
 
-    var url = "https://shader.vision"
+    var url = "https://medium.com/antaeus-ar"
 
     var body: some View {
         VStack {
