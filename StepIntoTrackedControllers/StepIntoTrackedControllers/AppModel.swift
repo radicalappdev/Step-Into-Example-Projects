@@ -176,10 +176,9 @@ class AppModel {
     }
     
     func setupControllerInputs(controller: GCController, chirality: Accessory.Chirality? = nil) {
-        // Get the spatial controller input profile
-        let input = controller.input
+        // Route callbacks to the main actor so state mutations remain safe.
+        controller.handlerQueue = .main
         
-        // Resolve side for logs
         let sideLabel: String
         switch chirality {
         case .left: sideLabel = "L"
@@ -188,25 +187,64 @@ class AppModel {
         }
         print("[\(sideLabel)] setting up inputs")
         
-        // Example: Trigger button (squeeze)
-        input.buttons[.trigger]?.pressedInput.pressedDidChangeHandler = { _, _, pressed in
-            print("Trigger pressed: \(pressed)")
-        }
-        input.buttons[.grip]?.pressedInput.pressedDidChangeHandler = { _, _, pressed in
-            print("Grip pressed: \(pressed)")
-        }
-        input.buttons[.thumbstickButton]?.pressedInput.pressedDidChangeHandler = { _, _, pressed in
-            print("Thumbstick button pressed: \(pressed)")
+        let profile = controller.physicalInputProfile
+        profile.valueDidChangeHandler = { [weak self] _, element in
+            guard let self else { return }
+            self.handleElementChange(element, sideLabel: sideLabel)
         }
         
+        configureTouchpads(in: profile, sideLabel: sideLabel)
+    }
+    
+    private func handleElementChange(_ element: GCControllerElement, sideLabel: String) {
+        let elementName = element.localizedName ?? element.aliases.first ?? String(describing: type(of: element))
         
-        input.buttons[.a]?.pressedInput.pressedDidChangeHandler = { _, _, pressed in
-            print("A pressed: \(pressed)")
-        }
-        input.buttons[.b]?.pressedInput.pressedDidChangeHandler = { _, _, pressed in
-            print("B pressed: \(pressed)")
+        if let button = element as? GCControllerButtonInput {
+            let pressed = button.isPressed
+            let value = String(format: "%.2f", button.value)
+            print("[\(sideLabel)] \(elementName) pressed: \(pressed) value: \(value)")
+            return
         }
         
+        if let axis = element as? GCControllerAxisInput {
+            let value = String(format: "%.2f", axis.value)
+            print("[\(sideLabel)] \(elementName) axis value: \(value)")
+            return
+        }
+        
+        if let dpad = element as? GCControllerDirectionPad {
+            let x = String(format: "%.2f", dpad.xAxis.value)
+            let y = String(format: "%.2f", dpad.yAxis.value)
+            print("[\(sideLabel)] \(elementName) dpad x: \(x) y: \(y)")
+            return
+        }
+        
+        print("[\(sideLabel)] \(elementName) changed")
+    }
+    
+    private func configureTouchpads(in profile: GCPhysicalInputProfile, sideLabel: String) {
+        let touchpads = profile.allTouchpads.compactMap { $0 as? GCControllerTouchpad }
+        for touchpad in touchpads {
+            let name = touchpad.localizedName ?? touchpad.aliases.first ?? "Touchpad"
+            touchpad.touchDown = { _, x, y, buttonValue, buttonPressed in
+                let xStr = String(format: "%.2f", x)
+                let yStr = String(format: "%.2f", y)
+                let buttonValueStr = String(format: "%.2f", buttonValue)
+                print("[\(sideLabel)] \(name) touchDown x: \(xStr) y: \(yStr) button: \(buttonValueStr) pressed: \(buttonPressed)")
+            }
+            touchpad.touchMoved = { _, x, y, buttonValue, buttonPressed in
+                let xStr = String(format: "%.2f", x)
+                let yStr = String(format: "%.2f", y)
+                let buttonValueStr = String(format: "%.2f", buttonValue)
+                print("[\(sideLabel)] \(name) touchMoved x: \(xStr) y: \(yStr) button: \(buttonValueStr) pressed: \(buttonPressed)")
+            }
+            touchpad.touchUp = { _, x, y, buttonValue, buttonPressed in
+                let xStr = String(format: "%.2f", x)
+                let yStr = String(format: "%.2f", y)
+                let buttonValueStr = String(format: "%.2f", buttonValue)
+                print("[\(sideLabel)] \(name) touchUp x: \(xStr) y: \(yStr) button: \(buttonValueStr) pressed: \(buttonPressed)")
+            }
+        }
     }
     
     
