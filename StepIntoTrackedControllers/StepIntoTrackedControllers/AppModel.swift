@@ -178,17 +178,28 @@ class AppModel {
     func setupControllerInputs(controller: GCController) {
         // Get the spatial controller input profile
         let input = controller.input
-        
+
         print("setting up inputs")// THIS WORKS
         
         // Example: Trigger button (squeeze)
         input.buttons[.trigger]?.pressedInput.pressedDidChangeHandler = { _, _, pressed in
-            print("Trigger pressed: \(pressed)") // THIS DOES NOT WORK
+            print("Trigger pressed: \(pressed)")
         }
-        // Example: Thumbstick button
+        input.buttons[.grip]?.pressedInput.pressedDidChangeHandler = { _, _, pressed in
+            print("Grip pressed: \(pressed)")
+        }
         input.buttons[.thumbstickButton]?.pressedInput.pressedDidChangeHandler = { _, _, pressed in
-            print("Thumbstick button pressed: \(pressed)") // THIS DOES NOT WORK
+            print("Thumbstick button pressed: \(pressed)")
         }
+
+
+        input.buttons[.a]?.pressedInput.pressedDidChangeHandler = { _, _, pressed in
+            print("A pressed: \(pressed)")
+        }
+        input.buttons[.b]?.pressedInput.pressedDidChangeHandler = { _, _, pressed in
+            print("B pressed: \(pressed)")
+        }
+
     }
     
     
