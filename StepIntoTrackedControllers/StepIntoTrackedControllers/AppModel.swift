@@ -29,10 +29,11 @@ class AppModel {
     let arkitSession = ARKitSession()
     var trackingState: TrackingState = .startingUp
     
-    var leftControllerConnected = false
-    var rightControllerConnected = false
     var leftController: GCController?
     var rightController: GCController?
+    
+    var leftControllerConnected: Bool { leftController != nil }
+    var rightControllerConnected: Bool { rightController != nil }
     
     var leftTransform: Transform?
     var rightTransform: Transform?
@@ -81,11 +82,9 @@ class AppModel {
                         // Clear strong references when the specific controller disconnects
                         if self.leftController === controller {
                             self.leftController = nil
-                            self.leftControllerConnected = false
                         }
                         if self.rightController === controller {
                             self.rightController = nil
-                            self.rightControllerConnected = false
                         }
                     }
                 default:
@@ -116,11 +115,9 @@ class AppModel {
                     switch accessory.inherentChirality {
                     case .left:
                         self.leftController = spatialController
-                        self.leftControllerConnected = true
                         self.setupControllerInputs(controller: spatialController)
                     case .right:
                         self.rightController = spatialController
-                        self.rightControllerConnected = true
                         self.setupControllerInputs(controller: spatialController)
                     default:
                         break
@@ -134,8 +131,6 @@ class AppModel {
             guard !accessories.isEmpty else {
                 print("CONTROLLER nothing to process")
                 trackingState = .noControllerConnected
-                leftControllerConnected = false
-                rightControllerConnected = false
                 self.leftController = nil
                 self.rightController = nil
                 arkitSession.stop()
@@ -165,15 +160,7 @@ class AppModel {
         
         switch update.event {
         case .added:
-            
             print("CONTROLLER anchor updates: added")
-            
-            if(update.anchor.accessory.inherentChirality == .left) {
-                leftControllerConnected = update.anchor.isTracked
-            } else {
-                rightControllerConnected = update.anchor.isTracked
-            }
-            
         case .updated:
             if(update.anchor.accessory.inherentChirality == .left) {
                 leftTransform = Transform(matrix: update.anchor.originFromAnchorTransform)
@@ -181,20 +168,9 @@ class AppModel {
             } else {
                 rightTransform = Transform(matrix: update.anchor.originFromAnchorTransform)
             }
-            
-            
-            
+
         case .removed:
-            
             print("CONTROLLER anchor updates: removed")
-            
-            if(update.anchor.accessory.inherentChirality == .left) {
-                leftControllerConnected = update.anchor.isTracked
-            } else {
-                rightControllerConnected = update.anchor.isTracked
-            }
-            
-            return
         }
         
     }
@@ -218,4 +194,3 @@ class AppModel {
     
     
 }
-
