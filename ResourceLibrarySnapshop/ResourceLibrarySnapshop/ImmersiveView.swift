@@ -12,11 +12,11 @@ import WebKit
 
 struct AttachmentView: View {
 
-    var url = "https://medium.com/antaeus-ar"
+    @Environment(AppModel.self) private var appModel
 
     var body: some View {
         VStack {
-            WebView(url: URL(string: url))
+            WebView(url: URL(string: appModel.urlToLoad))
         }
         .frame(width: 1200, height: 800)
     }

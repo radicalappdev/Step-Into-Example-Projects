@@ -11,19 +11,20 @@ import RealityKitContent
 import WebKit
 
 struct ContentView: View {
-
-    var url = "https://learn-usd.github.io"
-
+    
+    @Environment(AppModel.self) private var appModel
+    
     var body: some View {
+        @Bindable var model = appModel
         VStack {
-            WebView(url: URL(string: url))
+            WebView(url: URL(string: model.urlToLoad))
+            TextField("URL", text: $model.urlToLoad)
         }
         .padding()
         .ornament(attachmentAnchor: .scene(.top), contentAlignment: .bottom, ornament: {
             ToggleImmersiveSpaceButton()
                 .glassBackgroundEffect()
         })
-//        .persistentSystemOverlays(.hidden)
     }
 }
 
@@ -31,6 +32,3 @@ struct ContentView: View {
     ContentView()
         .environment(AppModel())
 }
-
-
-
