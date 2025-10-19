@@ -1,0 +1,2899 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.8.1)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    reorder nameChildren = ["DirectionalLight", "Background", "Sphere", "FresnelShader", "Spin", "Group_5", "Group_6", "Group_7", "Group_8", "Floor", "Cone", "Loop", "PlayAudio", "Orbit"]
+    def "FresnelShader" (
+        active = true
+        references = @FresnelShader.usdc@
+    )
+    {
+        float3 xformOp:scale = (1, 1, 1)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Material"
+        {
+            token cullMode = "unspecified" (
+                allowedTokens = ["unspecified", "none", "front", "back"]
+            )
+
+            over "fresnel"
+            {
+                color3f inputs:OriginalColorIn = (0.26051742, 0.2605244, 0.26052064) (
+                    colorSpace = "srgb_texture"
+                )
+                color3f inputs:SecondaryColorIn = (0.837418, 0.8374378, 0.83742714) (
+                    colorSpace = "srgb_texture"
+                )
+            }
+        }
+    }
+
+    def "Background" (
+        active = true
+        references = @FresnelShader.usdc@
+    )
+    {
+        float2 ui:nodegraph:node:pos = (-554.07043, 111.042435)
+        int ui:nodegraph:node:stackingOrder = 1
+        float3 xformOp:scale = (1, 1, 1)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Material"
+        {
+            token cullMode = "front" (
+                allowedTokens = ["unspecified", "none", "front", "back"]
+            )
+
+            over "fresnel"
+            {
+                color3f inputs:OriginalColorIn = (0.26051742, 0.2605244, 0.26052064) (
+                    colorSpace = "srgb_texture"
+                )
+                color3f inputs:SecondaryColorIn = (0.837418, 0.8374378, 0.83742714) (
+                    colorSpace = "srgb_texture"
+                )
+            }
+        }
+    }
+
+    def Sphere "Sphere" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        rel material:binding = </Root/Background/Material> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        double radius = 10
+
+        def Material "DefaultMaterial"
+        {
+            token outputs:surface.connect = </Root/Sphere/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+            def Shader "DefaultSurfaceShader"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1, 1, 1)
+                float inputs:roughness = 0.75
+                token outputs:surface
+            }
+        }
+    }
+
+    def RealityKitTimeline "Spin"
+    {
+        reorder nameChildren = ["Track", "Track3", "Track2", "Track4", "Track5"]
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Spin"
+            {
+                string actionKind = "spin"
+                int blendLayer = 400
+                double duration = 120
+                uniform token info:id = "A4533411-4463-43AE-8F1B-3B8BB27417CC"
+                double startTime = 0
+                rel target = </Root/Group_5>
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "linear"
+                }
+            }
+        }
+
+        def RealityKitTrack "Track2"
+        {
+            def RealityKitAction "Spin"
+            {
+                string actionKind = "spin"
+                int blendLayer = 400
+                double duration = 120
+                uniform token info:id = "A4533411-4463-43AE-8F1B-3B8BB27417CC"
+                float3 localAxis = (0, -1, 0)
+                double startTime = 0
+                rel target = </Root/Group_7>
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "linear"
+                }
+            }
+        }
+
+        def RealityKitTrack "Track3"
+        {
+            def RealityKitAction "Spin"
+            {
+                string actionKind = "spin"
+                int blendLayer = 400
+                double duration = 120
+                uniform token info:id = "A4533411-4463-43AE-8F1B-3B8BB27417CC"
+                float3 localAxis = (0, -1, 0)
+                double startTime = 0
+                rel target = </Root/Group_6>
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "linear"
+                }
+            }
+        }
+
+        def RealityKitTrack "Track4"
+        {
+            def RealityKitAction "Spin"
+            {
+                string actionKind = "spin"
+                int blendLayer = 400
+                double duration = 120
+                uniform token info:id = "A4533411-4463-43AE-8F1B-3B8BB27417CC"
+                float3 localAxis = (0, 1, 0)
+                double startTime = 0
+                rel target = </Root/Group_8>
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "linear"
+                }
+            }
+        }
+    }
+
+    def Xform "Group_5" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0, 0, -3)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "Group" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, 0.4188791, 0)
+            }
+        )
+        {
+            quatf xformOp:orient = (0.97814757, 0, 0.20791186, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, -4, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "Group_1" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, 0.20943955, 0)
+            }
+        )
+        {
+            float2 ui:nodegraph:node:pos = (868, 297.25)
+            int ui:nodegraph:node:stackingOrder = 1
+            quatf xformOp:orient = (0.9945219, 0, 0.104528286, 0)
+            float3 xformOp:scale = (1, 1, 0.99999994)
+            float3 xformOp:translate = (0, -2, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "Group_2" (
+            active = true
+        )
+        {
+            float2 ui:nodegraph:node:pos = (888, 317.25)
+            int ui:nodegraph:node:stackingOrder = 2
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "Group_3" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, -0.20943955, 0)
+            }
+        )
+        {
+            float2 ui:nodegraph:node:pos = (908, 337.25)
+            int ui:nodegraph:node:stackingOrder = 3
+            quatf xformOp:orient = (0.9945219, 0, -0.104528286, 0)
+            float3 xformOp:scale = (1, 1, 0.99999994)
+            float3 xformOp:translate = (0, 2, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "Group_4" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, -0.4188791, 0)
+            }
+        )
+        {
+            float2 ui:nodegraph:node:pos = (928, 357.25)
+            int ui:nodegraph:node:stackingOrder = 4
+            quatf xformOp:orient = (0.97814757, 0, -0.20791186, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 4, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+
+    def Xform "Group_6" (
+        active = true
+        customData = {
+            float3 rotationEulerHint = (0, 1.5707963, 0)
+        }
+    )
+    {
+        float2 ui:nodegraph:node:pos = (868, 297.25)
+        int ui:nodegraph:node:stackingOrder = 1
+        quatf xformOp:orient = (0.70710677, 0, 0.7071067, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-4, 1, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "Group" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, 0.4188791, 0)
+            }
+        )
+        {
+            quatf xformOp:orient = (0.97814757, 0, 0.20791186, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, -4, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "Group_1" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, 0.20943955, 0)
+            }
+        )
+        {
+            float2 ui:nodegraph:node:pos = (868, 297.25)
+            int ui:nodegraph:node:stackingOrder = 1
+            quatf xformOp:orient = (0.9945219, 0, 0.104528286, 0)
+            float3 xformOp:scale = (1, 1, 0.99999994)
+            float3 xformOp:translate = (0, -2, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "Group_2" (
+            active = true
+        )
+        {
+            float2 ui:nodegraph:node:pos = (888, 317.25)
+            int ui:nodegraph:node:stackingOrder = 2
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "Group_3" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, -0.20943955, 0)
+            }
+        )
+        {
+            float2 ui:nodegraph:node:pos = (908, 337.25)
+            int ui:nodegraph:node:stackingOrder = 3
+            quatf xformOp:orient = (0.9945219, 0, -0.104528286, 0)
+            float3 xformOp:scale = (1, 1, 0.99999994)
+            float3 xformOp:translate = (0, 2, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "Group_4" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, -0.4188791, 0)
+            }
+        )
+        {
+            float2 ui:nodegraph:node:pos = (928, 357.25)
+            int ui:nodegraph:node:stackingOrder = 4
+            quatf xformOp:orient = (0.97814757, 0, -0.20791186, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 4, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+
+    def Xform "Group_7" (
+        active = true
+        customData = {
+            float3 rotationEulerHint = (0, -1.5707963, 0)
+        }
+    )
+    {
+        float2 ui:nodegraph:node:pos = (888, 317.25)
+        int ui:nodegraph:node:stackingOrder = 2
+        quatf xformOp:orient = (0.70710677, 0, -0.7071067, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (4, -1, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "Group" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, 0.4188791, 0)
+            }
+        )
+        {
+            quatf xformOp:orient = (0.97814757, 0, 0.20791186, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, -4, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "Group_1" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, 0.20943955, 0)
+            }
+        )
+        {
+            float2 ui:nodegraph:node:pos = (868, 297.25)
+            int ui:nodegraph:node:stackingOrder = 1
+            quatf xformOp:orient = (0.9945219, 0, 0.104528286, 0)
+            float3 xformOp:scale = (1, 1, 0.99999994)
+            float3 xformOp:translate = (0, -2, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "Group_2" (
+            active = true
+        )
+        {
+            float2 ui:nodegraph:node:pos = (888, 317.25)
+            int ui:nodegraph:node:stackingOrder = 2
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "Group_3" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, -0.20943955, 0)
+            }
+        )
+        {
+            float2 ui:nodegraph:node:pos = (908, 337.25)
+            int ui:nodegraph:node:stackingOrder = 3
+            quatf xformOp:orient = (0.9945219, 0, -0.104528286, 0)
+            float3 xformOp:scale = (1, 1, 0.99999994)
+            float3 xformOp:translate = (0, 2, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "Group_4" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, -0.4188791, 0)
+            }
+        )
+        {
+            float2 ui:nodegraph:node:pos = (928, 357.25)
+            int ui:nodegraph:node:stackingOrder = 4
+            quatf xformOp:orient = (0.97814757, 0, -0.20791186, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 4, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+
+    def Xform "Group_8" (
+        active = true
+        customData = {
+            float3 rotationEulerHint = (0, 3.1415927, 0)
+        }
+    )
+    {
+        float2 ui:nodegraph:node:pos = (868, 297.25)
+        int ui:nodegraph:node:stackingOrder = 1
+        quatf xformOp:orient = (-4.371139e-8, 0, 1, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0, 0, 3)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Xform "Group" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, 0.4188791, 0)
+            }
+        )
+        {
+            quatf xformOp:orient = (0.97814757, 0, 0.20791186, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, -4, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "Group_1" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, 0.20943955, 0)
+            }
+        )
+        {
+            float2 ui:nodegraph:node:pos = (868, 297.25)
+            int ui:nodegraph:node:stackingOrder = 1
+            quatf xformOp:orient = (0.9945219, 0, 0.104528286, 0)
+            float3 xformOp:scale = (1, 1, 0.99999994)
+            float3 xformOp:translate = (0, -2, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "Group_2" (
+            active = true
+        )
+        {
+            float2 ui:nodegraph:node:pos = (888, 317.25)
+            int ui:nodegraph:node:stackingOrder = 2
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "Group_3" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, -0.20943955, 0)
+            }
+        )
+        {
+            float2 ui:nodegraph:node:pos = (908, 337.25)
+            int ui:nodegraph:node:stackingOrder = 3
+            quatf xformOp:orient = (0.9945219, 0, -0.104528286, 0)
+            float3 xformOp:scale = (1, 1, 0.99999994)
+            float3 xformOp:translate = (0, 2, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Xform "Group_4" (
+            active = true
+            customData = {
+                float3 rotationEulerHint = (0, -0.4188791, 0)
+            }
+        )
+        {
+            float2 ui:nodegraph:node:pos = (928, 357.25)
+            int ui:nodegraph:node:stackingOrder = 4
+            quatf xformOp:orient = (0.97814757, 0, -0.20791186, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 4, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Capsule "Capsule_1" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.99999994, 0.99999994, 0.99999994)
+                float3 xformOp:translate = (-5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_3" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.7071067)
+                float3 xformOp:scale = (0.9999996, 0.9999996, 0.9999996)
+                float3 xformOp:translate = (0, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999997, 0.9999997, 0.9999997)
+                float3 xformOp:translate = (-2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_4" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999994, 0.9999994, 0.9999994)
+                float3 xformOp:translate = (2.5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Capsule "Capsule_5" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    float3 rotationEulerHint = (0, 0, 1.5707963)
+                }
+            )
+            {
+                uniform token axis = "Y"
+                double height = 1.2
+                rel material:binding = </Root/FresnelShader/Material> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.5
+                float2 ui:nodegraph:node:pos = (928, 357.25)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (0.70710677, 0, 0, 0.70710677)
+                float3 xformOp:scale = (0.9999992, 0.9999992, 0.9999992)
+                float3 xformOp:translate = (5, 1, -5)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+    }
+
+    def Sphere "Floor" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        rel material:binding = </Root/FresnelShader/Material> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        double radius = 3
+        float3 xformOp:scale = (1, 0.1, 1)
+        float3 xformOp:translate = (0, -0.5, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Material "DefaultMaterial"
+        {
+            token outputs:surface.connect = </Root/Floor/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+            def Shader "DefaultSurfaceShader"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1, 1, 1)
+                float inputs:roughness = 0.75
+                token outputs:surface
+            }
+        }
+    }
+
+    def RealityKitTimeline "Loop"
+    {
+        reorder nameChildren = ["Track", "Track2"]
+        def RealityKitTrack "Track2"
+        {
+            def RealityKitAction "Play_Timeline"
+            {
+                string actionKind = "timeline"
+                int blendLayer = 500
+                double duration = 180
+                uniform token info:id = "7539F74A-2294-4B14-9C7E-66BBE25CB8C3"
+                double loopCount = 0
+                double startTime = 0
+                rel timeline = </Root/Orbit>
+            }
+        }
+    }
+
+    def RealityKitComponent "RCP_BehaviorsContainer"
+    {
+        rel behaviors = </Root/OnAddedToScene>
+        uniform token info:id = "RCP.BehaviorsContainer"
+    }
+
+    def Preliminary_Behavior "OnAddedToScene"
+    {
+        rel actions = </Root/OnAddedToScene/Action>
+        uniform bool exclusive
+        rel triggers = </Root/OnAddedToScene/Trigger>
+
+        def Preliminary_Trigger "Trigger"
+        {
+            rel affectedObjects = </Root>
+            token info:id = "SceneTransition"
+        }
+
+        def Preliminary_Action "Action"
+        {
+            rel affectedObjects = </Root>
+            rel animationLibraryKey = </Root/Loop>
+            rel animationLibraryKeyOverrideKey = </Root/OnAddedToScene/Trigger>
+            token info:id = "PlayTimeline"
+            int loops = 0
+            int performCount = 1
+            token type = "serial"
+        }
+    }
+
+    def RealityKitAudioFile "step_bg_music_001_mp3"
+    {
+        uniform asset file = @step-bg-music-001.mp3@
+        uniform bool shouldLoop = 1
+        uniform bool shouldRandomizeStartTime = 1
+    }
+
+    def Xform "AmbientAudio"
+    {
+        float3 xformOp:translate = (0, 5, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "AmbientAudio"
+        {
+            float gain = -10
+            uniform token info:id = "RealityKit.AmbientAudio"
+        }
+
+        def RealityKitComponent "AudioLibrary"
+        {
+            uniform token info:id = "RealityKit.AudioLibrary"
+
+            def RealityKitDict "resources"
+            {
+                string[] keys = ["step_bg_music_001_mp3"]
+                rel values = </Root/step_bg_music_001_mp3>
+            }
+        }
+
+        def RealityKitComponent "RCP_BehaviorsContainer"
+        {
+            rel behaviors = </Root/AmbientAudio/OnAddedToScene>
+            uniform token info:id = "RCP.BehaviorsContainer"
+        }
+
+        def Preliminary_Behavior "OnAddedToScene"
+        {
+            rel actions = </Root/AmbientAudio/OnAddedToScene/Action>
+            uniform bool exclusive
+            rel triggers = </Root/AmbientAudio/OnAddedToScene/Trigger>
+
+            def Preliminary_Trigger "Trigger"
+            {
+                rel affectedObjects = </Root/AmbientAudio>
+                token info:id = "SceneTransition"
+            }
+
+            def Preliminary_Action "Action"
+            {
+                rel affectedObjects = </Root>
+                rel animationLibraryKey = </Root/PlayAudio>
+                rel animationLibraryKeyOverrideKey = </Root/AmbientAudio/OnAddedToScene/Trigger>
+                token info:id = "PlayTimeline"
+                int loops = 0
+                int performCount = 1
+                token type = "serial"
+            }
+        }
+    }
+
+    def RealityKitTimeline "PlayAudio"
+    {
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Play_Audio"
+            {
+                string actionKind = "audio"
+                string audioResourceName = "step_bg_music_001_mp3"
+                bool controlPlayback = 1
+                double duration = 180.705875
+                uniform token info:id = "06D961A5-6901-45D0-A464-337DA6AEAA6A"
+                double loopCount = 0
+                double startTime = 0
+                rel target = </Root/AmbientAudio>
+
+                def RealityKitStruct "handoffType"
+                {
+                }
+            }
+        }
+    }
+
+    def RealityKitTimeline "Orbit"
+    {
+        reorder nameChildren = ["Track", "Track2", "Track3", "Track4"]
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Orbit"
+            {
+                string actionKind = "orbit"
+                int blendLayer = 300
+                double duration = 180
+                uniform token info:id = "991A37B0-35EF-46F0-9AC0-36510694E345"
+                bool orientToPath = 1
+                rel pivotEntity = </Root/Floor>
+                double startTime = 0
+                rel target = </Root/Group_5>
+            }
+        }
+
+        def RealityKitTrack "Track2"
+        {
+            def RealityKitAction "Orbit"
+            {
+                string actionKind = "orbit"
+                int blendLayer = 300
+                double duration = 180
+                uniform token info:id = "991A37B0-35EF-46F0-9AC0-36510694E345"
+                bool orientToPath = 1
+                rel pivotEntity = </Root/Floor>
+                double startTime = 0
+                rel target = </Root/Group_8>
+                float2 ui:nodegraph:node:pos = (868, 297.25)
+                int ui:nodegraph:node:stackingOrder = 1
+            }
+        }
+
+        def RealityKitTrack "Track3"
+        {
+            def RealityKitAction "Orbit"
+            {
+                string actionKind = "orbit"
+                int blendLayer = 300
+                double duration = 180
+                uniform token info:id = "991A37B0-35EF-46F0-9AC0-36510694E345"
+                token orbitDirection = "clockwise"
+                bool orientToPath = 1
+                rel pivotEntity = </Root/Floor>
+                double startTime = 0
+                rel target = </Root/Group_7>
+                float2 ui:nodegraph:node:pos = (888, 317.25)
+                int ui:nodegraph:node:stackingOrder = 2
+            }
+        }
+
+        def RealityKitTrack "Track4"
+        {
+            def RealityKitAction "Orbit"
+            {
+                string actionKind = "orbit"
+                int blendLayer = 300
+                double duration = 180
+                uniform token info:id = "991A37B0-35EF-46F0-9AC0-36510694E345"
+                token orbitDirection = "clockwise"
+                bool orientToPath = 1
+                rel pivotEntity = </Root/Floor>
+                double startTime = 0
+                rel target = </Root/Group_6>
+                float2 ui:nodegraph:node:pos = (908, 337.25)
+                int ui:nodegraph:node:stackingOrder = 3
+            }
+        }
+    }
+}
+
