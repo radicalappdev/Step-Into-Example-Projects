@@ -61,6 +61,7 @@ extension Entity {
         /// Large, which is the default value for visionOS 1.0.
         let scaledVolumeContentBoundingBox = realityViewContent.convert(geometryProxy3D.frame(in: .local), from: .local, to: .scene)
 
+        print("bounding box \(scaledVolumeContentBoundingBox)")
 
         let scaleX = scaledVolumeContentBoundingBox.extents.x / Float(defaultVolumeSize.width)
         let scaleY = scaledVolumeContentBoundingBox.extents.y / Float(defaultVolumeSize.height)
