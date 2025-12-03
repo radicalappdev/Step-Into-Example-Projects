@@ -20,11 +20,11 @@ struct ContentView: View {
     /// A top level entity that will be scaled with the volume. Only the root view will be added to this
     @State private var volumeRootEntity = Entity()
 
-
+    // A place to store the bounds of our 3D content
     @State private var baseExtents: SIMD3<Float> = .zero
+
     var body: some View {
         RealityView { content in
-
             content.add(volumeRootEntity)
 
             /// Load a scene from Reality Composer Pro and add it to volumeRootEntity
@@ -38,7 +38,6 @@ struct ContentView: View {
 
             // Call our new function once for the initial size
             scaleContent(by: volumeSize)
-
         }
         .debugBorder3D(.white)
         // Anytime the volume changes in size we'll scale the RealityView content
@@ -50,7 +49,7 @@ struct ContentView: View {
         }
     }
 
-    /// 
+    /// Scale the 3D content based on the size of the Volume
     func scaleContent(by volumeSize: Size3D) {
         let scale = Float(physicalMetrics.convert(volumeSize.width, to: .meters)) / baseExtents.x
         volumeRootEntity.setScale(.init(repeating: scale), relativeTo: nil)
@@ -79,3 +78,4 @@ extension View {
 #Preview(windowStyle: .volumetric) {
     ContentView()
 }
+
