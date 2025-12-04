@@ -1,0 +1,107 @@
+#usda 1.0
+(
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    reorder nameChildren = ["Earth", "Moon", "EarthPopover"]
+    rel material:binding = None (
+        bindMaterialAs = "weakerThanDescendants"
+    )
+
+    def "Earth" (
+        active = true
+        references = @Earth.usdz@
+    )
+    {
+        reorder nameChildren = ["geom", "InputTarget", "Collider", "EarthPopover"]
+        float3 xformOp:scale = (2, 2, 2)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (0.20499998, 0.205, 0.20500001)
+                float radius = 0.10250001
+                token shapeType = "Sphere"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (0.00004060194, 0, 0.00011316314)
+                }
+            }
+        }
+
+        def Xform "EarthPopover" (
+            active = true
+        )
+        {
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (0.5, 0.5, 0.5)
+            float3 xformOp:translate = (0, 0.105, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+    }
+
+    def "Moon" (
+        active = true
+        references = @Moon.usdz@
+    )
+    {
+        reorder nameChildren = ["geom", "InputTarget", "Collider", "MoonAttachment"]
+        float3 xformOp:scale = (0.5, 0.5, 0.5)
+        float3 xformOp:translate = (-0.19291621, 0.1560578, 0.07845674)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (0.2, 0.2, 0.2)
+                float height = 0.2
+                float radius = 0.1
+                token shapeType = "Sphere"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (2.9802322e-8, 0, 3.7252903e-8)
+                }
+            }
+        }
+
+        def Xform "MoonAttachment" (
+            active = true
+        )
+        {
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (2, 2, 2)
+            float3 xformOp:translate = (-0.3, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+    }
+}
+
