@@ -53,6 +53,7 @@ struct PostsSlideshowView: View {
 
     @State private var model: PostsSlideshowViewModel
     @State private var firstLoadFinished = false
+    @State private var isAutoPlaying: Bool = false
 
     init(feedURL: URL, displayDuration: TimeInterval = 2.0) {
         self.feedURL = feedURL
@@ -88,18 +89,58 @@ struct PostsSlideshowView: View {
                 )
             }
         }
-        .task {
-            // Initial load of posts and start cycling
-            await model.load()
-            if !firstLoadFinished {
-                firstLoadFinished = true
-                model.startCycling(every: displayDuration)
+//        .ornament(attachmentAnchor: .scene(.top), ornament: {
+//            Text("Step Into Vision")
+//                .font(.title)
+//                .padding()
+//                .glassBackgroundEffect()
+//        })
+        .ornament(attachmentAnchor: .scene(.bottom), ornament: {
+            HStack(spacing: 8) {
+                Button(action: previous) {
+                    Image(systemName: "chevron.left").font(.title2)
+                }
+                Button(action: togglePlay) {
+                    Image(systemName: isAutoPlaying ? "pause.fill" : "play.fill").font(.title2)
+                }
+                Button(action: next) {
+                    Image(systemName: "chevron.right").font(.title2)
+                }
             }
+            .padding()
+            .glassBackgroundEffect()
+        })
+        .task {
+            // Initial load of posts; user presses Play to start cycling
+            await model.load()
+            firstLoadFinished = true
         }
         .onDisappear {
             model.stopCycling()
+            isAutoPlaying = false
         }
         .animation(.default, value: model.currentIndex)
+    }
+
+    private func togglePlay() {
+        if isAutoPlaying {
+            isAutoPlaying = false
+            model.stopCycling()
+        } else {
+            guard !model.isLoading, !model.posts.isEmpty else { return }
+            isAutoPlaying = true
+            model.startCycling(every: displayDuration)
+        }
+    }
+
+    private func next() {
+        guard !model.posts.isEmpty else { return }
+        model.currentIndex = (model.currentIndex + 1) % model.posts.count
+    }
+
+    private func previous() {
+        guard !model.posts.isEmpty else { return }
+        model.currentIndex = (model.currentIndex - 1 + model.posts.count) % model.posts.count
     }
 }
 
