@@ -18,7 +18,8 @@ struct StepOutOf2025App: App {
                 .environment(appModel)
 
         }
-        .defaultSize(width: 600, height: 600)
+//        .defaultSize(width: 600, height: 600)
+        .defaultSize(width: 1800, height: 1400)
 
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
             ImmersiveView()

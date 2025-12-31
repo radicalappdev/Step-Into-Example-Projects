@@ -13,18 +13,12 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-//            Model3D(named: "Scene", bundle: realityKitContentBundle)
-//                .padding(.bottom, 50)
-//
-//            Text("Hello, world!")
+            
+//            StatsSlideshowView()
+//                .frame(height: 360)
+//                .padding()
 
-//            ToggleImmersiveSpaceButton()
-            
-//            Spacer().frame(height: 24)
-            
-            StatsSlideshowView()
-                .frame(height: 360)
-                .padding()
+            PostPreview()
         }
         .padding()
     }
