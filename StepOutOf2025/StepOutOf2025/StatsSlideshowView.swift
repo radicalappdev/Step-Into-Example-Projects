@@ -23,7 +23,7 @@ struct StatsSlideshowView: View {
     ]
 
     @State private var currentIndex: Int = 0
-    @State private var isAutoPlaying: Bool = true
+    @State private var isAutoPlaying: Bool = false
 
     // Auto-advance every 3 seconds
     private let timer = Timer.publish(every: 3.0, on: .main, in: .common).autoconnect()
@@ -82,19 +82,20 @@ struct StatsSlideshowView: View {
             // Simple controls
             HStack(spacing: 4) {
                 Button(action: previous) {
-                    Label("Previous", systemImage: "chevron.left")
+                    Image(systemName: "chevron.left").font(.title2)
                 }
 
 
                 Button(action: { isAutoPlaying.toggle() }) {
-                    Label(isAutoPlaying ? "Pause" : "Play", systemImage: isAutoPlaying ? "pause.fill" : "play.fill")
+                    Image(systemName: isAutoPlaying ? "pause.fill" : "play.fill").font(.title2)
                 }
 
 
                 Button(action: next) {
-                    Label("Next", systemImage: "chevron.right")
+                    Image(systemName: "chevron.right").font(.title2)
                 }
             }
+
             .padding()
             .glassBackgroundEffect()
         })
