@@ -14,7 +14,9 @@ struct ContentView: View {
     @Environment(\.openWindow) var openWindow
     @Environment(\.dismissWindow) var dismissWindow
     @State private var secondaryWindowsOpen = false
+    @State private var autoManageSecondaryWindows = true
 
+    /// World Position isn't strictly necessary. We are just using this to display the current world position of the main window.
     @State private var worldPosiiton: Point3D = .zero
     @State private var movementEndTimer: Timer?
     @State private var isMoving = false
@@ -25,9 +27,10 @@ struct ContentView: View {
                 .font(.largeTitle)
 
             Button(action: {
-                secondaryWindowsOpen.toggle()
+                autoManageSecondaryWindows.toggle()
             }, label: {
-                Label("\(self.secondaryWindowsOpen ? "Hide" : "Show") Windows", systemImage: "inset.filled.center.rectangle.badge.plus")
+                Label("Secondary Windows: \(autoManageSecondaryWindows ? "Auto" : "Manual")", systemImage: autoManageSecondaryWindows ? "bolt.badge.automatic" : "hand.tap"
+                )
             })
 
             Vector3Display(title: "World Position", vector: worldPosiiton)
@@ -47,6 +50,12 @@ struct ContentView: View {
                 dismissWindow(id: "PinkFlower")
             }
         }
+        .onChange(of: autoManageSecondaryWindows) { oldValue, newValue in
+            // When enabling Auto mode, ensure secondary windows are open
+            if newValue && !secondaryWindowsOpen {
+                secondaryWindowsOpen = true
+            }
+        }
         .onGeometryChange3D(for: Point3D.self) { proxy in try! proxy
                 .coordinateSpace3D()
                 .convert(value: Point3D.zero, to: .worldReference)
@@ -57,8 +66,10 @@ struct ContentView: View {
             if !isMoving {
                 isMoving = true
                 // Special: movement began
-                print("🏁 Window movement began at \(worldPosiiton)")
-                secondaryWindowsOpen = false
+                print("🟢 Window movement began at \(worldPosiiton)")
+                if autoManageSecondaryWindows {
+                    secondaryWindowsOpen = false
+                }
             }
 
             // Reset debounce timer; when it fires, consider movement ended
@@ -67,7 +78,9 @@ struct ContentView: View {
                 isMoving = false
                 // This is your "stopped moving" event
                 print("🛑 Window movement stopped at \(worldPosiiton)")
-                secondaryWindowsOpen = true
+                if autoManageSecondaryWindows {
+                    secondaryWindowsOpen = true
+                }
             }
         }
         .onDisappear {
