@@ -29,6 +29,8 @@ struct ContentView: View {
             })
 
             Vector3Display(title: "World Position", vector: worldPosiiton)
+                .padding()
+
         }
         .padding()
         .onChange(of: secondaryWindowsOpen) { _, newValue in
