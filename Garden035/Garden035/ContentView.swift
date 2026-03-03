@@ -16,6 +16,8 @@ struct ContentView: View {
     @State private var secondaryWindowsOpen = false
 
     @State private var worldPosiiton: Point3D = .zero
+    @State private var movementEndTimer: Timer?
+    @State private var isMoving = false
 
     var body: some View {
         VStack(spacing: 12) {
@@ -33,12 +35,7 @@ struct ContentView: View {
 
         }
         .padding()
-        .onChange(of: worldPosiiton) { oldValue, newValue in
-            print("❌ \(oldValue.description)")
-            print("✅ \(newValue.description)")
-            // Is there a way to detect when we stop getting changes?
 
-        }
         .onChange(of: secondaryWindowsOpen) { oldValue, newValue in
 
 
@@ -55,6 +52,27 @@ struct ContentView: View {
                 .convert(value: Point3D.zero, to: .worldReference)
         } action: { old, new in
             worldPosiiton = new
+
+            // Mark as moving when a new change arrives
+            if !isMoving {
+                isMoving = true
+                // Special: movement began
+                print("🏁 Window movement began at \(worldPosiiton)")
+                secondaryWindowsOpen = false
+            }
+
+            // Reset debounce timer; when it fires, consider movement ended
+            movementEndTimer?.invalidate()
+            movementEndTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { _ in
+                isMoving = false
+                // This is your "stopped moving" event
+                print("🛑 Window movement stopped at \(worldPosiiton)")
+                secondaryWindowsOpen = true
+            }
+        }
+        .onDisappear {
+            movementEndTimer?.invalidate()
+            movementEndTimer = nil
         }
     }
 }
@@ -87,3 +105,4 @@ struct Vector3Display: View {
         }
     }
 }
+
