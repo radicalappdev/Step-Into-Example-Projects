@@ -33,7 +33,15 @@ struct ContentView: View {
 
         }
         .padding()
-        .onChange(of: secondaryWindowsOpen) { _, newValue in
+        .onChange(of: worldPosiiton) { oldValue, newValue in
+            print("❌ \(oldValue.description)")
+            print("✅ \(newValue.description)")
+            // Is there a way to detect when we stop getting changes?
+
+        }
+        .onChange(of: secondaryWindowsOpen) { oldValue, newValue in
+
+
             if newValue {
                 openWindow(id: "YellowFlower")
                 openWindow(id: "PinkFlower")
