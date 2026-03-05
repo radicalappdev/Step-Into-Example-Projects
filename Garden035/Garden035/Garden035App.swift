@@ -18,11 +18,12 @@ struct Garden035App: App {
         .defaultSize(width: 500, height: 500)
 
         // MARK: - Middle Row: Leading
-        WindowGroup(id: "PinkFlower") {
-            Text("🌸")
+        WindowGroup(id: "MiddleLeading") {
+            Text("⬅️")
                 .font(.system(size: 128))
+                .persistentSystemOverlays(.hidden)
         }
-        .defaultSize(CGSize(width: 300, height: 200))
+        .defaultSize(CGSize(width: 300, height: 500))
         .defaultWindowPlacement { _, context in
             if let mainWindow = context.windows.first(where: { $0.id == "MainWindow" }) {
                 return WindowPlacement(.leading(mainWindow))
@@ -31,11 +32,12 @@ struct Garden035App: App {
         }
 
         // MARK: - Middle Row: Trailing
-        WindowGroup(id: "YellowFlower") {
-            Text("🌼")
+        WindowGroup(id: "MiddleTrailing") {
+            Text("➡️")
                 .font(.system(size: 128))
+                .persistentSystemOverlays(.hidden)
         }
-        .defaultSize(CGSize(width: 300, height: 200))
+        .defaultSize(CGSize(width: 300, height: 500))
         .defaultWindowPlacement { _, context in
             if let mainWindow = context.windows.first(where: { $0.id == "MainWindow" }) {
                 return WindowPlacement(.trailing(mainWindow))
@@ -47,8 +49,9 @@ struct Garden035App: App {
         WindowGroup(id: "TopCenter") {
             Text("⬆️")
                 .font(.system(size: 128))
+                .persistentSystemOverlays(.hidden)
         }
-        .defaultSize(CGSize(width: 300, height: 200))
+        .defaultSize(CGSize(width: 500, height: 300))
         .defaultWindowPlacement { _, context in
             if let mainWindow = context.windows.first(where: { $0.id == "MainWindow" }) {
                 return WindowPlacement(.above(mainWindow))
@@ -60,8 +63,9 @@ struct Garden035App: App {
         WindowGroup(id: "BottomCenter") {
             Text("⬇️")
                 .font(.system(size: 128))
+                .persistentSystemOverlays(.hidden)
         }
-        .defaultSize(CGSize(width: 300, height: 200))
+        .defaultSize(CGSize(width: 1200, height: 300))
         .defaultWindowPlacement { _, context in
             if let mainWindow = context.windows.first(where: { $0.id == "MainWindow" }) {
                 return WindowPlacement(.below(mainWindow))
@@ -73,8 +77,9 @@ struct Garden035App: App {
         WindowGroup(id: "TopLeading") {
             Text("↖️")
                 .font(.system(size: 128))
+                .persistentSystemOverlays(.hidden)
         }
-        .defaultSize(CGSize(width: 300, height: 200))
+        .defaultSize(CGSize(width: 300, height: 300))
         .defaultWindowPlacement { _, context in
             if let topWindow = context.windows.first(where: { $0.id == "TopCenter" }) {
                 return WindowPlacement(.leading(topWindow))
@@ -86,8 +91,9 @@ struct Garden035App: App {
         WindowGroup(id: "TopTrailing") {
             Text("↗️")
                 .font(.system(size: 128))
+                .persistentSystemOverlays(.hidden)
         }
-        .defaultSize(CGSize(width: 300, height: 200))
+        .defaultSize(CGSize(width: 300, height: 300))
         .defaultWindowPlacement { _, context in
             if let topWindow = context.windows.first(where: { $0.id == "TopCenter" }) {
                 return WindowPlacement(.trailing(topWindow))

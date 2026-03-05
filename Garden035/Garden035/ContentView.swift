@@ -44,8 +44,8 @@ struct ContentView: View {
 
             if newValue {
                 // Open middle row first
-                openWindow(id: "PinkFlower")
-                openWindow(id: "YellowFlower")
+                openWindow(id: "MiddleLeading")
+                openWindow(id: "MiddleTrailing")
                 // Open top center before its neighbors
                 openWindow(id: "TopCenter")
                 openWindow(id: "BottomCenter")
@@ -61,8 +61,8 @@ struct ContentView: View {
                 // Then the rest
                 dismissWindow(id: "TopCenter")
                 dismissWindow(id: "BottomCenter")
-                dismissWindow(id: "PinkFlower")
-                dismissWindow(id: "YellowFlower")
+                dismissWindow(id: "MiddleLeading")
+                dismissWindow(id: "MiddleTrailing")
             }
         }
         .onChange(of: autoManageSecondaryWindows) { oldValue, newValue in
