@@ -43,11 +43,26 @@ struct ContentView: View {
 
 
             if newValue {
-                openWindow(id: "YellowFlower")
+                // Open middle row first
                 openWindow(id: "PinkFlower")
+                openWindow(id: "YellowFlower")
+                // Open top center before its neighbors
+                openWindow(id: "TopCenter")
+                openWindow(id: "BottomCenter")
+                // Delay corner windows so TopCenter is registered in context.windows
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    openWindow(id: "TopLeading")
+                    openWindow(id: "TopTrailing")
+                }
             } else {
-                dismissWindow(id: "YellowFlower")
+                // Dismiss corner windows first
+                dismissWindow(id: "TopLeading")
+                dismissWindow(id: "TopTrailing")
+                // Then the rest
+                dismissWindow(id: "TopCenter")
+                dismissWindow(id: "BottomCenter")
                 dismissWindow(id: "PinkFlower")
+                dismissWindow(id: "YellowFlower")
             }
         }
         .onChange(of: autoManageSecondaryWindows) { oldValue, newValue in
