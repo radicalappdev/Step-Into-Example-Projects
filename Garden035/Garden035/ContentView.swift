@@ -40,19 +40,20 @@ struct ContentView: View {
         .padding()
 
         .onChange(of: secondaryWindowsOpen) { oldValue, newValue in
-
-
             if newValue {
-                // Open middle row first
-                openWindow(id: "MiddleLeading")
-                openWindow(id: "MiddleTrailing")
-                // Open top center before its neighbors
-                openWindow(id: "TopCenter")
-                openWindow(id: "BottomCenter")
-                // Delay corner windows so TopCenter is registered in context.windows
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    openWindow(id: "TopLeading")
-                    openWindow(id: "TopTrailing")
+                let windowSequence: [[String]] = [
+                    ["BottomCenter"],
+                    ["MiddleLeading", "MiddleTrailing"],
+                    ["TopCenter"],
+                    ["TopLeading", "TopTrailing"],
+                ]
+                Task {
+                    for group in windowSequence {
+                        for id in group {
+                            openWindow(id: id)
+                        }
+                        try? await Task.sleep(for: .milliseconds(150))
+                    }
                 }
             } else {
                 // Dismiss corner windows first
@@ -133,6 +134,9 @@ struct Vector3Display: View {
         }
     }
 }
+
+
+
 
 
 
