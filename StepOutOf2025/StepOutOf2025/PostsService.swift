@@ -71,6 +71,49 @@ final class PostsService: NSObject {
         return filtered.sorted { $0.date < $1.date }
     }
 
+    func fetchLatestPosts(limit: Int) async throws -> [Post] {
+        guard limit > 0 else { return [] }
+
+        let perPage = 100 // WordPress max per_page is 100
+        var page = 1
+        var collected: [Post] = []
+
+        guard let endpoint = URL(string: "/wp-json/wp/v2/posts", relativeTo: baseURL) else {
+            throw URLError(.badURL)
+        }
+
+        while collected.count < limit {
+            var components = URLComponents(url: endpoint, resolvingAgainstBaseURL: true)!
+            components.queryItems = [
+                URLQueryItem(name: "orderby", value: "date"),
+                URLQueryItem(name: "order", value: "desc"),
+                URLQueryItem(name: "per_page", value: String(min(perPage, limit - collected.count))),
+                URLQueryItem(name: "page", value: String(page)),
+                URLQueryItem(name: "_fields", value: "link,date_gmt,date,title.rendered")
+            ]
+            guard let url = components.url else { throw URLError(.badURL) }
+
+            let (data, _) = try await URLSession.shared.data(from: url)
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .useDefaultKeys
+            let batch = try decoder.decode([WPPost].self, from: data)
+            if batch.isEmpty { break }
+
+            let mapped: [Post] = batch.compactMap { item in
+                let date = PostsService.parseWPDate(gmt: item.date_gmt, local: item.date)
+                guard let date = date else { return nil }
+                return Post(title: item.title.rendered, url: item.link, date: date)
+            }
+            collected.append(contentsOf: mapped)
+
+            if batch.count < perPage { break }
+            page += 1
+            if page > 1000 { break } // hard safety cap
+        }
+
+        return Array(collected.prefix(limit)).sorted { $0.date < $1.date }
+    }
+
     // MARK: - Helpers
 
     private static func originURL(from url: URL) -> URL? {

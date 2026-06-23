@@ -72,12 +72,12 @@ struct ContentView: View {
                 secondaryWindowsOpen = true
             }
         }
+
         .onGeometryChange3D(for: Point3D.self) { proxy in try! proxy
                 .coordinateSpace3D()
                 .convert(value: Point3D.zero, to: .worldReference)
         } action: { old, new in
             worldPosiiton = new
-
             // Mark as moving when a new change arrives
             if !isMoving {
                 isMoving = true

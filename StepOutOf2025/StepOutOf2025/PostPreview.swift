@@ -15,7 +15,7 @@ struct PostPreview: View {
     private let feedURL = URL(string: "https://stepinto.vision/")!
 
     var body: some View {
-        PostsSlideshowView(feedURL: feedURL, displayDuration: 2.0)
+        FiveHundredPostsSlideshowView(feedURL: feedURL, displayDuration: 2.0)
             .ignoresSafeArea()
     }
 }
